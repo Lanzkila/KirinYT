@@ -36,10 +36,10 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
-          photo: https://raw.githubusercontent.com/deniscerri/ytdlnis/main/app/src/main/ic_launcher-playstore.png
+          photo: https://raw.githubusercontent.com/${{ github.repository }}/main/app/src/main/ic_launcher-playstore.png
           disable_web_page_preview: false
           message: |
-            YTDLnis has a new release: [${{ github.event.release.tag_name }}](https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }})
+            KirinYT has a new release: [${{ github.event.release.tag_name }}](https://github.com/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }})
             ```markdown
             ${{ env.TRUNCATED_BODY }}
             ```

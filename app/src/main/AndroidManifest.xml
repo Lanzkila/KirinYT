@@ -27,7 +27,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
     <queries>
-        <!-- YTDLnis recognized packages -->
+        <!-- KirinYT recognized packages -->
         <package android:name="com.deniscerri.ytdl.python" />
         <package android:name="com.deniscerri.ytdl.ffmpeg" />
         <package android:name="com.deniscerri.ytdl.nodejs" />
@@ -48,7 +48,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="YTDLnis"
+        android:label="KirinYT"
         android:localeConfig="@xml/locales_config"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -353,7 +353,7 @@
             android:exported="true"
             android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="ytdlnis.settings.SettingsActivity" />
+                <action android:name="kirinyt.settings.SettingsActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -365,7 +365,7 @@
             android:windowSoftInputMode="adjustResize"
             android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="ytdlnis.TerminalActivity" />
+                <action android:name="kirinyt.TerminalActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -523,7 +523,7 @@
             android:launchMode="standard"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="ytdlnis.WebViewActivity" />
+                <action android:name="kirinyt.WebViewActivity" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -536,7 +536,7 @@
             android:launchMode="standard"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
-                <action android:name="ytdlnis.PoTokenWebViewLoginActivity" />
+                <action android:name="kirinyt.PoTokenWebViewLoginActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -562,7 +562,7 @@
             android:launchMode="singleInstance"
             android:theme="@style/Theme.BottomSheet">
             <intent-filter>
-                <action android:name="ytdlnis.ResumeActivity" />
+                <action android:name="kirinyt.ResumeActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

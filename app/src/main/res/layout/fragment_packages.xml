@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.deniscerri.ytdl.ui.more.terminal.TerminalActivity">
+    tools:context="com.kirinyt.app.ui.more.terminal.TerminalActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -577,7 +577,7 @@
     <plurals name="every_minutes">
         <item quantity="other">每 %d 分钟</item>
     </plurals>
-    <string name="bgutils_info">yt-dlp 的来源证明令牌 (POT) 提供方。\n启用后，YTDLnis 托管生成 POT 的 HTTP 服务器并安装 yt-dlp 使用的相关插件。</string>
+    <string name="bgutils_info">yt-dlp 的来源证明令牌 (POT) 提供方。\n启用后，KirinYT 托管生成 POT 的 HTTP 服务器并安装 yt-dlp 使用的相关插件。</string>
     <string name="bgutils_pot_generation_script">生成脚本</string>
     <string name="bgutils_pot_generation_server">HTTP 服务器</string>
     <string name="bgutils_pot_generation_script_summary">每个 yt-dlp 调用都会造成导致新的 js 运行时进程来运行该脚本的开销。高并发使用不推荐此方法。</string>

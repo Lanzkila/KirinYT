@@ -1,4 +1,4 @@
-<b>YTDLnis</b> lets you download audio/video files from more than 1000 websites, and offers a lot of features. For example:
+<b>KirinYT</b> lets you download audio/video files from more than 1000 websites, and offers a lot of features. For example:
 
 <b>process playlists</b>
 

@@ -1,26 +1,26 @@
 <h1 align="center">
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
+	KirinYT
 </h1>
 
 <div align="center">
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README.md">English</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-sq.md">Shqip</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README-sq.md">Shqip</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-az.md">Azərbaycanca</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README-az.md">Azərbaycanca</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-id.md">Indonesia</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README-id.md">Indonesia</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-pt.md">Português</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README-pt.md">Português</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-es.md">Español</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README-es.md">Español</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README-ja.md">Japanese</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README-ja.md">Japanese</a>
 </div>
 
 <h3 align="center">
-	YTDLnisは、Android 7.0以降に対応した、yt-dlpを使用した無料かつオープンソースのビデオ/オーディオダウンローダーです。
+	KirinYTは、Android 7.0以降に対応した、yt-dlpを使用した無料かつオープンソースのビデオ/オーディオダウンローダーです。
 </h3>
 <h4 align="center">
 	Denis Çerriによって作成されました
@@ -28,22 +28,16 @@
 
 <div align="center">
 
-[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![UpToDown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
+[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
+[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/deniscerri/ytdlnis/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Translation status](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![community](https://img.shields.io/badge/Discord-YTDLnis-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![community](https://img.shields.io/badge/Telegram-YTDLnis-blue?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://ytdlnis.org)
-[![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
+![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
+[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
-### 上記のリンクは、YTDLnisの唯一の信頼できるソースです。それ以外は私とは関係ありません。
+### 上記のリンクは、KirinYTの唯一の信頼できるソースです。それ以外は私とは関係ありません。
 
 </div>
 
@@ -108,20 +102,15 @@
 
 ## 💬 連絡先
 
-ディスカッション、発表、リリースについては、[Telegramチャンネル](https://t.me/ytdlnis)または[Discord](https://discord.gg/WW3KYWxAPm)に参加してください！
 
 ## 🔑 ReVancedおよびLibreTubeと接続
 
-アプリのパッケージ名は「com.deniscerri.ytdl」です
+アプリのパッケージ名は「com.kirinyt.app」です
 
 ## 📝 Weblateで翻訳を手伝う
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="Translation status" />
 </a>
 
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="Translation status" />
 </a>
 
 ## ✔️🤖 Tasker / Macrodroidなどと接続
@@ -148,7 +137,7 @@ TaskerやMacrodroidなどのアプリでインテントを使用して、ユー�
 
 ## 📄 ライセンス
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 ⚠️  警告 <br>
 

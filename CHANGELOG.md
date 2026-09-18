@@ -1,4 +1,4 @@
-# YTDLnis Changelog
+# KirinYT Changelog
 
 > # 1.8.9.1 (2026-06)
 
@@ -254,7 +254,7 @@ Also if you select a sublist and try to update formats and decide to update in t
 
 ## For advanced users:
 
-For anyone who is using intent arguments in YTDLnis for automation, the COMMAND argument has been removed. This is due to a found security vulnerability by SonarPaul where user information and app integrity could be compromised. Read the pdf for more information in the YTDLnis Updates Telegram Channel.
+For anyone who is using intent arguments in KirinYT for automation, the COMMAND argument has been removed. This is due to a found security vulnerability by SonarPaul where user information and app integrity could be compromised. Read the pdf for more information in the KirinYT Updates Telegram Channel.
 
 If you were using that argument for extra commands with audio/video downloads, you could make a command template about it and use it as extra command and also add a url regex if you want.
 
@@ -366,7 +366,7 @@ This version has database updates. It's very unlikely you will face issues but m
 - made add cookies dialog a bottom sheet to make the cookie text more visible
 - added ability to set playlist name as album name when enabling "Use Playlist name as Album Metadata" in the settings
 - added ability to backup logs as .txt file
-- organized backups to their respective folders inside the YTDLnis folder. This includes logs, settings backups, and cookie exports
+- organized backups to their respective folders inside the KirinYT folder. This includes logs, settings backups, and cookie exports
 
 # Po Tokens & Player Clients
 
@@ -547,7 +547,7 @@ I could've released this sooner but i have been busy :/
 
 # What's Changed
 
-- Fix App crashing with exception "com.deniscerri.ytdl.database.viewmodel.DownloadViewModel.checkIfAllProcessingItemsHaveSameType(Unknown Source:21)..."
+- Fix App crashing with exception "com.kirinyt.app.database.viewmodel.DownloadViewModel.checkIfAllProcessingItemsHaveSameType(Unknown Source:21)..."
 - Added option in download settings to use AlarmManager instead of WorkManager for scheduled downloads to improve accuracy
 - When updating formats for multiple items, now the app remembers what items don't need new formats and skips them to save time and data
 - Moved format source from the bottom of the format list to the filter bottom sheet

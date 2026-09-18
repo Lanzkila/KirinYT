@@ -608,7 +608,7 @@
         <item quantity="many">كل %d دقيقة</item>
         <item quantity="other">كل %d دقيقة</item>
     </plurals>
-    <string name="bgutils_info">مزوّد رمز إثبات المصدر (POT) لأداة yt-dlp.\nعند تفعيله، يقوم YTDLnis باستضافة خادم HTTP الذي يولّد رمز POT، ويثبّت الإضافة المرتبطة التي تستخدمها yt-dlp.</string>
+    <string name="bgutils_info">مزوّد رمز إثبات المصدر (POT) لأداة yt-dlp.\nعند تفعيله، يقوم KirinYT باستضافة خادم HTTP الذي يولّد رمز POT، ويثبّت الإضافة المرتبطة التي تستخدمها yt-dlp.</string>
     <string name="bgutils_pot_generation_script">سكربت التوليد</string>
     <string name="bgutils_pot_generation_server">خادم HTTP</string>
     <string name="bgutils_pot_generation_script_summary">كل استدعاء لـ yt-dlp يتحمّل عبء إنشاء عملية جديدة لبيئة تشغيل JavaScript لتنفيذ السكربت. لا يُنصح باستخدام هذه الطريقة في حالات الاستخدام العالي التزامن.</string>

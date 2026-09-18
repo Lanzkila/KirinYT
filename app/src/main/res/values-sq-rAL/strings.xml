@@ -566,7 +566,7 @@
         <item quantity="one">Cdo minutë</item>
         <item quantity="other">Every %d minuta</item>
     </plurals>
-    <string name="bgutils_info">Një ofrues i tokenit të provës së origjinës (POT) për yt-dlp.\nMe të aktivizuar, YTDLnis hap serverin HTTP që gjeneron POT dhe instalon plugin-in përkatës që përdor yt-dlp.</string>
+    <string name="bgutils_info">Një ofrues i tokenit të provës së origjinës (POT) për yt-dlp.\nMe të aktivizuar, KirinYT hap serverin HTTP që gjeneron POT dhe instalon plugin-in përkatës që përdor yt-dlp.</string>
     <string name="bgutils_pot_generation_script">Skript gjenerimi</string>
     <string name="bgutils_pot_generation_server">Server HTTP</string>
     <string name="bgutils_pot_generation_script_summary">Çdo thirrje yt-dlp krijon një proces të ri të js runtime për të ekzekutuar skriptin. Kjo metodë nuk rekomandohet për përdorim me njëkohësi të lartë.</string>
@@ -579,7 +579,7 @@
     <string name="notset">Nuk është vendosur</string>
     <string name="external">I jashtëm</string>
     <string name="exit">Dil</string>
-    <string name="packages_description">Paketat janë aplikacione ndihmëse që YTDLnis përdor për të ndihmuar me komandat yt-dlp. Disa prej tyre janë tashmë të paketuara, por ju mund të instaloni versione më të reja që janë publikuar pa pasur nevojë të përditësoni aplikacionin. APK-të e instaluara zëvendësojnë versionin e paketuar që përdor aplikacioni.</string>
+    <string name="packages_description">Paketat janë aplikacione ndihmëse që KirinYT përdor për të ndihmuar me komandat yt-dlp. Disa prej tyre janë tashmë të paketuara, por ju mund të instaloni versione më të reja që janë publikuar pa pasur nevojë të përditësoni aplikacionin. APK-të e instaluara zëvendësojnë versionin e paketuar që përdor aplikacioni.</string>
     <plurals name="every_hours">
         <item quantity="one">Çdo orë</item>
         <item quantity="other">Çdo %d orë</item>

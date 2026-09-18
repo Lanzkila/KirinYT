@@ -1,16 +1,16 @@
 <h1 align="center">
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
+	KirinYT
 </h1>
 
 <div align="center">
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README.md">English</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
 	Español
 </div>
 
 <h3 align="center">
-YTDLnis es un descargador de audio/video gratuito y de código abierto que utiliza yt-dlp para Android 7.0 y superior.
+KirinYT es un descargador de audio/video gratuito y de código abierto que utiliza yt-dlp para Android 7.0 y superior.
 </h3>
 <h4 align="center">
 	Creado por Denis Çerri
@@ -18,22 +18,16 @@ YTDLnis es un descargador de audio/video gratuito y de código abierto que utili
 
 <div align="center">
 
-[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![UpToDown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
+[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
+[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/deniscerri/ytdlnis/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Translation status](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![community](https://img.shields.io/badge/Discord-YTDLnis-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![community](https://img.shields.io/badge/Telegram-YTDLnis-blue?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://ytdlnis.org)
-[![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
+![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
+[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
-### Los enlaces anteriores son las únicas fuentes confiables de YTDLnis. Todo lo demás no está relacionado.
+### Los enlaces anteriores son las únicas fuentes confiables de KirinYT. Todo lo demás no está relacionado.
 
 </div>
 
@@ -98,20 +92,15 @@ YTDLnis es un descargador de audio/video gratuito y de código abierto que utili
 
 ## 💬 Contacto
 
-Únanse a nuestro [Canal de Telegram](https://t.me/ytdlnis) o [Discord](https://discord.gg/WW3KYWxAPm) para debates, anuncios y lanzamientos.
 
 ## 🔑 Conéctate con ReVanced
 
-El nombre del paquete de la aplicación es "com.deniscerri.ytdl"
+El nombre del paquete de la aplicación es "com.kirinyt.app"
 
 ## 📝 Ayuda a traducir en Weblate
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="Translation status" />
 </a>
 
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="Translation status" />
 </a>
 
 ## ✔️🤖 Conéctate con Tasker / Macrodroid etc
@@ -138,7 +127,7 @@ Si quieres contribuir.  Lea la sección [Contribuyendo](CONTRIBUTING.MD).
 
 ## 📄 Licencia
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 ⚠️  Advertencia <br>
 

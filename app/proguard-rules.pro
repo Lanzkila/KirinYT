@@ -22,10 +22,10 @@
 -if @kotlinx.serialization.Serializable class **
 -keep class androidx.lifecycle.LiveData { *; }
 -keep class com.google.gson.** { *; }
--keep class com.deniscerri.ytdl.database.models.AudioPreferences
--keep class com.deniscerri.ytdl.database.models.VideoPreferences
--keep class com.deniscerri.ytdl.database.models.GithubRelease
--keep class com.deniscerri.ytdl.database.models.GithubReleaseAsset
+-keep class com.kirinyt.app.database.models.AudioPreferences
+-keep class com.kirinyt.app.database.models.VideoPreferences
+-keep class com.kirinyt.app.database.models.GithubRelease
+-keep class com.kirinyt.app.database.models.GithubReleaseAsset
 -keepclassmembers,allowobfuscation class * {
     @com.google.gson.annotations.SerializedName <fields>;
 }
@@ -78,7 +78,7 @@
 -keep,allowobfuscation,allowshrinking class com.google.gson.reflect.TypeToken
 -keep,allowobfuscation,allowshrinking class * extends com.google.gson.reflect.TypeToken
 
--keep class com.deniscerri.** { *; }
+-keep class com.kirinyt.app.** { *; }
 -keep class org.apache.commons.compress.archivers.zip.** { *; }
 
 # Keep `Companion` object fields of serializable classes.

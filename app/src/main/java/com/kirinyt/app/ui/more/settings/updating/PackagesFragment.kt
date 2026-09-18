@@ -1,0 +1,216 @@
+package com.kirinyt.app.ui.more.settings.updating
+
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Intent
+import android.content.SharedPreferences
+import android.net.Uri
+import android.os.Build
+import android.os.Bundle
+import android.text.method.LinkMovementMethod
+import android.util.DisplayMetrics
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.preference.PreferenceManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.kirinyt.app.R
+import com.kirinyt.app.core.RuntimeManager
+import com.kirinyt.app.core.packages.Aria2c
+import com.kirinyt.app.core.packages.FFmpeg
+import com.kirinyt.app.core.packages.NodeJS
+import com.kirinyt.app.core.packages.PackageBase
+import com.kirinyt.app.core.packages.Python
+import com.kirinyt.app.database.models.PackageItem
+import com.kirinyt.app.ui.adapter.PackageReleaseAdapter
+import com.kirinyt.app.ui.adapter.PackagesAdapter
+import com.kirinyt.app.ui.more.settings.SettingsActivity
+import com.kirinyt.app.util.Extensions.enableFastScroll
+import com.kirinyt.app.util.FileUtil
+import com.kirinyt.app.util.UiUtil
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.progressindicator.CircularProgressIndicator
+import com.google.android.material.snackbar.Snackbar
+import io.noties.markwon.AbstractMarkwonPlugin
+import io.noties.markwon.Markwon
+import io.noties.markwon.MarkwonConfiguration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import com.kirinyt.app.core.packages.Deno
+import com.kirinyt.app.util.ApkInstallUtil
+import com.kirinyt.app.util.Extensions.hasPermission
+
+
+class PackagesFragment : Fragment(), PackagesAdapter.OnItemClickListener, PackageReleaseAdapter.OnItemClickListener {
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var listAdapter: PackagesAdapter
+    private lateinit var releaseAdapter: PackageReleaseAdapter
+    private var bottomSheet: BottomSheetDialog? = null
+    private lateinit var settingsActivity: SettingsActivity
+    private lateinit var preferences: SharedPreferences
+
+    private var tmpItem: PackageItem? = null
+    private var tmpInstance: PackageBase? = null
+    private var tmpDownloadJob: Job? = null
+    private var packages: List<PackageItem> = mutableListOf()
+    private var packageReleases: List<PackageBase.PackageRelease> = mutableListOf()
+
+    private lateinit var installLauncher: ActivityResultLauncher<Intent>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        installLauncher = ApkInstallUtil.registerInstallLauncher(this)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        settingsActivity = activity as SettingsActivity
+        settingsActivity.changeTopAppbarTitle(getString(R.string.packages))
+        preferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        return inflater.inflate(R.layout.fragment_packages, container, false)
+    }
+
+    @SuppressLint("RestrictedApi")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        listAdapter = PackagesAdapter(this, settingsActivity)
+        recyclerView = view.findViewById(R.id.recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = listAdapter
+        recyclerView.enableFastScroll()
+
+        packages = RuntimeManager.packages
+        RuntimeManager.getInstance().assertInit()
+        listAdapter.submitList(packages)
+    }
+
+    override fun onCardClick(item: PackageItem, location: PackageBase.PackageLocation) {
+        tmpItem = item
+
+        val sheet = BottomSheetDialog(requireContext())
+        sheet.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        sheet.setContentView(R.layout.plugin_releases_bottom_sheet)
+
+        sheet.findViewById<TextView>(R.id.bottom_sheet_subtitle)?.text = item.title
+
+        val loader = sheet.findViewById<CircularProgressIndicator>(R.id.loader)
+        val noResults = sheet.findViewById<View>(R.id.no_results)
+        packageReleases = mutableListOf()
+        releaseAdapter = PackageReleaseAdapter(this@PackagesFragment, requireActivity())
+        releaseAdapter.setPackageLocation(location)
+
+        val releaseRecyclerView = sheet.findViewById<RecyclerView>(R.id.recyclerView)!!
+        releaseRecyclerView.adapter = releaseAdapter
+
+        lifecycleScope.launch {
+            val instance = tmpItem!!.getInstance()
+            instance.getReleases().apply {
+                this.onFailure { failure ->
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(requireContext(), failure.message ?: getString(R.string.errored), Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
+
+                packageReleases = this.getOrElse { listOf() }
+                releaseAdapter.submitList(packageReleases)
+                releaseRecyclerView.isVisible = packageReleases.isNotEmpty()
+                loader?.isVisible = false
+                noResults?.isVisible = packageReleases.isEmpty()
+            }
+        }
+
+        sheet.setOnDismissListener {
+            bottomSheet = null
+        }
+
+        sheet.show()
+        val displayMetrics = DisplayMetrics()
+        requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
+        sheet.behavior.peekHeight = displayMetrics.heightPixels
+        sheet.window!!.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+
+        bottomSheet = sheet
+    }
+
+    private var uninstallLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (tmpInstance?.isPackageAppInstalled(requireContext()) == false) {
+            val resp = tmpInstance?.uninstallDownloadedRuntimeDir(requireContext())
+            resp?.onFailure {
+                Snackbar.make(requireView(), it.message ?: getString(R.string.errored), Snackbar.LENGTH_LONG).show()
+            }
+            resp?.onSuccess {
+                bottomSheet?.dismiss()
+                listAdapter.notifyDataSetChanged()
+                RuntimeManager.reInit(requireContext())
+            }
+        }
+    }
+
+    override fun onDeleteDownloadedPackageClick(item: PackageBase.PackageRelease) {
+        deleteDownloadedVersion(tmpItem!!, item.version)
+    }
+
+    override fun onDeleteDownloadedVersion(item: PackageItem, currentVersion: String?) {
+        deleteDownloadedVersion(item, currentVersion)
+    }
+
+    private fun deleteDownloadedVersion(item: PackageItem, version: String?) {
+        UiUtil.showGenericDeleteDialog(
+            requireContext(),
+            "${item.title} (${version})"
+        ) {
+            val instance = item.getInstance()
+            tmpInstance = instance
+            val intent = Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                data = Uri.parse("package:${instance.apkPackage}")
+            }
+            uninstallLauncher.launch(intent)
+        }
+    }
+
+    override fun onDownloadReleaseClick(item: PackageBase.PackageRelease) {
+        bottomSheet?.dismiss()
+
+        UiUtil.showNewReleaseUpdateDialog(
+            item,
+            tmpItem!!,
+            requireActivity(),
+            viewLifecycleOwner,
+            requireView(),
+            null,
+            installLauncher
+        ) { result ->
+            result.onSuccess {
+                bottomSheet?.dismiss()
+                listAdapter.notifyDataSetChanged()
+                RuntimeManager.reInit(requireContext())
+            }.onFailure { f ->
+                Snackbar.make(requireActivity().findViewById(R.id.frame_layout), f.message ?: "", Snackbar.LENGTH_LONG).show()
+            }
+        }
+    }
+}

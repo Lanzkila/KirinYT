@@ -1,6 +1,6 @@
 # What's Changed
 
-- Fix App crashing with exception "com.deniscerri.ytdl.database.viewmodel.DownloadViewModel.checkIfAllProcessingItemsHaveSameType(Unknown Source:21)..."
+- Fix App crashing with exception "com.kirinyt.app.database.viewmodel.DownloadViewModel.checkIfAllProcessingItemsHaveSameType(Unknown Source:21)..."
 - Added option in download settings to use AlarmManager instead of WorkManager for scheduled downloads to improve accuracy
 - When updating formats for multiple items, now the app remembers what items don't need new formats and skips them to save time and data
 - Moved format source from the bottom of the format list to the filter bottom sheet

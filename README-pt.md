@@ -1,33 +1,27 @@
 <h1 align="center">
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
+	KirinYT
 </h1>
 
 <div align="center">
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README.md">English</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
 	Português
 </div>
 
 <h3 align="center">
-	YTDLnis é um aplicativo gratuito e de código aberto para baixar vídeos/áudios usando yt-dlp disponível para o Android 7.0 e superior.
+	KirinYT é um aplicativo gratuito e de código aberto para baixar vídeos/áudios usando yt-dlp disponível para o Android 7.0 e superior.
 </h3>
 
 <div align="center">
 
-[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![UpToDown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
+[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
+[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/deniscerri/ytdlnis/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Translation status](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![community](https://img.shields.io/badge/Discord-YTDLnis-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![community](https://img.shields.io/badge/Telegram-YTDLnis-blue?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://ytdlnis.org)
-[![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
+![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
+[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
 
@@ -95,20 +89,15 @@
 
 ## 💬 Contato
 
-Junte-se ao nosso [Canal no Telegram](https://t.me/ytdlnis) ou no [Discord](https://discord.gg/WW3KYWxAPm) para discussão, anúncios e lançamentos!
 
 ## 🔑 Conecte-se com ReVanced
 
-O nome do pacote do aplicativo é "com.deniscerri.ytdl"
+O nome do pacote do aplicativo é "com.kirinyt.app"
 
 ## 📝 Ajude a traduzir no Weblate
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="Status da tradução" />
 </a>
 
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="Status da tradução" />
 </a>
 
 ## 😇 Contribuição
@@ -117,7 +106,7 @@ Se você gostaria de contribuir. Por favor, leia a seção [Contribuição](CONT
 
 ## 📄 Licença
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 ⚠️  Aviso <br>
 

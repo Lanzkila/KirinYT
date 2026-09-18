@@ -1,33 +1,27 @@
 <h1 align="center">
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
+	KirinYT
 </h1>
 
 <div align="center">
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README.md">English</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
 	Shqip
 </div>
 
 <h3 align="center">
-	YTDLnis është një shkarkues video/audio falas dhe me burim të hapur duke përdorur yt-dlp për Android 7.0 dhe më lart.
+	KirinYT është një shkarkues video/audio falas dhe me burim të hapur duke përdorur yt-dlp për Android 7.0 dhe më lart.
 </h3>
 
 <div align="center">
 
-[![Github Yükləyicisi](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![IzzyOnDroid Anbarı](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![UpToDown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+[![Github Yükləyicisi](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
+[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
+[![IzzyOnDroid Anbarı](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![önizləmə buraxılışı](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/deniscerri/ytdlnis/releases) 
-[![yükləyici](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Tərcümə vəziyyəti](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![icma](https://img.shields.io/badge/Discord-YTDLnis-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![icma](https://img.shields.io/badge/Telegram-YTDLnis-blue?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://ytdlnis.org)
-[![icma](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
+![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
+[![önizləmə buraxılışı](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![yükləyici](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
 
@@ -96,20 +90,15 @@
 
 ## 💬 Kontakt
 
-Bashkohuni me [Kanalin tonë Telegram](https://t.me/ytdlnis) ose [Diskord](https://discord.gg/WW3KYWxAPm) për diskutim, njoftime dhe publikime!
 
 ## 🔑 Lidhu me ReVanced
 
-Emri i paketës së aplikacionit është "com.deniscerri.ytdl"
+Emri i paketës së aplikacionit është "com.kirinyt.app"
 
 ## 📝 Ndihmo për të përkthyer në Weblate
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="Translation status" />
 </a>
 
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="Translation status" />
 </a>
 
 ## 😇 Kontributo
@@ -118,11 +107,11 @@ Nëse dëshironi të kontribuoni. Ju lutemi lexoni seksionin [Kontribimi](CONTRI
 
 ## 📄 Liçensa
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 ⚠️  Paralajmërim <br>
 
-Përveç kodit burimor të licencuar sipas licencës GPLv3, të gjitha palët e tjera janë të ndaluara të përdorin emrin 'YTDLnis' si një aplikacion shkarkues dhe e njëjta gjë vlen edhe për derivatet e tij. Derivatet përfshijnë por nuk kufizohen në forks dhe ndërtime jozyrtare.
+Përveç kodit burimor të licencuar sipas licencës GPLv3, të gjitha palët e tjera janë të ndaluara të përdorin emrin 'KirinYT' si një aplikacion shkarkues dhe e njëjta gjë vlen edhe për derivatet e tij. Derivatet përfshijnë por nuk kufizohen në forks dhe ndërtime jozyrtare.
 
 ## 🙏 Falenderimet
 

@@ -55,52 +55,22 @@
             android:summary=""
             app:key="backup_path"
             app:title="@string/backup_path" />
-
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/about" >
+    <PreferenceCategory android:title="@string/about">
         <Preference
             app:icon="@drawable/baseline_exit_to_app_24"
             app:key="package_name"
             app:title="@string/package_name" />
-        <Preference
-            app:icon="@drawable/ic_discord"
-            app:key="discord"
-            app:summary="https://discord.gg/WW3KYWxAPm"
-            app:title="Discord">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://discord.gg/WW3KYWxAPm" />
-        </Preference>
-
-        <Preference
-            app:icon="@drawable/ic_telegram"
-            app:key="telegram"
-            app:summary="https://t.me/ytdlnis"
-            app:title="Telegram">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://t.me/ytdlnis" />
-        </Preference>
-
-        <Preference
-            app:icon="@drawable/ic_translate"
-            app:key="translate"
-            app:summary="@string/help_translate_summary"
-            app:title="@string/help_translate">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="https://hosted.weblate.org/projects/ytdlnis/" />
-        </Preference>
 
         <Preference
             app:icon="@drawable/baseline_security_24"
             app:key="security"
-            app:summary="🔐 YTDLnis - Privacy Policy"
+            app:summary="KirinYT - Privacy Policy"
             app:title="@string/security">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/deniscerri/ytdlnis/blob/main/SECURITY.md" />
+                android:data="https://github.com/Lanzkila/KirinYT/blob/main/SECURITY.md" />
         </Preference>
 
         <Preference
@@ -110,22 +80,18 @@
             app:title="@string/license">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/deniscerri/ytdlnis/blob/main/LICENSE" />
+                android:data="https://github.com/Lanzkila/KirinYT/blob/main/LICENSE" />
         </Preference>
 
         <Preference
             app:icon="@drawable/ic_code"
             app:key="rreth"
-            app:summary="https://github.com/deniscerri/ytdlnis"
+            app:summary="https://github.com/Lanzkila/KirinYT"
             app:allowDividerBelow="true"
             app:title="@string/source_code">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://github.com/deniscerri/ytdlnis" />
+                android:data="https://github.com/Lanzkila/KirinYT" />
         </Preference>
-
-
     </PreferenceCategory>
-
-
 </PreferenceScreen>

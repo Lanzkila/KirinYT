@@ -596,7 +596,7 @@
         <item quantity="many">Každých %d minut</item>
         <item quantity="other">Každých %d minut</item>
     </plurals>
-    <string name="bgutils_info">Poskytovatel tokenu ověření původu (POT) pro yt-dlp.\nPokud je zapnutý, YTDLnis hostí HTTP server, který generuje POT a nainstaluje související plugin, který yt-dlp používá.</string>
+    <string name="bgutils_info">Poskytovatel tokenu ověření původu (POT) pro yt-dlp.\nPokud je zapnutý, KirinYT hostí HTTP server, který generuje POT a nainstaluje související plugin, který yt-dlp používá.</string>
     <string name="bgutils_pot_generation_script">Generovací skript</string>
     <string name="bgutils_pot_generation_server">HTTP server</string>
     <string name="bgutils_pot_generation_script_summary">Každé volání yt-dlp přináší režijní náklady na spuštění nového procesu js runtime pro provedení skriptu. Tato metoda se nedoporučuje pro použití s vysokou mírou souběžnosti.</string>

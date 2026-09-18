@@ -595,7 +595,7 @@
         <item quantity="many">Каждые %d минуты</item>
         <item quantity="other">Каждые %d минуты</item>
     </plurals>
-    <string name="bgutils_info">Поставщик токенов подтверждения происхождения (POT) для yt-dlp.\nЕсли это включено, YTDLnis размещает HTTP сервер, который генерирует POT и устанавливает соответствующий плагин, использующий yt-dlp.</string>
+    <string name="bgutils_info">Поставщик токенов подтверждения происхождения (POT) для yt-dlp.\nЕсли это включено, KirinYT размещает HTTP сервер, который генерирует POT и устанавливает соответствующий плагин, использующий yt-dlp.</string>
     <string name="bgutils_pot_generation_script">Скрипт генерации</string>
     <string name="bgutils_pot_generation_server">HTTP Сервер</string>
     <string name="bgutils_pot_generation_script_summary">Каждый вызов yt-dlp влечет за собой накладные расходы на создание нового процесса выполнения js для запуска скрипта. Этот метод не рекомендуется для использования с высоким уровнем параллелизма.</string>

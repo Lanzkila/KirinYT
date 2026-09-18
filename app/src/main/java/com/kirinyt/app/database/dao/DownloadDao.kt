@@ -1,0 +1,425 @@
+package com.kirinyt.app.database.dao
+
+import androidx.paging.PagingSource
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
+import androidx.room.Transaction
+import androidx.room.Update
+import androidx.room.Upsert
+import com.kirinyt.app.database.models.DownloadItem
+import com.kirinyt.app.database.models.DownloadItemConfigureMultiple
+import com.kirinyt.app.database.models.DownloadItemSimple
+import com.kirinyt.app.database.models.DownloadSizeMetadata
+import com.kirinyt.app.database.models.Format
+import com.kirinyt.app.database.repository.DownloadRepository
+import kotlinx.coroutines.flow.Flow
+
+@Dao
+interface DownloadDao {
+
+    @Query("SELECT * FROM downloads ORDER BY status")
+    fun getAllDownloads() : PagingSource<Int, DownloadItem>
+
+    @Query("SELECT * FROM downloads WHERE status='Active'")
+    fun getActiveDownloads() : Flow<List<DownloadItem>>
+
+    @Query("SELECT * FROM downloads WHERE status='Active' or status = 'Paused' ORDER BY id, CASE WHEN status='Active' THEN 0 ELSE 1 END")
+    fun getActiveAndPausedDownloads() : Flow<List<DownloadItem>>
+
+    @Query("SELECT * FROM downloads WHERE status='Paused'")
+    fun getPausedDownloads() : Flow<List<DownloadItem>>
+
+    @Query("SELECT * FROM downloads WHERE status='Paused'")
+    fun getPausedDownloadsList() : List<DownloadItem>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM downloads WHERE status = 'Processing' ORDER BY queueOrder, id")
+    fun getProcessingDownloads() : PagingSource<Int, DownloadItemConfigureMultiple>
+
+    @Query("SELECT id FROM downloads WHERE status = 'Processing'")
+    fun getProcessingDownloadsIds() : Flow<List<Long>>
+
+    @Query("SELECT id, type, format, allFormats, videoPreferences FROM downloads WHERE status = 'Processing'")
+    fun getProcessingSizeMetadata(): Flow<List<DownloadSizeMetadata>>
+
+    @Query("SELECT COUNT(*) FROM downloads WHERE status in (:statuses)")
+    fun getDownloadsCountFlow(statuses: List<String>) : Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM downloads WHERE status in (:status)")
+    fun getDownloadsCountByStatusFlow(status : List<String>) : Flow<Int>
+
+    @Query("SELECT COUNT(*) FROM downloads WHERE status in (:statuses)")
+    fun getDownloadsCountByStatus(statuses : List<String>) : Int
+
+
+    @Query("""
+        SELECT DISTINCT type from downloads where status = 'Processing'
+    """)
+    fun getProcessingDownloadTypes() : List<String>
+
+
+    @Query("SELECT DISTINCT type from downloads where status = 'Processing' and id in (:ids)")
+    fun getProcessingDownloadTypesByIDs(ids: List<Long>) : List<String>
+
+    @Query("""
+        SELECT DISTINCT container from downloads where status = 'Processing'
+        """)
+    fun getProcessingDownloadContainers() : List<String>
+
+    @Query("""SELECT DISTINCT container from downloads where id in (:ids)""")
+    fun getDownloadContainersByIDs(ids: List<Long>) : List<String>
+
+
+    @Query("UPDATE downloads set status = 'Processing' WHERE id in (:ids)")
+    suspend fun updateItemsToProcessing(ids: List<Long>)
+
+
+    @Query("SELECT * FROM downloads WHERE status = 'Processing' ORDER BY id LIMIT 1")
+    fun getFirstProcessingDownloadFlow() : Flow<DownloadItem?>
+
+
+    @Query("SELECT * FROM downloads WHERE status = 'Processing' ORDER BY queueOrder, id")
+    fun getProcessingDownloadsList() : List<DownloadItem>
+
+    @Query("UPDATE downloads set downloadPath=:path WHERE status ='Processing'")
+    suspend fun updateProcessingDownloadPath(path: String)
+
+    @Query("UPDATE downloads set downloadPath=:path WHERE id in (:ids)")
+    suspend fun updateDownloadPathByIDs(ids: List<Long>, path: String)
+
+    @Query("UPDATE downloads set container=:cont WHERE status ='Processing'")
+    suspend fun updateProcessingContainer(cont: String)
+
+    @Query("UPDATE downloads set container=:cont WHERE id in (:ids)")
+    suspend fun updateContainerByIds(ids: List<Long>, cont: String)
+
+    @Query("SELECT * FROM downloads WHERE status='Active'")
+    fun getActiveDownloadsList() : List<DownloadItem>
+
+    @Query("SELECT * FROM downloads WHERE url=:url AND status='Processing'")
+    fun getProcessingDownloadsByUrl(url: String) : List<DownloadItem>
+
+    @Query("DELETE from downloads where status = 'Processing' AND url=:url")
+    suspend fun deleteProcessingByUrl(url: String)
+
+    @Query("SELECT * FROM downloads WHERE status in('Active','Queued', 'Scheduled')")
+    fun getActiveAndQueuedDownloadsList() : List<DownloadItem>
+
+    @Query("UPDATE downloads SET status='Queued', downloadStartTime = -1 where status in ('Paused')")
+    suspend fun resetPausedToQueued()
+
+    @Query("SELECT id FROM downloads WHERE status in('Active','Queued', 'Paused')")
+    fun getActiveAndQueuedDownloadIDs() : List<Long>
+
+    @Query("SELECT * FROM downloads WHERE status in('Active','Queued')")
+    fun getActiveAndQueuedDownloads() : Flow<List<DownloadItem>>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM downloads WHERE status='Queued' ORDER BY queueOrder, id")
+    fun getQueuedDownloads() : PagingSource<Int, DownloadItemSimple>
+
+    @Query("SELECT format FROM downloads WHERE status='Queued'")
+    fun getSelectedFormatFromQueued() : List<Format>
+
+    @Query("""
+        SELECT * FROM downloads 
+        WHERE status in ('Queued', 'Scheduled') AND downloadStartTime <= :currentTime 
+        ORDER BY downloadStartTime, queueOrder, id
+        LIMIT 10
+    """)
+    fun getQueuedScheduledDownloadsUntil(currentTime: Long) : Flow<List<DownloadItem>>
+
+    @Query("""
+        SELECT * FROM downloads 
+        WHERE status in ('Queued', 'Scheduled') AND downloadStartTime <= :currentTime 
+        ORDER BY 
+            CASE
+                WHEN id in (:priorityItems) THEN 0
+                ELSE 1
+            END,
+            downloadStartTime, queueOrder, id
+        LIMIT 10
+    """)
+    fun getQueuedScheduledDownloadsUntilWithPriority(currentTime: Long, priorityItems: List<Long>) : Flow<List<DownloadItem>>
+
+    @Query("SELECT * FROM downloads WHERE status='Queued' ORDER BY downloadStartTime, id")
+    fun getQueuedDownloadsList() : List<DownloadItem>
+
+    @Query("SELECT * FROM downloads WHERE status='Scheduled' ORDER BY downloadStartTime, id")
+    fun getScheduledDownloadsList() : List<DownloadItem>
+
+    @Query("SELECT id FROM downloads WHERE status='Queued' ORDER BY downloadStartTime, queueOrder, id")
+    fun getQueuedDownloadsListIDs() : List<Long>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM downloads WHERE status='Cancelled' ORDER BY id DESC")
+    fun getCancelledDownloads() : PagingSource<Int, DownloadItemSimple>
+
+    @Query("SELECT * FROM downloads WHERE status='Cancelled' ORDER BY id DESC")
+    fun getCancelledDownloadsList() : List<DownloadItem>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM downloads WHERE status='Error' ORDER BY id DESC")
+    fun getErroredDownloads() : PagingSource<Int, DownloadItemSimple>
+
+    @Query("SELECT * FROM downloads WHERE status='Error' ORDER BY id DESC")
+    fun getErroredDownloadsList() : List<DownloadItem>
+
+
+    @Query("SELECT id from downloads WHERE status='Scheduled' ORDER BY downloadStartTime, id DESC")
+    fun getScheduledDownloadIDs(): List<Long>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM downloads WHERE status='Saved' ORDER BY id DESC")
+    fun getSavedDownloads() : PagingSource<Int, DownloadItemSimple>
+
+    @Query("SELECT * FROM downloads WHERE status='Saved' ORDER BY id DESC")
+    fun getSavedDownloadsList() : List<DownloadItem>
+
+    @RewriteQueriesToDropUnusedColumns
+    @Query("SELECT * FROM downloads WHERE status='Scheduled' ORDER BY downloadStartTime, id DESC")
+    fun getScheduledDownloads() : PagingSource<Int, DownloadItemSimple>
+
+    @Query("SELECT * FROM downloads WHERE id=:id LIMIT 1")
+    fun getDownloadById(id: Long) : DownloadItem
+
+    @Query("SELECT * FROM downloads WHERE id=:id LIMIT 1")
+    fun getDownloadByIdFlow(id: Long) : Flow<DownloadItem?>
+
+    @Query("SELECT * FROM downloads WHERE id=:id LIMIT 1")
+    fun getNullableDownloadById(id: Long) : DownloadItem?
+
+    @Query("SELECT * FROM downloads WHERE id IN (:ids)")
+    fun getDownloadsByIds(ids: List<Long>) : List<DownloadItem>
+
+    @Query("SELECT * FROM downloads WHERE id IN (:ids)")
+    fun getDownloadsByIdsFlow(ids: List<Long>) : Flow<List<DownloadItem>>
+
+    @Query("SELECT id FROM downloads ORDER BY id DESC LIMIT 1")
+    fun getLastDownloadId(): Long
+
+    @Query("SELECT status FROM downloads WHERE id=:id")
+    fun checkStatus(id: Long) : DownloadRepository.Status?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(item: DownloadItem) : Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(list: List<DownloadItem>) : List<Long>
+
+    @Query("DELETE FROM downloads")
+    suspend fun deleteAll()
+
+    @Query("DELETE FROM downloads WHERE id=:id")
+    suspend fun delete(id: Long)
+
+    @Query("DELETE FROM downloads WHERE status='Cancelled'")
+    suspend fun deleteCancelled()
+
+    @Query("DELETE FROM downloads WHERE status='Error'")
+    suspend fun deleteErrored()
+
+    @Query("DELETE FROM downloads WHERE status='Queued'")
+    suspend fun deleteQueued()
+
+    @Query("DELETE FROM downloads WHERE status='Saved'")
+    suspend fun deleteSaved()
+
+    @Query("DELETE FROM downloads WHERE status='Processing'")
+    suspend fun deleteProcessing()
+
+    @Query("DELETE FROM downloads WHERE status='Duplicate'")
+    suspend fun deleteWithDuplicateStatus()
+
+    @Query("DELETE FROM downloads WHERE status='Scheduled'")
+    suspend fun deleteScheduled()
+
+    @Query("DELETE FROM downloads WHERE id in (:list)")
+    suspend fun deleteAllWithIDs(list: List<Long>)
+
+    @Query("UPDATE downloads SET status='Cancelled' WHERE status in('Queued','Active', 'Scheduled', 'Paused')")
+    suspend fun cancelActiveQueued()
+
+    @Query("DELETE FROM downloads WHERE status='Processing' AND id=:id")
+    suspend fun deleteSingleProcessing(id: Long)
+
+    @Upsert
+    suspend fun update(item: DownloadItem) : Long
+
+    @Transaction
+    suspend fun updateAll(list: List<DownloadItem>) : List<DownloadItem> {
+        val toReturn = mutableListOf<DownloadItem>()
+        list.forEach {
+            if (it.id > 0) {
+                update(it)
+            }else{
+                it.id = insert(it)
+            }
+            toReturn.add(it)
+        }
+
+        return toReturn
+    }
+
+    @Query("UPDATE downloads set status=:status where id=:id")
+    suspend fun setStatus(id: Long, status: String)
+
+    @Query("UPDATE downloads set status=:status where id IN (:ids)")
+    suspend fun setStatusMultiple(ids: List<Long>, status: String)
+
+    @Update
+    suspend fun updateWithoutUpsert(item: DownloadItem)
+
+    @Query("UPDATE downloads SET logID=null")
+    fun removeAllLogID()
+
+    @Query("UPDATE downloads SET logID=null WHERE logID=:logID")
+    fun removeLogID(logID: Long)
+
+    @Upsert
+    fun updateMultiple(items :List<DownloadItem>)
+
+    @Query("SELECT * FROM downloads ORDER BY id DESC LIMIT 1")
+    fun getLatest() : DownloadItem
+
+    @Query("UPDATE downloads SET status='Queued' WHERE status='Processing'")
+    suspend fun queueAllProcessing()
+
+
+    @Query("SELECT * FROM downloads WHERE url=:url AND (status='Error' OR status='Cancelled') LIMIT 1")
+    fun checkIfErrorOrCancelled(url: String) : DownloadItem
+
+    @Query("SELECT * FROM downloads WHERE url=:url AND format=:format AND (status='Error' OR status='Cancelled') LIMIT 1")
+    fun getUnfinishedByURLAndFormat(url: String, format: String) : DownloadItem
+
+
+    @Query("SELECT COUNT(downloadStartTime) = 0 from downloads WHERE id in (:items) AND " +
+            "CASE :inverted " +
+            "WHEN :inverted = 'false' THEN downloadStartTime > :currentStartTime " +
+            "WHEN :inverted = 'true' THEN downloadStartTime < :currentStartTime ELSE downloadStartTime < -1 END")
+    fun checkAllQueuedItemsAreScheduledAfterNow(items: List<Long>, inverted: String, currentStartTime: Long) : Boolean
+
+
+    @Query("Select id from downloads where id not in (:list) and status in (:status)")
+    fun getDownloadIDsNotPresentInList(list: List<Long>, status: List<String>) : List<Long>
+
+    @Query("Select url from downloads where status in (:status)")
+    fun getURLsByStatus(status: List<String>) : List<String>
+
+    @Query("Select id from downloads where status in (:status)")
+    fun getIDsByStatus(status: List<String>) : List<Long>
+
+    @Query("Select url from downloads where id in (:ids)")
+    fun getURLsByID(ids: List<Long>) : List<String>
+
+    @Query("UPDATE downloads SET downloadStartTime=0, status='Queued' where id in (:list)")
+    suspend fun resetScheduleTimeForItems(list: List<Long>)
+
+    @Query("UPDATE downloads SET downloadStartTime=0, status='Queued' WHERE status = 'Scheduled'")
+    suspend fun resetScheduleTimeForAllScheduledItems()
+
+    @Query("Update downloads SET status='Queued', downloadStartTime = 0 WHERE id in (:list)")
+    suspend fun reQueueDownloadItems(list: List<Long>)
+
+    @Query("Update downloads SET status='Saved' WHERE status='Processing'")
+    suspend fun updateProcessingtoSavedStatus()
+
+    @Query("SELECT COALESCE(MAX(queueOrder), 0) FROM downloads where status='Queued'")
+    suspend fun getLastQueueOrder() : Int
+
+    @Query("SELECT COALESCE(MIN(queueOrder), 0) FROM downloads where status='Queued'")
+    suspend fun getFirstQueueOrder() : Int
+
+    @Query("SELECT queueOrder FROM downloads where id=:id")
+    suspend fun getQueueOrder(id: Long) : Int
+
+    @Query("UPDATE downloads set queueOrder = queueOrder + 1 WHERE id=:id")
+    suspend fun shiftQueueOrderDownForDownload(id: Long)
+
+    @Query("UPDATE downloads set queueOrder = queueOrder - 1 WHERE id=:id")
+    suspend fun shiftQueueOrderUpForDownload(id: Long)
+
+    @Query("UPDATE downloads set queueOrder=:queueOrder WHERE id=:id")
+    suspend fun updateQueueOrder(queueOrder: Int, id: Long)
+
+    @Transaction
+    suspend fun reverseProcessingDownloads() {
+        val items = getProcessingDownloadsList()
+        var idx = 0
+        items.reversed().forEach {
+           updateQueueOrder(idx, it.id)
+           idx++
+        }
+    }
+
+    @Transaction
+    suspend fun putAtTopOfQueue(ids: List<Long>) {
+        val firstQueueOrder = getFirstQueueOrder()
+
+        val downloads = getQueuedDownloadsListIDs()
+        resetScheduleTimeForItems(ids)
+
+        downloads.filter { !ids.contains(it) }.forEach {
+            shiftQueueOrderDownForDownload(it)
+        }
+        ids.forEach { it ->
+            updateQueueOrder(firstQueueOrder, it)
+        }
+    }
+
+    @Transaction
+    suspend fun putAtBottomOfQueue(ids: List<Long>) {
+        val lastQueueOrder = getLastQueueOrder()
+
+        val downloads = getQueuedDownloadsListIDs()
+        resetScheduleTimeForItems(ids)
+
+        downloads.filter { !ids.contains(it) }.forEach {
+            shiftQueueOrderUpForDownload(it)
+        }
+        ids.forEach { it ->
+            updateQueueOrder(lastQueueOrder, it)
+        }
+    }
+
+    @Transaction
+    suspend fun putQueueDownloadAtPosition(mutableIds: MutableList<Long>, startIdx: Int, endIdx: Int) {
+        val baseOrder = if (startIdx == 0) {
+            0
+        } else {
+            val previousItemId = mutableIds[startIdx - 1]
+            getQueueOrder(previousItemId) + 1
+        }
+
+        for (i in startIdx..endIdx) {
+            val idToUpdate = mutableIds[i]
+            val newOrder = baseOrder + (i - startIdx)
+            updateQueueOrder(newOrder, idToUpdate)
+        }
+    }
+
+    @Query("Update downloads set rowNumber=:newNr where id=:id")
+    suspend fun updateDownloadRowNumber(id: Long, newNr: Int)
+
+    @Query("SELECT id from downloads WHERE id > :item1 AND id < :item2 AND status in (:statuses) ORDER BY id DESC")
+    fun getIDsBetweenTwoItems(item1: Long, item2: Long, statuses: List<String>) : List<Long>
+
+    @Query("SELECT id from downloads WHERE id > :item1 AND id < :item2 AND status in('Scheduled') ORDER BY downloadStartTime, id")
+    fun getScheduledIDsBetweenTwoItems(item1: Long, item2: Long) : List<Long>
+
+
+    @Query("UPDATE downloads set incognito=:incognito WHERE status='Processing'")
+    suspend fun updateProcessingIncognito(incognito: Boolean)
+
+    @Query("UPDATE downloads set incognito=:incognito WHERE id in (:ids)")
+    suspend fun updateIncognitoByIDs(incognito: Boolean, ids: List<Long>)
+
+    @Query("SELECT COUNT(id) FROM downloads WHERE status='Processing' AND incognito='1'")
+    fun getProcessingAsIncognitoCount(): Int
+
+    @Query("SELECT COUNT(id) FROM downloads WHERE status='Processing' AND incognito='1' and id in (:ids)")
+    fun getProcessingAsIncognitoCountByIDs(ids: List<Long>): Int
+}

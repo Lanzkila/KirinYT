@@ -15,6 +15,7 @@ def versionPatch = 0
 def versionBuild = 0 // bump for dogfood builds, public betas, etc.
 //WHEN RELEASING BETA KEEP THE SAME VERSION AS LATEST STABLE, SO USERS CAN DOWNGRADE
 def isBeta = false
+def kirinYTUpdateRepository = System.getenv("GITHUB_REPOSITORY") ?: (project.findProperty("KIRINYT_GITHUB_REPOSITORY") ?: "Lanzkila/KirinYT")
 
 def versionExt = ""
 if (versionBuild > 0) {
@@ -25,7 +26,7 @@ if (isBeta) {
 }
 
 android {
-    namespace 'com.deniscerri.ytdl'
+    namespace 'com.kirinyt.app'
     compileSdk = 36
 
     try {
@@ -45,13 +46,14 @@ android {
         }
     }catch(IOException ignored){}
     defaultConfig {
-        applicationId "com.deniscerri.ytdl"
+        applicationId "com.kirinyt.app"
         minSdk 24
         targetSdk 36
         versionCode versionMajor * 1000000 + versionMinor * 10000 + versionPatch * 100 + versionBuild
         versionName "${versionMajor}.${versionMinor}.${versionPatch}${versionExt}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        archivesBaseName = "YTDLnis-$versionName"
+        buildConfigField "String", "KIRINYT_UPDATE_REPOSITORY", "\"${kirinYTUpdateRepository}\""
+        archivesBaseName = "KirinYT-$versionName"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -111,9 +113,9 @@ android {
 
             def abi = output.getFilter(com.android.build.OutputFile.ABI) ?: "universal"
             if (variant.flavorName == "github") {
-                output.outputFileName = "YTDLnis-${versionName}-${abi}-${variant.buildType.name}.apk"
+                output.outputFileName = "KirinYT-${versionName}-${abi}-${variant.buildType.name}.apk"
             } else {
-                output.outputFileName = "YTDLnis-${versionName}-${variant.flavorName}-${abi}-${variant.buildType.name}.apk"
+                output.outputFileName = "KirinYT-${versionName}-${variant.flavorName}-${abi}-${variant.buildType.name}.apk"
             }
         }
     }

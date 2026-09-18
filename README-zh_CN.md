@@ -1,16 +1,16 @@
 <h1 align="center">
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
+	KirinYT
 </h1>
 
 <div align="center">
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README.md">English</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
 	简体中文
 </div>
 
 <h3 align="center">
-	YTDLnis 是一款免费且开源的视频/音频下载器，使用 yt-dlp ，支持 Android 7.0 及以上版本。
+	KirinYT 是一款免费且开源的视频/音频下载器，使用 yt-dlp ，支持 Android 7.0 及以上版本。
 </h3>
 <h4 align="center">
 	本项目由 Denis Çerri 创建
@@ -18,22 +18,16 @@
 
 <div align="center">
 
-[![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![Uptodown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-green?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+[![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
+[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
+[![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![Preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![Translation status](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![community](https://img.shields.io/badge/Discord-YTDLnis-blueviolet?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![community](https://img.shields.io/badge/Telegram-YTDLnis-blue?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![community](https://img.shields.io/badge/Telegram-Updates-red?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
-[![website](https://img.shields.io/badge/Website-orange?style=flat-square&logo=youtube)](https://ytdlnis.org)
+![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
+[![Preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 ![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
-### 只有以上链接是 YTDLnis 的唯一可信来源。其他任何地方的版本都与作者无关。
+### 只有以上链接是 KirinYT 的唯一可信来源。其他任何地方的版本都与作者无关。
 
 </div>
 
@@ -98,25 +92,20 @@
 
 ## 💬 联系我们
 
-加入我们的 [Discord](https://discord.gg/WW3KYWxAPm) 或 [Telegram 频道](https://t.me/ytdlnis) 获取公告、讨论和新版本发布资讯。
 
 ## 😇 参与贡献
 
 如果您想参与贡献，请阅读 [贡献](CONTRIBUTING.MD) 
 
 ## 📝 在 Weblate 上帮助翻译
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="翻译状态" />
 </a>
 
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="翻译状态" />
 </a>
 
 ## 🔑 使用包名与第三方应用连接
 
-应用的包名是 "com.deniscerri.ytdl"。
+应用的包名是 "com.kirinyt.app"。
 
 
 ## 🤖 使用 Intent 与第三方应用连接
@@ -138,7 +127,7 @@
 
 ## 📄 许可
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 除了在 GPLv3 许可证下的源代码外，禁止其他任何方以下载器应用的名义使用 "YTDLnis"，其衍生产品也不例外。衍生产品包括但不限于 fork 版本和非官方构建。
 

@@ -353,7 +353,7 @@
     <string name="generic">Generik</string>
     <string name="multiple_download_card">Kad muat turun berbilang</string>
     <string name="format_filter">Penapis format</string>
-    <string name="crop_validation_exceeds_w">https://hosted.weblate.org/translate/ytdlnis/strings/ms/?checksum=ea90cd56eef0f284</string>
-    <string name="crop">https://hosted.weblate.org/translate/ytdlnis/strings/ms/?checksum=f0a1ef162da9e40a</string>
+    <string name="crop_validation_exceeds_w">X+W melebihi %d</string>
+    <string name="crop">Pangkas</string>
     <string name="use_alarm_manager">Guna AlarmManager selain WorkManager untuk Penjadualan</string>
 </resources>

@@ -26,7 +26,7 @@
             android:focusableInTouchMode="true" />
 
         <!-- Extra Keys Toolbar (CTRL, ALT, TAB, ESC, Arrows) -->
-        <com.deniscerri.ytdl.ui.more.terminal.virtualkeys.VirtualKeysView
+        <com.kirinyt.app.ui.more.terminal.virtualkeys.VirtualKeysView
             android:id="@+id/virtualKeys"
             android:layout_width="match_parent"
             android:layout_height="70dp"/>

@@ -1,16 +1,16 @@
 <h1 align="center">
 	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	YTDLnis
+	KirinYT
 </h1>
 
 <div align="center">
-	<a href="https://github.com/deniscerri/ytdlnis/blob/main/README.md">English</a>
+	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
 	&nbsp;&nbsp;| &nbsp;&nbsp;
 العربية
 </div>
 
 <h3 align="center">
-	YTDLnis هو تطبيق مجاني ومفتوح المصدر لتحميل الفيديو/الصوت باستخدام yt-dlp لأجهزة الأندرويد 7.0 وما فوق.
+	KirinYT هو تطبيق مجاني ومفتوح المصدر لتحميل الفيديو/الصوت باستخدام yt-dlp لأجهزة الأندرويد 7.0 وما فوق.
 </h3>
 <h4 align="center">
 	تم الإنشاء بواسطة Denis Çerri
@@ -18,22 +18,16 @@
 
 <div align="center">
 
-[![إصدارات GitHub](https://custom-icon-badges.herokuapp.com/badge/تحميل-أزرق?style=for-the-badge&logo=download&logoColor=white)](https://github.com/deniscerri/ytdlnis/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-بنفسجي?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.deniscerri.ytdl)
-[![مستودع IzzyOnDroid](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-أحمر?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.deniscerri.ytdl)
-[![Uptodown](https://custom-icon-badges.herokuapp.com/badge/UpToDown-أخضر?style=for-the-badge&logo=download&logoColor=white)](https://ytdlnis.en.uptodown.com/android/download)
+[![إصدارات GitHub](https://custom-icon-badges.herokuapp.com/badge/تحميل-أزرق?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
+[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-بنفسجي?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
+[![مستودع IzzyOnDroid](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-أحمر?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
-![CI](https://github.com/deniscerri/ytdlnis/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![إصدار تجريبي](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=إصدار%20تجريبي)](https://github.com/deniscerri/ytdlnis/releases) 
-[![عدد التحميلات](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/deniscerri/ytdlnis/releases) 
-[![حالة الترجمة](https://hosted.weblate.org/widgets/ytdlnis/-/svg-badge.svg)](https://hosted.weblate.org/engage/ytdlnis/?utm_source=widget) 
-[![المجتمع](https://img.shields.io/badge/Discord-YTDLnis-أزرق_بنفسجي?style=flat-square&logo=discord)](https://discord.gg/WW3KYWxAPm) 
-[![المجتمع](https://img.shields.io/badge/Telegram-YTDLnis-أزرق?style=flat-square&logo=telegram)](https://t.me/ytdlnis)
-[![المجتمع](https://img.shields.io/badge/Telegram-التحديثات-أحمر?style=flat-square&logo=telegram)](https://t.me/ytdlnis_updates)
-[![الموقع الإلكتروني](https://img.shields.io/badge/الموقع-برتقالي?style=flat-square&logo=youtube)](https://ytdlnis.org)
+![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
+[![إصدار تجريبي](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=إصدار%20تجريبي)](https://github.com/Lanzkila/KirinYT/releases) 
+[![عدد التحميلات](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 ![راعي GitHub](https://img.shields.io/github/sponsors/deniscerri?label=راعي&logo=GitHub)
 
-### الروابط أعلاه هي المصادر الموثوقة الوحيدة لتطبيق YTDLnis. أي شيء آخر لا علاقة لي به.
+### الروابط أعلاه هي المصادر الموثوقة الوحيدة لتطبيق KirinYT. أي شيء آخر لا علاقة لي به.
 
 </div>
 
@@ -102,25 +96,20 @@
 
 ## 💬 اتصل بنا
 
-انضم إلى [Discord](https://discord.gg/WW3KYWxAPm) أو [قناة Telegram](https://t.me/ytdlnis) للإعلانات والنقاشات والإصدارات.
 
 ## 😇 المساهمة
 
 يرجى قراءة قسم [المساهمة](CONTRIBUTING.MD) إذا كنت ترغب في المساهمة.
 
 ## 📝 ساعد في الترجمة على Weblate
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/strings/open-graph.png" alt="حالة الترجمة" />
 </a>
 
 
-<a href="https://hosted.weblate.org/engage/ytdlnis/">
-<img src="https://hosted.weblate.org/widgets/ytdlnis/-/multi-auto.svg" alt="حالة الترجمة" />
 </a>
 
 ## 🔑 الاتصال بتطبيقات الطرف الثالث باستخدام اسم الحزمة
 
-اسم حزمة التطبيق هو "com.deniscerri.ytdl".
+اسم حزمة التطبيق هو "com.kirinyt.app".
 
 ## 🔍 التحقق من توقيع التطبيق
 
@@ -155,9 +144,9 @@ Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
 
 ## 📄 الترخيص
 
-[GNU GPL v3.0](https://github.com/deniscerri/ytdlnis/blob/main/LICENSE)
+[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
-باستثناء كود المصدر المرخص بموجب ترخيص GPLv3، يُمنع جميع الأطراف الأخرى من استخدام اسم "YTDLnis" كتطبيق تنزيل، وكذلك الأمر بالنسبة لمشتقاته. تشمل المشتقات على سبيل المثال لا الحصر الانشقاقات (forks) والنسخ غير الرسمية.
+باستثناء كود المصدر المرخص بموجب ترخيص GPLv3، يُمنع جميع الأطراف الأخرى من استخدام اسم "KirinYT" كتطبيق تنزيل، وكذلك الأمر بالنسبة لمشتقاته. تشمل المشتقات على سبيل المثال لا الحصر الانشقاقات (forks) والنسخ غير الرسمية.
 
 ## 😁 تبرع
 

@@ -4,19 +4,19 @@
     app:startDestination="@id/mainSettingsFragment">
     <fragment
         android:id="@+id/appearanceSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.general.GeneralSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.general.GeneralSettingsFragment"
         android:label="AppearanceSettingsFragment" />
     <fragment
         android:id="@+id/processingSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.processing.ProcessingSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.processing.ProcessingSettingsFragment"
         android:label="ProcessingSettingsFragment" />
     <fragment
         android:id="@+id/folderSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.folder.FolderSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.folder.FolderSettingsFragment"
         android:label="FolderSettingsFragment" />
     <fragment
         android:id="@+id/updateSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.updating.UpdateSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.updating.UpdateSettingsFragment"
         android:label="UpdateSettingsFragment" >
         <action
             android:id="@+id/action_updateSettingsFragment_to_changeLogFragment"
@@ -27,11 +27,11 @@
     </fragment>
     <fragment
         android:id="@+id/downloadSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.downloading.DownloadSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.downloading.DownloadSettingsFragment"
         android:label="DownloadSettingsFragment" />
     <fragment
         android:id="@+id/mainSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.MainSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.MainSettingsFragment"
         android:label="MainSettingsFragment" >
         <action
             android:id="@+id/action_mainSettingsFragment_to_appearanceSettingsFragment"
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/advancedSettingsFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.advanced.AdvancedSettingsFragment"
+        android:name="com.kirinyt.app.ui.more.settings.advanced.AdvancedSettingsFragment"
         android:label="AdvancedSettingsFragment" >
         <action
             android:id="@+id/action_advancedSettingsFragment_to_youtubePlayerClientFragment"
@@ -65,18 +65,18 @@
     </fragment>
     <fragment
         android:id="@+id/youtubePlayerClientFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.advanced.YoutubePlayerClientFragment"
+        android:name="com.kirinyt.app.ui.more.settings.advanced.YoutubePlayerClientFragment"
         android:label="YoutubePlayerClientFragment" />
     <fragment
         android:id="@+id/changeLogFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.updating.ChangeLogFragment"
+        android:name="com.kirinyt.app.ui.more.settings.updating.ChangeLogFragment"
         android:label="ChangeLogFragment" />
     <fragment
         android:id="@+id/generateYoutubePoTokensFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.advanced.generateyoutubepotokens.GenerateYoutubePoTokensFragment"
+        android:name="com.kirinyt.app.ui.more.settings.advanced.generateyoutubepotokens.GenerateYoutubePoTokensFragment"
         android:label="GenerateYoutubePoTokensFragment" />
     <fragment
         android:id="@+id/packagesFragment"
-        android:name="com.deniscerri.ytdl.ui.more.settings.updating.PackagesFragment"
+        android:name="com.kirinyt.app.ui.more.settings.updating.PackagesFragment"
         android:label="PackagesFragment" />
 </navigation>
