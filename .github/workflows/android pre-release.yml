@@ -1,0 +1,137 @@
+name: KirinYT Pre-release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Beta tag. Leave blank to use the version from app/build.gradle (example: v1.9.0-beta)"
+        required: false
+        type: string
+      title:
+        description: "Pre-release title. Leave blank for KirinYT <version> Beta"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  MAIN_PROJECT_MODULE: app
+
+concurrency:
+  group: kirinyt-prerelease
+  cancel-in-progress: false
+
+jobs:
+  prerelease:
+    name: Build and publish beta pre-release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: "17"
+          cache: gradle
+
+      - name: Configure signing
+        shell: bash
+        env:
+          SIGNING_KEY: ${{ secrets.BASE_64_SIGNING_KEY }}
+          KEYSTORE_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "$SIGNING_KEY" ]; then
+            echo "Missing secret: BASE_64_SIGNING_KEY"
+            exit 1
+          fi
+
+          if [ -z "$KEYSTORE_PROPERTIES" ]; then
+            echo "Missing secret: LOCAL_PROPERTIES"
+            exit 1
+          fi
+
+          echo "$SIGNING_KEY" | base64 --decode > app/release_keystore.jks
+          printf '%s\n' "$KEYSTORE_PROPERTIES" > keystore.properties
+          chmod +x gradlew
+
+      - name: Force beta build
+        shell: bash
+        run: |
+          set -euo pipefail
+          sed -i -E 's/^def isBeta = .*/def isBeta = true/' app/build.gradle
+
+      - name: Resolve KirinYT beta version
+        id: version
+        shell: bash
+        env:
+          INPUT_TAG: ${{ inputs.tag }}
+          INPUT_TITLE: ${{ inputs.title }}
+        run: |
+          set -euo pipefail
+
+          MAJOR=$(sed -nE 's/^def versionMajor = ([0-9]+).*/\1/p' app/build.gradle | head -1)
+          MINOR=$(sed -nE 's/^def versionMinor = ([0-9]+).*/\1/p' app/build.gradle | head -1)
+          PATCH=$(sed -nE 's/^def versionPatch = ([0-9]+).*/\1/p' app/build.gradle | head -1)
+          BUILD=$(sed -nE 's/^def versionBuild = ([0-9]+).*/\1/p' app/build.gradle | head -1)
+
+          VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          if [ "$BUILD" -gt 0 ]; then
+            VERSION="${VERSION}.${BUILD}"
+          fi
+          VERSION="${VERSION}-beta"
+
+          EXPECTED_TAG="v${VERSION}"
+          TAG="${INPUT_TAG:-$EXPECTED_TAG}"
+
+          if [ "$TAG" != "$EXPECTED_TAG" ]; then
+            echo "Tag mismatch: this beta build is ${EXPECTED_TAG}, but workflow received ${TAG}."
+            echo "Update the version/versionBuild in app/build.gradle or leave the tag field blank."
+            exit 1
+          fi
+
+          TITLE="${INPUT_TITLE:-KirinYT ${VERSION%-beta} Beta}"
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "title=$TITLE" >> "$GITHUB_OUTPUT"
+
+      - name: Build KirinYT beta APKs
+        run: ./gradlew assembleGithubRelease --warning-mode all
+
+      - name: Verify APKs and create checksums
+        id: assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUTPUT_DIR="${MAIN_PROJECT_MODULE}/build/outputs/apk/github/release"
+
+          mapfile -t APKS < <(find "$OUTPUT_DIR" -maxdepth 1 -type f -name 'KirinYT-*-beta-*.apk' -print | sort)
+          if [ "${#APKS[@]}" -eq 0 ]; then
+            echo "No KirinYT beta APKs were generated."
+            exit 1
+          fi
+
+          (cd "$OUTPUT_DIR" && sha256sum KirinYT-*-beta-*.apk > SHA256SUMS.txt)
+          echo "output_dir=$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
+
+      - name: Publish KirinYT pre-release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: ${{ steps.version.outputs.title }}
+          prerelease: true
+          draft: false
+          make_latest: false
+          generate_release_notes: true
+          files: |
+            ${{ steps.assets.outputs.output_dir }}/KirinYT-*-beta-*.apk
+            ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
