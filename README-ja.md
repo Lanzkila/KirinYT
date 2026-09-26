@@ -22,10 +22,6 @@
 <h3 align="center">
 	KirinYTは、Android 7.0以降に対応した、yt-dlpを使用した無料かつオープンソースのビデオ/オーディオダウンローダーです。
 </h3>
-<h4 align="center">
-	Denis Çerriによって作成されました
-</h4>
-
 <div align="center">
 
 [![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -35,7 +31,6 @@
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
 [![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-
 
 ### 上記のリンクは、KirinYTの唯一の信頼できるソースです。それ以外は私とは関係ありません。
 
@@ -82,26 +77,7 @@
 - バックアップと復元機能（ほぼすべてのものをバックアップ可能）
 - WorkManagerを使用したMVVMアーキテクチャ
 
-## 📲 スクリーンショット
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 連絡先
-
 
 ## 🔑 ReVancedおよびLibreTubeと接続
 
@@ -109,7 +85,6 @@
 
 ## 📝 Weblateで翻訳を手伝う
 </a>
-
 
 </a>
 
@@ -129,7 +104,6 @@ TaskerやMacrodroidなどのアプリでインテントを使用して、ユー�
 5. Extra: android.intent.extra.TEXT:url（urlの代わりにダウンロードしたいビデオのURLを入力）
 6. Extra: TYPE:audio
 7. Extra: BACKGROUND:true
-
 
 ## 😇 貢献
 
