@@ -1,6 +1,10 @@
 name: KirinYT Release
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/release.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -130,7 +134,31 @@ jobs:
           prerelease: false
           draft: false
           make_latest: true
-          generate_release_notes: true
+          generate_release_notes: false
+          body: |
+            ## KirinYT 1.9.0
+
+            This release establishes KirinYT as the customized Android yt-dlp downloader build and includes the latest app, documentation, and repository improvements.
+
+            ### New
+            - Added phase-aware progress to active download cards.
+            - Download cards can now show stages such as **Preparing**, **Video**, **Audio**, **Fragments**, **Merging**, **Processing**, **Moving**, and **Complete**.
+            - Added readable download progress details with percentage, transfer speed, and ETA when available.
+            - Added the KirinYT Changelog Tracker, generating commit-based changelog entries with changed-file details.
+
+            ### KirinYT rebrand
+            - Standardized the Android namespace and application ID as `com.kirinyt.app`.
+            - Standardized KirinYT APK naming and stable/pre-release workflows.
+            - Rebuilt the main README and synchronized all translated README files.
+            - Removed old YTDLnis branding, obsolete screenshots, and outdated CI references from the documentation.
+
+            ### Repository
+            - Kept the original fork source-directory layout for easier upstream maintenance.
+            - Updated release and Telegram notification workflows for KirinYT.
+            - Added automatic changelog generation inspired by the ADL4D2 tracker format.
+
+            ### Notes
+            - External runtime package identifiers used by Python, FFmpeg, Node.js, Deno, aria2c, and related components are intentionally preserved where required by their dependencies.
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
