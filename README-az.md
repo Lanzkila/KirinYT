@@ -12,10 +12,6 @@
 <h3 align="center">
 	KirinYT Android 7.0 və yuxarı üçün yt-dlp istifadə edən pulsuz və açıq mənbəli video/səs yükləyicidir.
 </h3>
-<h4 align="center">
-	Denis Çerri tərəfindən yaradılmışdır
-</h4>
-
 <div align="center">
 
 [![Github Yükləyicisi](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -25,7 +21,6 @@
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![önizləmə buraxılışı](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
 [![yükləyici](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Yalnız yuxarıdakı keçidlər KirinYT-in yeganə etibarlı mənbələridir. Qalan hər şey mənimlə əlaqəli deyil. 
 
@@ -83,26 +78,7 @@ KirinYT plaginləri idarə edir, beləliklə istifadəçilər aşağıdakı komp
 KirinYT paketlərini bu depodan quraşdır [KirinYT-packages](https://github.com/Lanzkila/KirinYT-packages/) və ya tətbiqdəki yeniləmə bölməsi vasitəsilə.
 Ətraflı məlumat üçün deponun README faylına müraciət edin.
 
-## 📲 Ekran görüntüləri
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 Əlaqə
-
 
 ## 😇 Töhfə
 
@@ -111,24 +87,11 @@ KirinYT paketlərini bu depodan quraşdır [KirinYT-packages](https://github.com
 ## 📝 Weblate-də Tərcümə Etməyə Kömək Et
 </a>
 
-
 </a>
 
 ## 🔑 Paket adın istifadə edərək üçüncü tərəf tətbiqlərlə əlaqə qurun
 
 Tətbiqin paket adı "com.kirinyt.app"-dir.
-
-## 🔍 Tətbiq imzasın təsdiqləmə
-
-Tətbiq aşağıdakı imzanı ehtiva etməlidir. Github iş axını fəaliyyəti bunu istifadə edir və buraxılışlar onu yenilənən quruluş halına gətirmək üçün buna əsaslanır.
-İmza fərqlidirsə, üçüncü tərəf paylayıcınız tətbiqi dəyişdirib. Xahiş olunur, tətbiqi əsil imza ilə istifadə edin.
-```
-Signer #1 certificate DN: CN=Denis Cerri, OU=Personal, O=Personal, L=Albania, ST=Albania, C=AL
-Signer #1 certificate SHA-256 digest: 263645cb5272eb290759fe1f59149ae24df6ce171e9f6666eead981d3fc64c95
-Signer #1 certificate SHA-1 digest: 2fec9c2fcef68d29a60857e185c795fec5f56fb6
-Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
-```
-
 
 ## 🤖 İntent-lər istifadə edərək üçüncü tərəf tətbiqləri ilə əlaqə qurun
 
@@ -151,13 +114,6 @@ Siz istifadəçi toxunuşu olmadan yükləmələri həyata keçirmək üçün t�
 [GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 GPLv3 lisenziyası ilə lisenziyalaşdırılan mənbə kodu istisna olmaqla, bütün digər tərəflərə "KirinYT" adın yükləyici tətbiq kimi istifadə etmək qadağandır və eynisi onun törəmələri üçün də keçərlidir. Törəmələrə fork-lar və qeyri-rəsmi quruluşlar daxildir, lakin bunlarla məhdudlaşmır.
-
-## 😁 İanə Edin
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='Donate with BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 Təşəkkürlər
 
