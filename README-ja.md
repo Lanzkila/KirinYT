@@ -33,8 +33,8 @@
 [![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
 ### 上記のリンクは、KirinYTの唯一の信頼できるソースです。それ以外は私とは関係ありません。
@@ -141,7 +141,7 @@ TaskerやMacrodroidなどのアプリでインテントを使用して、ユー�
 
 ⚠️  警告 <br>
 
-GPLv3ライセンスの下でライセンスされたソースコードを除き、他のすべての当事者はダウンローダーアプリとして「YTDLnis」名を使用することを禁止されており、その派生物についても同様です。派生物には、フォークや非公式ビルドが含まれますが、これらに限定されません。
+GPLv3ライセンスの下でライセンスされたソースコードを除き、他のすべての当事者はダウンローダーアプリとして「KirinYT」名を使用することを禁止されており、その派生物についても同様です。派生物には、フォークや非公式ビルドが含まれますが、これらに限定されません。
 
 ## 🙏 感謝
 
