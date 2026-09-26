@@ -1,100 +1,129 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	KirinYT
-</h1>
-
-<div align="center">
-	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	Shqip
-</div>
-
-<h3 align="center">
-	KirinYT është një shkarkues video/audio falas dhe me burim të hapur duke përdorur yt-dlp për Android 7.0 dhe më lart.
-</h3>
-
 <div align="center">
 
-[![Github Yükləyicisi](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
-[![IzzyOnDroid Anbarı](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+
+# KirinYT
+
+**Një shkarkues i fuqishëm video dhe audio për Android i bazuar në yt-dlp.**
+
+[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![önizləmə buraxılışı](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![yükləyici](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 
-## 💡 Veçoritë:
+## Rreth projektit
 
-- shkarko skedarë audio/video nga më shumë se <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md">1000 website</a>
-- përpunoni lista
-- modifikoni çdo artikull të listës veç e veç si me një artikull normal shkarkimi.
-- zgjidhni një format të përbashkët për të gjithë artikujt dhe/ose zgjidhni formate të shumta audio në rast se po i shkarkoni si video
-- zgjidhni një lloj shkarkimi për të gjithë artikujt
-- zgjidhni një shabllon të emrit të skedarit për të gjithë artikujt
-- përditëso llojin i shkarkimit në audio/video/komandë pme një klik
-- vendosni shkarkimet në radhë dhe planifikoni ato sipas datës dhe orës
-- gjithashtu mund të planifikoni shumë artikuj në të njëjtën kohë
-- shkarkoni shumë artikuj në të njëjtën kohë
-- përdorni komanda dhe shabllone të personalizuara ose shkoni në modalitetin e plotë yt-dlp me një terminal të integruar
-- mund të ruani dhe riktheni shabllonet, në mënyrë që të mund t'i ndani me miqtë tuaj
-- Mbështetje për BISKOTAT. Hyni me llogaritë tuaja dhe shkarkoni video private/të padisponueshme, zhbllokoni formatet premium etj.
-- prit video bazuar sipas kohës dhe kapitujt e videos (Kjo veçori yt-dlp është eksperimentale në projektin origjinal)
-- ju mund të bëni prerje të pafundme
-- hiqni elementet e SPONSORBLOCK (si pjeset pa muzike) nga artikulli
-- futini ato si kapituj në videon tuaj
-- fut titrat/metadatat/kapitujt etj
-- modifikoni titullin dhe autorin
-- ndani artikullin në skedarë të veçantë në varësi të kapitujve të tij
-- zgjidhni formate të ndryshme shkarkimi
-- shfaq karte direkt nga menyja e shpërndarjes, nuk ka nevojë të hapni aplikacionin
-- mund të krijoni një skedar txt dhe ta plotësoni me linke/playliste/fjale kerkimi të ndara nga një rresht i ri dhe aplikacioni do t'i përpunojë ato
-- kërkoni ose futni një link nga aplikacioni
-- mund të grumbulloni kërkime në mënyrë që t'i përpunoni ato në të njëjtën kohë
-- regjistrimet e shkarkimeve në rast problemesh
-- rishkarkimi i shkarkimeve të anuluara ose të dështuara
-- mund të përdorni gjeste për të rrëshqitur majtas për ta shkarkuar përsëri dhe djathtas për t'i fshirë
-- mund të klikoni gjatë butonin e rishkarkimit në fletën e detajeve për të shfaqur kartën e shkarkimit për më shumë funksionalitet
-- INCOGNITO kur nuk dëshironi të ruani një histori shkarkimi ose regjistra
-- mënyra e shkarkimit të shpejtë
-- shkarkoni menjëherë pa pasur nevojë të prisni që të dhënat të përpunohen. Fikni kartën e poshtme dhe ajo do të fillojë menjëherë
-- hapni / ndani skedarët e shkarkuar menjëherë nga njoftimi i përfunduar
-- shumica e veçorive yt-dlp janë zbatuar, sugjerimet janë të mirëseardhura
-- ndërfaqja e MATERIAL U
-- opsionet ngjyrash
-- rezervoni dhe rivendosni veçoritë e aplikacionit. (Pothuajse gjithçka mund të rezervohet dhe mund te shperndash me shoke)
-- Arkitektura MVVM me WorkManager
+KirinYT është një shkarkues Android i ndërtuar rreth **yt-dlp**, me mbështetje për video, audio, lista, komanda të personalizuara, radhë, planifikim, zgjedhje formati, cookies, titra dhe përpunim metadata.
 
-## 💬 Kontakt
+```text
+Application ID: com.kirinyt.app
+Minimum Android: Android 7.0 / API 24
+Target SDK: 36
+```
 
-## 🔑 Lidhu me ReVanced
+Projekti mban rrugën origjinale të dosjeve të fork-ut për mirëmbajtje dhe krahasim më të lehtë me upstream, ndërsa identiteti i aplikacionit përdor `com.kirinyt.app`.
 
-Emri i paketës së aplikacionit është "com.kirinyt.app"
+## Veçoritë
 
-## 📝 Ndihmo për të përkthyer në Weblate
-</a>
+- Shkarkim video dhe audio nga faqet e mbështetura nga yt-dlp
+- Përpunim i playlistave dhe konfigurim individual i elementeve
+- Zgjedhje formatesh video, audio dhe komandash të personalizuara
+- Radhë, planifikim dhe shkarkime të njëkohshme
+- Quick Download dhe Incognito
+- Komanda dhe template yt-dlp me terminal të integruar
+- Cookies, titra, thumbnails, chapters dhe SponsorBlock
+- Prerje video, editim metadata dhe ndarje sipas kapitujve
+- Histori, logs dhe ri-shkarkim i elementeve të dështuara
+- Backup/restore dhe Material You
+- Integrim me yt-dlp, FFmpeg, aria2c dhe runtime packages
 
-</a>
+## Shkarkimet
 
-## 😇 Kontributo
+Build-et zyrtare të KirinYT publikohen në këtë repository:
 
-Nëse dëshironi të kontribuoni. Ju lutemi lexoni seksionin [Kontribimi](CONTRIBUTING.MD).
+**[GitHub Releases](https://github.com/Lanzkila/KirinYT/releases)**
 
-## 📄 Liçensa
+```text
+KirinYT-<version>-<abi>-release.apk
+```
 
-[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
+## Build
 
-⚠️  Paralajmërim <br>
+### Kërkesat
 
-Përveç kodit burimor të licencuar sipas licencës GPLv3, të gjitha palët e tjera janë të ndaluara të përdorin emrin 'KirinYT' si një aplikacion shkarkues dhe e njëjta gjë vlen edhe për derivatet e tij. Derivatet përfshijnë por nuk kufizohen në forks dhe ndërtime jozyrtare.
+- JDK 17
+- Android SDK
+- Git
+- Gradle-compatible environment
 
-## 🙏 Falenderimet
+```bash
+git clone https://github.com/Lanzkila/KirinYT.git
+cd KirinYT
+./gradlew assembleGithubDebug
+```
 
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) dhe kontribuesit e tij për të bërë të mundur këtë mjet. Pa të ky aplikacion nuk do të ekzistonte.
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) për transferimin e yt-dlp në android.
-- [dvd](https://github.com/yausername/dvd) për të treguar se si të zbatohet youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) për elementë dhe veçori të caktuara të dizajnit doja të përdorja gjithashtu në këtë aplikacion
-- [decipher3114](https://github.com/decipher3114) për ikonën e aplikacionit
+Për të ndërtuar APK release të flavor-it GitHub:
 
-dhe shumë të huaj të tjerë nga interneti.
+```bash
+./gradlew assembleGithubRelease
+```
+
+## Variantet e build-it
+
+| Flavor | Qëllimi |
+| --- | --- |
+| `github` | Shpërndarja kryesore në GitHub |
+| `foss` | Build i orientuar FOSS |
+| `izzy` | Build i orientuar IzzyOnDroid |
+
+## Release dhe automatizim
+
+- **KirinYT Release** — ndërton dhe publikon release stabile
+- **KirinYT Pre-release** — ndërton dhe publikon beta/pre-release
+- **KirinYT Telegram Release Notification** — njoftime release në Telegram
+
+## Struktura e projektit
+
+```text
+app/src/main/java/com/deniscerri/ytdl/
+```
+
+Rruga fizike e dosjeve ruhet nga struktura origjinale e fork-ut, por skedarët source brenda saj përdorin namespace-in e KirinYT.
+
+```kotlin
+package com.kirinyt.app
+```
+
+```text
+namespace:     com.kirinyt.app
+applicationId: com.kirinyt.app
+```
+
+## Komponentët runtime
+
+KirinYT përdor komponentë të jashtëm si yt-dlp, FFmpeg dhe aria2c. Disa package ID të jashtme ruhen sepse u përkasin dependencies, jo identitetit të aplikacionit KirinYT.
+
+## Kontributet
+
+Bug fix, përmirësime dhe funksione të reja specifike për KirinYT janë të mirëpritura. Sigurohu që projekti të ndërtohet dhe mbaj `com.kirinyt.app` si identitet të aplikacionit.
+
+## Licenca
+
+KirinYT shpërndahet nën **GNU GPL v3.0**. Shiko [LICENSE](LICENSE) për tekstin e plotë.
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+---
+
+<div align="center">
+
+**KirinYT**
+
+Shkarkues video dhe audio Android i bazuar në yt-dlp.
+
+</div>
