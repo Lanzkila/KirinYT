@@ -23,8 +23,8 @@
 [![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![Preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![Downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 ![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### 只有以上链接是 KirinYT 的唯一可信来源。其他任何地方的版本都与作者无关。
@@ -129,7 +129,7 @@
 
 [GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
-除了在 GPLv3 许可证下的源代码外，禁止其他任何方以下载器应用的名义使用 "YTDLnis"，其衍生产品也不例外。衍生产品包括但不限于 fork 版本和非官方构建。
+除了在 GPLv3 许可证下的源代码外，禁止其他任何方以下载器应用的名义使用 "KirinYT"，其衍生产品也不例外。衍生产品包括但不限于 fork 版本和非官方构建。
 
 ## 😁 捐赠
 
