@@ -23,8 +23,8 @@ KirinYT es un descargador de audio/video gratuito y de código abierto que utili
 [![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
 ### Los enlaces anteriores son las únicas fuentes confiables de KirinYT. Todo lo demás no está relacionado.
@@ -131,7 +131,7 @@ Si quieres contribuir.  Lea la sección [Contribuyendo](CONTRIBUTING.MD).
 
 ⚠️  Advertencia <br>
 
-A excepción del código fuente bajo la licencia GPLv3, todas las demás partes tienen prohibido utilizar el nombre 'YTDLnis' como aplicación de descarga, y lo mismo ocurre con sus derivados.  Los derivados incluyen, entre otros, bifurcaciones y compilaciones no oficiales.
+A excepción del código fuente bajo la licencia GPLv3, todas las demás partes tienen prohibido utilizar el nombre 'KirinYT' como aplicación de descarga, y lo mismo ocurre con sus derivados.  Los derivados incluyen, entre otros, bifurcaciones y compilaciones no oficiales.
 
 ## 🙏 Gracias
 
