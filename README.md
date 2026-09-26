@@ -41,8 +41,8 @@
 [![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![Preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![Downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 ![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Only the links above are the only trusted sources of KirinYT. Everything else is not related to me.
@@ -98,7 +98,7 @@ KirinYT orchestrates plugins so users can freely upgrade and downgrade component
 - FFmpeg
 - Aria2c
 
-You can install ytdlnis packages from this repository [ytdlnis-packages](https://github.com/Lanzkila/KirinYT-packages/) or through the updating section in the application.
+You can install KirinYT packages from this repository [KirinYT-packages](https://github.com/Lanzkila/KirinYT-packages/) or through the updating section in the application.
 <br>For more information refer to the repo's README.
 
 ## 📲 Screenshots
@@ -162,7 +162,7 @@ Accepted variables:
 
 [GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
-Except for the source code licensed under the GPLv3 license, all other parties are prohibited from using the "YTDLnis" name as a downloader app, and the same is true for its derivatives. Derivatives include but are not limited to forks and unofficial builds.
+Except for the source code licensed under the GPLv3 license, all other parties are prohibited from using the "KirinYT" name as a downloader app, and the same is true for its derivatives. Derivatives include but are not limited to forks and unofficial builds.
 
 ## 😁 Donate
 
