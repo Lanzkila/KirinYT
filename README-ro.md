@@ -12,10 +12,6 @@
 <h3 align="center">
 KirinYT este un descarcător de audio/video gratuit și de sursă deschisă care utilizează yt-dlp pentru Android 7.0 și mai sus.
 </h3>
-<h4 align="center">
-	Creat de Denis Çerri
-</h4>
-
 <div align="center">
 
 [![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -72,26 +68,7 @@ KirinYT este un descarcător de audio/video gratuit și de sursă deschisă care
 - Funcțiuni de backup și restaurare.  (Poți face backup la aproape orice)
 - Arhitectură MVVM cu WorkManager
 
-## 📲 Capturi de Ecran
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 Contact
-
 
 ## 😇 Contribuire
 
@@ -114,7 +91,6 @@ Puteți folosi Intents pentru a trimite comenzi către aplicație pentru a rula 
 <b>TYPE</b> -> poate să fie: audio, video, comandă
 
 <b>BACKGROUND</b> -> poate să fie: adevărat, fals.  Dacă este adevărat, aplicația nu va afișa cardul de descărcare indiferent de situație și va rula descărcarea în fundal.
-
 
 ### Un exemplu de descărcare a unui element audio în fundal cu Tasker
 
