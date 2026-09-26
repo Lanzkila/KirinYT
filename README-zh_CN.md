@@ -12,10 +12,6 @@
 <h3 align="center">
 	KirinYT 是一款免费且开源的视频/音频下载器，使用 yt-dlp ，支持 Android 7.0 及以上版本。
 </h3>
-<h4 align="center">
-	本项目由 Denis Çerri 创建
-</h4>
-
 <div align="center">
 
 [![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -25,7 +21,6 @@
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![Preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
 [![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### 只有以上链接是 KirinYT 的唯一可信来源。其他任何地方的版本都与作者无关。
 
@@ -72,26 +67,7 @@
 - 备份和恢复功能
 - 基于 MVVM 架构和 WorkManager
 
-## 📲 预览截图
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 联系我们
-
 
 ## 😇 参与贡献
 
@@ -100,13 +76,11 @@
 ## 📝 在 Weblate 上帮助翻译
 </a>
 
-
 </a>
 
 ## 🔑 使用包名与第三方应用连接
 
 应用的包名是 "com.kirinyt.app"。
-
 
 ## 🤖 使用 Intent 与第三方应用连接
 
@@ -131,13 +105,6 @@
 
 除了在 GPLv3 许可证下的源代码外，禁止其他任何方以下载器应用的名义使用 "KirinYT"，其衍生产品也不例外。衍生产品包括但不限于 fork 版本和非官方构建。
 
-## 😁 捐赠
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='通过 BMC 捐赠'
-height="80">](https://www.buymeacoffee.com/deniscerri)
-
 ## 🙏 致谢
 
 - [decipher3114](https://github.com/decipher3114) 设计的应用图标
@@ -145,6 +112,5 @@ height="80">](https://www.buymeacoffee.com/deniscerri)
 - [seal](https://github.com/JunkFood02/Seal) 提供的某些设计元素和功能
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) 将 yt-dlp 移植到 Android
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) 及其贡献者使得这个工具成为可能。没有它就不会有这个应用
-
 
 以及很多包括贡献者在内的其他人
