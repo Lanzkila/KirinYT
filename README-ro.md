@@ -24,8 +24,8 @@ KirinYT este un descarcător de audio/video gratuit și de sursă deschisă care
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include\_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include\_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 ### Numai adresele de sus sunt surse de încredere pentru KirinYT. Orice altceva nu are legătură cu mine.
 
