@@ -20,8 +20,8 @@
 [![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![preview release](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![downloads](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
 
@@ -110,7 +110,7 @@ Se você gostaria de contribuir. Por favor, leia a seção [Contribuição](CONT
 
 ⚠️  Aviso <br>
 
-Exceto para o código-fonte licenciado sob a licença GPLv3, todas as outras partes estão proibidas de usar o nome ‘YTDLnis’ como aplicativo de download, e o mesmo se aplica a seus derivados. Os derivados incluem, mas não estão limitados a forks e construções não oficiais.
+Exceto para o código-fonte licenciado sob a licença GPLv3, todas as outras partes estão proibidas de usar o nome ‘KirinYT’ como aplicativo de download, e o mesmo se aplica a seus derivados. Os derivados incluem, mas não estão limitados a forks e construções não oficiais.
 
 ## 🙏 Obrigado
 
