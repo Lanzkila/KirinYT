@@ -23,8 +23,8 @@
 [![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![Önizleme Sürümü](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![İndirmeler](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Önizleme Sürümü](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![İndirmeler](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 ### Sadece yukarıdaki bağlantılar KirinYT'in tek güvenilir kaynaklarıdır. Geri kalan her şey benimle ilgili değildir.
 
@@ -128,7 +128,7 @@ Kabul edilen değişkenler:
 
 [GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
-GPLv3 lisansı altında lisanslanan kaynak kodu dışında, diğer tüm tarafların “YTDLnis” adını bir indirme uygulaması olarak kullanması yasaktır ve aynı şey türevleri için de geçerlidir. Türevler, çatalları ve resmi olmayan yapıları içerir ancak bunlarla sınırlı değildir.
+GPLv3 lisansı altında lisanslanan kaynak kodu dışında, diğer tüm tarafların “KirinYT” adını bir indirme uygulaması olarak kullanması yasaktır ve aynı şey türevleri için de geçerlidir. Türevler, çatalları ve resmi olmayan yapıları içerir ancak bunlarla sınırlı değildir.
 
 ## 🙏 Özel Teşekkürler
 
