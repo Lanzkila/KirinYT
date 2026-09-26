@@ -1,100 +1,129 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	KirinYT
-</h1>
-
-<div align="center">
-	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	Indonesia
-</div>
-
-<h3 align="center">
-	KirinYT adalah pengunduh video/audio sumber terbuka dan gratis yang menggunakan yt-dlp bagi Android 7.0 ke atas.
-</h3>
-
 <div align="center">
 
-[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
-[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+
+# KirinYT
+
+**Pengunduh video dan audio Android yang kuat berbasis yt-dlp.**
+
+[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 
-## 💡 Fitur:
+## Tentang
 
-- unduh berkas audio/video dari lebih dari <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md">1000 situs web</a>
-- memproses daftar putar
-	- sunting setiap butir daftar putar secara terpisah persis seperti pada butir unduhan normal.
-	- pilih format umum untuk semua butir dan/atau pilih beberapa format audio jikalau saja kamu mengunduhnya sebagai sebuah video
-	- pilih jalur pengunduhan bagi semua butir
-	- pilih templat nama berkas bagi semua butir
-	- mutakhirkan jenis unduhan secara berkelompok menjadi audio/video/perintah kustom dalam sekali klik
-- antrekan unduhan dan jadwalkan berdasarkan tanggal dan waktu
-	- kamu juga bisa menjadwalkan beberapa butir sekaligus
-- unduh beberapa butir sekaligus
-- gunakan perintah kustom dan templat atau gunakan mode yt-dlp sepenuhnya dengan terminal bawaan (built-in)
-	- kamu bisa mencadangkan dan memulihkan templat, sehingga kamu bisa membagikannya dengan teman-temanmu
-- dukungan KUKI. Masuk dengan akunmu dan unduh video privat/tidak tersedia, buka penguncian format premium, dll.
-- potong video berdasarkan stempel waktu dan babak video (Fitur yt-dlp ini bersifat eksperimental pada proyek orisinalnya)
-	- kamu bisa melakukan pemotongan sebanyak yang kamu inginkan (tanpa batas jumlah)
-- hilangkan elemen sponsorblock dari butirnya
-	- (atau) tanamkan sebagai babak-babak dalam videomu 
-- menanamkan takarir (subtitle)/metadata/babak, dll.
-- memodifikasi metadata seperti judul dan penggubah
-- pisahkan butir menjadi berkas-berkas terpisah tergantung pada babaknya
-- pilih format unduhan yang berbeda
-- kartu bagian bawah langsung dari menu berbagi, tidak perlu membuka aplikasi
-	- kamu bisa membuat berkas txt dan mengisinya dengan pranala/daftar putar/kueri penelusuran yang dipisahkan dengan baris baru dan aplikasi akan memprosesnya
-- telusuri atau sisipkan pranala dari aplikasi
-	- kamu bisa menumpuk penelusurannya sehingga kamu bisa memprosesnya sekaligus
-- merekam-catat (log) unduhan jikalau saja terjadi masalah
-- mengunduh ulang unduhan yang dibatalkan atau gagal
-	- kamu bisa menggunakan gestur untuk menggeser ke kiri untuk mengunduh ulang dan ke kanan untuk menghapus
-	- kamu bisa menge-klik lama tombol unduh ulang di lembar rincian untuk memperlihatkan kartu unduhan untuk fungsionalitas selengkapnya
-- mode penyamaran ketika kamu tidak ingin menyimpan riwayat unduhan atau rekam-catat (log)
-- mode unduhan lekas
-	- segera unduh tanpa harus menunggu data diproses. Nonaktifkan kartu bagian bawah dan ia akan langsung dimulai
-- buka / bagikan berkas unduhan langsung dari notifikasi yang selesai
-- sebagian besar fitur yt-dlp diimplementasi, saran-saran dipersilakan
-- Antarmuka Material You
-- Opsi tema
-- Fitur pencadangan dan pemulihan. (Hampir semuanya bisa dicadangkan)
-- Arsitektur MVVM dengan WorkManager
+KirinYT adalah aplikasi pengunduh Android berbasis **yt-dlp** dengan dukungan video, audio, playlist, perintah kustom, antrean, penjadwalan, pemilihan format, cookie, subtitle, dan pemrosesan metadata.
 
-## 💬 Kontak
+```text
+Application ID: com.kirinyt.app
+Minimum Android: Android 7.0 / API 24
+Target SDK: 36
+```
 
-## 🔑 Hubungkan dengan ReVanced
+Proyek ini mempertahankan jalur folder source asli dari fork agar maintenance dan perbandingan upstream lebih mudah, sedangkan identitas aplikasi menggunakan `com.kirinyt.app`.
 
-Nama paket Aplikasinya adalah "com.kirinyt.app"
+## Fitur
 
-## 📝 Bantu Menerjemahkan di Weblate
-</a>
+- Unduh video dan audio dari situs yang didukung yt-dlp
+- Proses playlist dan atur tiap item secara terpisah
+- Pilih format video, audio, dan custom command
+- Antrean, jadwal, dan beberapa unduhan sekaligus
+- Mode Quick Download dan Incognito
+- Perintah serta template yt-dlp dengan terminal bawaan
+- Dukungan cookie, subtitle, thumbnail, chapter, dan SponsorBlock
+- Potong video, edit metadata, dan pisahkan berdasarkan chapter
+- Riwayat, log, dan unduh ulang item yang gagal
+- Backup/restore dan antarmuka Material You
+- Integrasi yt-dlp, FFmpeg, aria2c, dan paket runtime
 
-</a>
+## Unduhan
 
-## 😇 Berkontribusi
+Build resmi KirinYT dipublikasikan melalui repository ini:
 
-Jika kamu ingin berkontribusi. Silakan baca bagian [Berkontribusi](CONTRIBUTING.MD).
+**[GitHub Releases](https://github.com/Lanzkila/KirinYT/releases)**
 
-## 📄 Lisensi
+```text
+KirinYT-<version>-<abi>-release.apk
+```
 
-[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
+## Build
 
-⚠️  Peringatan <br>
+### Kebutuhan
 
-Pengecualian untuk kode sumber yang dilisensikan di bawah lisensi GPLv3, semua pihak lain dilarang menggunakan nama 'KirinYT' sebagai aplikasi pengunduh, begitu pula dengan turunannya (derivatif). Turunannya (derivatif) termasuk, tetapi tidak terbatas pada percabangan (fork) dan build tidak resmi.
+- JDK 17
+- Android SDK
+- Git
+- Gradle-compatible environment
 
-## 🙏 Ucapan Terima Kasih
+```bash
+git clone https://github.com/Lanzkila/KirinYT.git
+cd KirinYT
+./gradlew assembleGithubDebug
+```
 
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) dan kontributornya karena memungkinkan alat ini ada. Tanpanya, aplikasi ini tidak akan demikian.
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) karena mem-porting yt-dlp ke Android
-- [dvd](https://github.com/yausername/dvd) karena memperlihatkan bagaimana caranya mengimplementasikan youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) atas elemen desain dan fitur tertentu yang ingin aku gunakan juga pada aplikasi ini
-- [decipher3114](https://github.com/decipher3114) atas ikon aplikasinya
+Untuk membuat APK release flavor GitHub:
 
-dan banyak lagi orang asing lainnya yang ada di forum internet.
+```bash
+./gradlew assembleGithubRelease
+```
+
+## Varian build
+
+| Flavor | Tujuan |
+| --- | --- |
+| `github` | Distribusi utama GitHub |
+| `foss` | Build berorientasi FOSS |
+| `izzy` | Build berorientasi IzzyOnDroid |
+
+## Release dan otomatisasi
+
+- **KirinYT Release** — membangun dan menerbitkan release stabil
+- **KirinYT Pre-release** — membangun dan menerbitkan beta/pre-release
+- **KirinYT Telegram Release Notification** — notifikasi release melalui Telegram
+
+## Struktur proyek
+
+```text
+app/src/main/java/com/deniscerri/ytdl/
+```
+
+Path folder dipertahankan dari struktur fork asli, tetapi file source di dalamnya menggunakan namespace KirinYT.
+
+```kotlin
+package com.kirinyt.app
+```
+
+```text
+namespace:     com.kirinyt.app
+applicationId: com.kirinyt.app
+```
+
+## Komponen runtime
+
+KirinYT menggunakan komponen eksternal seperti yt-dlp, FFmpeg, dan aria2c. Beberapa package ID eksternal tetap dipertahankan karena merupakan dependency, bukan identitas aplikasi KirinYT.
+
+## Kontribusi
+
+Perbaikan bug, peningkatan, dan fitur baru khusus KirinYT dipersilakan. Pastikan proyek dapat dibuild dan pertahankan `com.kirinyt.app` sebagai identitas aplikasi.
+
+## Lisensi
+
+KirinYT didistribusikan di bawah **GNU GPL v3.0**. Lihat [LICENSE](LICENSE) untuk teks lengkap.
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+---
+
+<div align="center">
+
+**KirinYT**
+
+Pengunduh video & audio Android berbasis yt-dlp.
+
+</div>
