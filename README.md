@@ -30,10 +30,6 @@
 <h3 align="center">
 	KirinYT is a free and open source video/audio downloader using yt-dlp for Android 7.0 and above.
 </h3>
-<h4 align="center">
-	Created by Denis Çerri
-</h4>
-
 <div align="center">
 
 [![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -43,7 +39,6 @@
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![Preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
 [![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Only the links above are the only trusted sources of KirinYT. Everything else is not related to me.
 
@@ -101,26 +96,7 @@ KirinYT orchestrates plugins so users can freely upgrade and downgrade component
 You can install KirinYT packages from this repository [KirinYT-packages](https://github.com/Lanzkila/KirinYT-packages/) or through the updating section in the application.
 <br>For more information refer to the repo's README.
 
-## 📲 Screenshots
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 Contact
-
 
 ## 😇 Contributing
 
@@ -128,7 +104,6 @@ Please read the [contributing](CONTRIBUTING.MD) section if you would like to con
 
 ## 📝 Help translate on Weblate
 </a>
-
 
 </a>
 
@@ -139,7 +114,6 @@ The app's package name is "com.kirinyt.app".
 ## 🔍 Verify application signature
 
 KirinYT releases should be signed with the project release keystore. The certificate fingerprint depends on the signing key used for the KirinYT release.
-
 
 ## 🤖 Connect with third-party apps using intents
 
@@ -164,13 +138,6 @@ Accepted variables:
 
 Except for the source code licensed under the GPLv3 license, all other parties are prohibited from using the "KirinYT" name as a downloader app, and the same is true for its derivatives. Derivatives include but are not limited to forks and unofficial builds.
 
-## 😁 Donate
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='Donate with BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
-
 ## 🙏 Thanks
 
 - [decipher3114](https://github.com/decipher3114) for the app's icon
@@ -178,6 +145,5 @@ height="80">](https://www.buymeacoffee.com/deniscerri)
 - [seal](https://github.com/JunkFood02/Seal) for certain design elements and features I wanted to have in this app when I started developing it
 - [youtubedl-android](https://github.com/yausername/youtubedl-android) for porting yt-dlp to Android
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) and its contributors for making this tool possible. Without it this app wouldn't exist
-
 
 and to a lot of other people, such as contributors.
