@@ -64,15 +64,19 @@ jobs:
             SHORT=$(git rev-parse --short=7 "$HASH")
             MESSAGE=$(git show -s --format='%s' "$HASH")
             AUTHOR=$(git show -s --format='%an' "$HASH")
+
+            case "$MESSAGE" in
+              'Remove obsolete com.deniscerri.ytdl app source tree'|'Restore original source paths while keeping KirinYT package')
+                continue
+                ;;
+            esac
             TS=$(git show -s --format='%at' "$HASH")
             DATE_LOCAL=$(TZ='Asia/Kuala_Lumpur' date -d "@$TS" +'%d %b %Y • %H:%M MYT')
 
             {
-              echo "## $DATE_LOCAL — `$SHORT`"
-              echo
-              echo "**$MESSAGE**  "
-              echo "By **$AUTHOR** • [View commit](https://github.com/$GITHUB_REPOSITORY/commit/$HASH)"
-              echo
+              printf '## %s — `%s`\n\n' "$DATE_LOCAL" "$SHORT"
+              printf '**%s**  \n' "$MESSAGE"
+              printf 'By **%s** • [View commit](https://github.com/%s/commit/%s)\n\n' "$AUTHOR" "$GITHUB_REPOSITORY" "$HASH"
             } >> "$AUTO_FILE"
 
             CHANGE_LINES=0
@@ -88,7 +92,7 @@ jobs:
                 *)  LABEL='🔧 Changed'; FILE="$A" ;;
               esac
 
-              echo "- $LABEL: `$FILE`" >> "$AUTO_FILE"
+              printf -- '- %s: `%s`\n' "$LABEL" "$FILE" >> "$AUTO_FILE"
               CHANGE_LINES=$((CHANGE_LINES + 1))
               (( CHANGE_LINES >= 25 )) && break
             done < <(
