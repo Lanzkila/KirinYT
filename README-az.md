@@ -1,126 +1,129 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	KirinYT
-</h1>
-
-<div align="center">
-	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	Azərbaycanca
-</div>
-
-<h3 align="center">
-	KirinYT Android 7.0 və yuxarı üçün yt-dlp istifadə edən pulsuz və açıq mənbəli video/səs yükləyicidir.
-</h3>
 <div align="center">
 
-[![Github Yükləyicisi](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
-[![IzzyOnDroid Anbarı](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+
+# KirinYT
+
+**yt-dlp ilə işləyən güclü Android video və audio yükləyicisi.**
+
+[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![önizləmə buraxılışı](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![yükləyici](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-
-### Yalnız yuxarıdakı keçidlər KirinYT-in yeganə etibarlı mənbələridir. Qalan hər şey mənimlə əlaqəli deyil. 
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 
-## 💡 Xüsusiyyətlər:
+## Haqqında
 
-- [1000-dən çox veb-saytdan ](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) səs/video faylları yüklə
-- mahnı siyahıların emal et
-	- normal yükləmə elementindəki kimi hər pleylist elementin ayrıca redaktə edin.
-	- bütün elementlər üçün ümumi format seçin və/yaxud onları video kimi endirəndə çoxlu səs formatı seçin
-	- bütün elementlər üçün yükləmə yolu seç
-	- bütün elementlər üçün fayl adı şablonun seçin
-	- bir kliklə səs/video/fərdi əmr üçün toplu yeniləmə yükləmə növü
-- yükləmələri növbəyə qoyun və onları tarix və vaxta görə planlaşdırın
-	- eyni vaxtda çoxlu elementi planlaşdıra bilərsiniz
-- eyni vaxtda çoxlu elementi yüklə
-- fərdi əmrlər və şablonlar istifadə edin və ya quraşdırılan konsol ilə tam yt-dlp rejiminə keçin
-	- Siz şablonları nüsxələyə və bərpa edə bilərsiniz, beləcə dostlarınızla paylaşa bilərsiniz
-- Məlumatlar bazası dəstəyi.Hesablarınızla daxil olun və şəxsi/əlçatmaz videoları yüklə, premium formatları kiliddən açın və s.
-- vaxt ştampları və video bölmələri əsasında videoları kəsin (Bu yt-dlp xüsusiyyəti orijinal layihədə təcrübidir)
-	- limitsiz kəsiklər hazırlaya bilərsiniz
-- elementdən SponsorBlock elementlərin təmizlə
-	- onları videonuzda bölmələr kimi yerləşdirin 
-- titrləri/üst məlumatı/bölmələri yerləşdirmək və s
-- başlıq və müəllif kimi üst məlumatı dəyişdir
-- onun bölmələrindən asılı olaraq elementi ayrı fayllara bölmək
-- müxtəlif yükləmə formatları seçin
-- Paylaş menyusundan düz alt kart, tətbiqi açmağa ehtiyac yoxdur 
-	- siz txt faylı yarada və onu yeni sətirlə ayrıca bağlantılar/pleylistlər/axtarış sorğuları ilə doldura bilərsiniz və tətbiq onları emal edəcək
-- tətbiqdən bağlantı axtar və ya yerləşdir
-	- siz eyni vaxtda onları emal etmək üçün axtarışları toplaya bilərsiniz
-- problemlər olduqda yükləmələr jurnalı
-- ləğv edilən yaxud uğursuz yükləmələri yenidən yüklə
-	- yenidən yükləmək üçün sola və silmək üçün sağa sürüşdürmək jestləri istifadə edə bilərsiniz
-	- daha çox funksionallıqla yükləmə kartın göstərmək üçün təfərrüatlar vərəqindəki yenidən yükləmə düyməsin uzun klikləyə bilərsiniz
-- yükləmə tarixçəsin və ya jurnalları saxlamaq istəmədiyinizdə gizlincə rejimi
-- sürətli yükləmə rejimi
-	- məlumatı emal etməyi gözləmədən dərhal yüklə. Alt kartı bağla və bu, dərhal başlayacaq
-- bitmiş bildirişdən yüklənən faylları aç / paylaş
-- əksər yt-dlp xüsusiyyətləri həyata keçirilir, təkliflər arzu ediləndir
-- Material You görünüşü
-- Kolorit seçimləri
-- Nüsxələmə və bərpa xüsusiyyətləri. (Təqribən, hər şey nüsxələnə bilər)
-- MVVM Architecture w/ WorkManager
+KirinYT **yt-dlp** əsasında qurulmuş Android yükləyicisidir və video, audio, pleylistlər, xüsusi komandalar, növbə, planlaşdırma, format seçimi, cookies, subtitrlər və metadata emalını dəstəkləyir.
 
-## 🧩 Plagin Dəstəyi
+```text
+Application ID: com.kirinyt.app
+Minimum Android: Android 7.0 / API 24
+Target SDK: 36
+```
 
-KirinYT plaginləri idarə edir, beləliklə istifadəçilər aşağıdakı komponentlərin versiyasını sərbəst şəkildə yüksəldə və ya endirə bilər:
-- Python
-- JS Runtimes (NodeJS, Deno)
-- FFmpeg
-- Aria2c
+Layihə fork-un saxlanmasını və upstream ilə müqayisəni asanlaşdırmaq üçün ilkin source qovluq yolunu saxlayır, tətbiqin paket və identifikatoru isə `com.kirinyt.app` istifadə edir.
 
-KirinYT paketlərini bu depodan quraşdır [KirinYT-packages](https://github.com/Lanzkila/KirinYT-packages/) və ya tətbiqdəki yeniləmə bölməsi vasitəsilə.
-Ətraflı məlumat üçün deponun README faylına müraciət edin.
+## Xüsusiyyətlər
 
-## 💬 Əlaqə
+- yt-dlp tərəfindən dəstəklənən saytlardan video və audio yükləmə
+- Pleylistləri emal etmə və elementləri ayrıca tənzimləmə
+- Video, audio və xüsusi format seçimi
+- Yükləmə növbəsi, planlaşdırma və paralel yükləmələr
+- Quick Download və Incognito rejimləri
+- Xüsusi yt-dlp komandaları, şablonlar və daxili terminal
+- Cookies, subtitr, thumbnail, chapter və SponsorBlock dəstəyi
+- Video kəsmə, metadata redaktəsi və chapter-lara görə bölmə
+- Tarixçə, loglar və uğursuz yükləmələri yenidən başlatma
+- Backup/restore və Material You interfeysi
+- yt-dlp, FFmpeg, aria2c və runtime paket inteqrasiyası
 
-## 😇 Töhfə
+## Yükləmələr
 
-Əgər töhfə vermək istəyirsinizsə xahiş olunur, [Töhfə vermə](CONTRIBUTING.MD) bölməsin oxuyun.
+Rəsmi KirinYT build-ləri bu repository vasitəsilə yayımlanır:
 
-## 📝 Weblate-də Tərcümə Etməyə Kömək Et
-</a>
+**[GitHub Releases](https://github.com/Lanzkila/KirinYT/releases)**
 
-</a>
+```text
+KirinYT-<version>-<abi>-release.apk
+```
 
-## 🔑 Paket adın istifadə edərək üçüncü tərəf tətbiqlərlə əlaqə qurun
+## Build
 
-Tətbiqin paket adı "com.kirinyt.app"-dir.
+### Tələblər
 
-## 🤖 İntent-lər istifadə edərək üçüncü tərəf tətbiqləri ilə əlaqə qurun
+- JDK 17
+- Android SDK
+- Git
+- Gradle-compatible environment
 
-Siz istifadəçi toxunuşu olmadan yükləmələri həyata keçirmək üçün tətbiqə əmrlər göndərmək niyyətin (İntent) istifadə edə bilərsiniz. Qəbul edilən dəyişkənliklər:
+```bash
+git clone https://github.com/Lanzkila/KirinYT.git
+cd KirinYT
+./gradlew assembleGithubDebug
+```
 
-<b>TYPE</b> -> bu ola bilər: səs,video,əmr <br/>
-<b>BACKGROUND</b> -> bu ola bilər: true,false. Əgər bu true olarsa, tətbiq istənilən halda yükləmə kartını göstərməyəcək və yükləməni arxa planda həyata keçirəcək <br/>
+GitHub release APK yaratmaq üçün:
 
-### Tasker ilə fonda səs elementin yüklənilməsi nümunəsi
-1. Göndərmə Intent tapşırığı yaradın 
-2. Action (Fəaliyyət): android.intent.action.SEND
-3. Cat: İlkin (default)
-4. Mime Type: text/*
-5. Əlavə (Extra): android.intent.extra.TEXT:url ("url" əvəzinə yükləmək istədiyiniz videonun URL-ni yazın)
-6. Əlavə(Extra): TYPE:audio
-7. Əlavə(Extra): BACKGROUND:true
+```bash
+./gradlew assembleGithubRelease
+```
 
-## 📄 Lisenziya
+## Build variantları
 
-[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
+| Flavor | Məqsəd |
+| --- | --- |
+| `github` | Əsas GitHub paylanması |
+| `foss` | FOSS yönümlü build |
+| `izzy` | IzzyOnDroid yönümlü build |
 
-GPLv3 lisenziyası ilə lisenziyalaşdırılan mənbə kodu istisna olmaqla, bütün digər tərəflərə "KirinYT" adın yükləyici tətbiq kimi istifadə etmək qadağandır və eynisi onun törəmələri üçün də keçərlidir. Törəmələrə fork-lar və qeyri-rəsmi quruluşlar daxildir, lakin bunlarla məhdudlaşmır.
+## Release və avtomatlaşdırma
 
-## 🙏 Təşəkkürlər
+- **KirinYT Release** — stabil buraxılışların build və yayımlanması
+- **KirinYT Pre-release** — beta/pre-release build və yayımlanması
+- **KirinYT Telegram Release Notification** — Telegram release bildirişləri
 
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) və bu aləti mümkün etmək üçün töhfəçilərə. Bunsuz bu tətbiq mövcud olmazdı.
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) yt-dlp-ni Android-ə köçürmək üçün
-- [dvd](https://github.com/yausername/dvd) Sizə youtubedl-android alətin göstərmək üçün
-- [seal](https://github.com/JunkFood02/Seal) müəyyən dizayn elementləri və xüsusiyyətləri üçün bu tətbiqdə də istifadə etmək istədim
-- [decipher3114](https://github.com/decipher3114) tətbiq simvolu üçün
+## Layihə strukturu
 
-və bir çox başqa internet forum yad adamlar.
+```text
+app/src/main/java/com/deniscerri/ytdl/
+```
+
+Qovluq yolu ilkin fork strukturundan saxlanılıb, lakin daxilindəki source faylları KirinYT paket namespace-dən istifadə edir.
+
+```kotlin
+package com.kirinyt.app
+```
+
+```text
+namespace:     com.kirinyt.app
+applicationId: com.kirinyt.app
+```
+
+## Komponent yeniləmələri
+
+KirinYT yt-dlp, FFmpeg və aria2c kimi xarici runtime komponentlərindən istifadə edir. Bəzi xarici package ID-lər dependency olduqları üçün dəyişdirilmir.
+
+## Töhfə
+
+Bug fix, təkmilləşdirmə və KirinYT-ə məxsus yeni funksiyalar qəbul edilir. Build-in uğurlu olduğuna və tətbiq identifikatorunun `com.kirinyt.app` olaraq qaldığına əmin olun.
+
+## Lisenziya
+
+KirinYT **GNU GPL v3.0** ilə yayımlanır. Tam mətn üçün [LICENSE](LICENSE)-ə baxın.
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+---
+
+<div align="center">
+
+**KirinYT**
+
+yt-dlp ilə işləyən Android video və audio yükləyicisi.
+
+</div>
