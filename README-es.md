@@ -12,10 +12,6 @@
 <h3 align="center">
 KirinYT es un descargador de audio/video gratuito y de código abierto que utiliza yt-dlp para Android 7.0 y superior.
 </h3>
-<h4 align="center">
-	Creado por Denis Çerri
-</h4>
-
 <div align="center">
 
 [![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -25,7 +21,6 @@ KirinYT es un descargador de audio/video gratuito y de código abierto que utili
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
 [![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-
 
 ### Los enlaces anteriores son las únicas fuentes confiables de KirinYT. Todo lo demás no está relacionado.
 
@@ -72,26 +67,7 @@ KirinYT es un descargador de audio/video gratuito y de código abierto que utili
 - Funciones de backup y restauración.  (Se puede hacer un backup de casi todo)
 - Architecture MVVM con WorkManager
 
-## 📲 Capturas de pantalla
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 Contacto
-
 
 ## 🔑 Conéctate con ReVanced
 
@@ -99,7 +75,6 @@ El nombre del paquete de la aplicación es "com.kirinyt.app"
 
 ## 📝 Ayuda a traducir en Weblate
 </a>
-
 
 </a>
 
@@ -119,7 +94,6 @@ Variables aceptadas:
 5. Extra: android.intent.extra.TEXT:url (instead of url write the url of the video you want to download)
 6. Extra: TYPE:audio
 7. Extra: BACKGROUND:true
-
 
 ## 😇 Contribuyendo
 
