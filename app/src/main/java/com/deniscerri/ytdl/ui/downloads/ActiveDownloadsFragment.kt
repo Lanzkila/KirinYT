@@ -153,8 +153,12 @@ class ActiveDownloadsFragment : Fragment(), ActiveDownloadAdapter.OnItemClickLis
 
                     requireActivity().runOnUiThread {
                         try {
-                            progressBar?.setProgressCompat(event.progress, true)
-                            outputText?.text = event.output
+                            val indeterminate = event.phase.indeterminate || event.progress < 0
+                            progressBar?.isIndeterminate = indeterminate
+                            if (!indeterminate) {
+                                progressBar?.setProgressCompat(event.progress.coerceIn(0, 100), true)
+                            }
+                            outputText?.text = event.displayText()
                         }catch (ignored: Exception) {}
                     }
                 }

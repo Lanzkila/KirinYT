@@ -23,6 +23,7 @@ import com.kirinyt.app.MainActivity
 import com.kirinyt.app.R
 import com.kirinyt.app.core.RuntimeManager
 import com.kirinyt.app.database.DBManager
+import com.kirinyt.app.database.enums.DownloadType
 import com.kirinyt.app.database.models.HistoryItem
 import com.kirinyt.app.database.models.LogItem
 import com.kirinyt.app.database.repository.DownloadRepository
@@ -203,7 +204,8 @@ class DownloadWorker(
                                             0,
                                             context.getString(R.string.waiting_download_delay, "%.2f".format(delaySec)),
                                             downloadItem.id,
-                                            downloadItem.logID
+                                            downloadItem.logID,
+                                            TransferPhase.Waiting
                                         )
                                     )
                                 }
@@ -275,6 +277,9 @@ class DownloadWorker(
                             dao.update(downloadItem)
                         }
 
+                        var transferPhase = TransferPhase.Preparing
+                        var destinationCount = 0
+
                         runCatching {
                             RuntimeManager.getInstance().destroyProcessById(downloadItem.id.toString())
                             RuntimeManager.getInstance().execute(
@@ -282,13 +287,74 @@ class DownloadWorker(
                                 processId = downloadItem.id.toString(),
                                 redirectErrorStream = true,
                                 usingCacheDir = true
-                            ) { progress, _, line ->
+                            ) { progress, etaSeconds, line ->
+                                var resetProgress = false
+                                transferPhase = when {
+                                    line.contains("[Merger]", ignoreCase = true) ||
+                                            line.contains("Merging formats", ignoreCase = true) -> TransferPhase.Merging
+
+                                    line.startsWith("[ExtractAudio]", ignoreCase = true) ||
+                                            line.startsWith("[VideoConvertor]", ignoreCase = true) ||
+                                            line.startsWith("[VideoRemuxer]", ignoreCase = true) ||
+                                            line.startsWith("[Metadata]", ignoreCase = true) ||
+                                            line.startsWith("[EmbedSubtitle]", ignoreCase = true) ||
+                                            line.startsWith("[EmbedThumbnail]", ignoreCase = true) ||
+                                            line.startsWith("[ThumbnailsConvertor]", ignoreCase = true) ||
+                                            line.startsWith("[SponsorBlock]", ignoreCase = true) ||
+                                            line.startsWith("[Fixup", ignoreCase = true) -> TransferPhase.PostProcessing
+
+                                    line.startsWith("[hlsnative]", ignoreCase = true) ||
+                                            line.startsWith("[dashsegments]", ignoreCase = true) ||
+                                            line.contains("(frag ", ignoreCase = true) -> TransferPhase.Fragments
+
+                                    line.contains("[download] Destination:", ignoreCase = true) -> {
+                                        destinationCount += 1
+                                        resetProgress = true
+                                        when (downloadItem.type) {
+                                            DownloadType.audio -> TransferPhase.Audio
+                                            DownloadType.video -> if (destinationCount == 1) {
+                                                TransferPhase.Video
+                                            } else {
+                                                TransferPhase.Audio
+                                            }
+                                            else -> TransferPhase.Downloading
+                                        }
+                                    }
+
+                                    line.startsWith("[download]", ignoreCase = true) &&
+                                        progress >= 0f &&
+                                        transferPhase == TransferPhase.Preparing -> {
+                                        when (downloadItem.type) {
+                                            DownloadType.audio -> TransferPhase.Audio
+                                            DownloadType.video -> TransferPhase.Video
+                                            else -> TransferPhase.Downloading
+                                        }
+                                    }
+
+                                    else -> transferPhase
+                                }
+
+                                val eventProgress = when (transferPhase) {
+                                    TransferPhase.Merging,
+                                    TransferPhase.PostProcessing -> 100
+                                    else -> if (resetProgress) {
+                                        0
+                                    } else if (progress >= 0f) {
+                                        progress.toInt().coerceIn(0, 100)
+                                    } else {
+                                        -1
+                                    }
+                                }
+
                                 WorkerEventBus.post(
                                     WorkerProgress(
-                                        progress.toInt(),
+                                        eventProgress,
                                         line,
                                         downloadItem.id,
-                                        downloadItem.logID
+                                        downloadItem.logID,
+                                        transferPhase,
+                                        etaSeconds,
+                                        extractTransferSpeed(line)
                                     )
                                 )
                                 val title: String = downloadItem.title.ifEmpty { downloadItem.url }
@@ -318,7 +384,8 @@ class DownloadWorker(
                                             100,
                                             "Scanning Files",
                                             downloadItem.id,
-                                            downloadItem.logID
+                                            downloadItem.logID,
+                                            TransferPhase.PostProcessing
                                         )
                                     )
                                     val outputSequence = it.out.split("\n")
@@ -348,10 +415,11 @@ class DownloadWorker(
                                     //move file from internal to set download directory
                                     WorkerEventBus.post(
                                         WorkerProgress(
-                                            100,
+                                            0,
                                             "Moving file to ${FileUtil.formatPath(downloadLocation)}",
                                             downloadItem.id,
-                                            downloadItem.logID
+                                            downloadItem.logID,
+                                            TransferPhase.Moving
                                         )
                                     )
                                     try {
@@ -369,7 +437,8 @@ class DownloadWorker(
                                                             FileUtil.formatPath(downloadLocation)
                                                         }",
                                                         downloadItem.id,
-                                                        downloadItem.logID
+                                                        downloadItem.logID,
+                                                        TransferPhase.Moving
                                                     )
                                                 )
                                             }
@@ -386,7 +455,8 @@ class DownloadWorker(
                                                         )
                                                     }",
                                                     downloadItem.id,
-                                                    downloadItem.logID
+                                                    downloadItem.logID,
+                                                    TransferPhase.Complete
                                                 )
                                             )
                                         }
@@ -545,7 +615,8 @@ class DownloadWorker(
                                     100,
                                     it.toString(),
                                     downloadItem.id,
-                                    downloadItem.logID
+                                    downloadItem.logID,
+                                    TransferPhase.Error
                                 )
                             )
                         }
@@ -576,6 +647,34 @@ class DownloadWorker(
 
 
 
+    enum class TransferPhase(
+        val label: String,
+        val indeterminate: Boolean = false
+    ) {
+        Waiting("Waiting", true),
+        Preparing("Preparing", true),
+        Video("Video"),
+        Audio("Audio"),
+        Fragments("Fragments"),
+        Downloading("Downloading"),
+        Merging("Merging"),
+        PostProcessing("Processing"),
+        Moving("Moving"),
+        Complete("Complete"),
+        Error("Error")
+    }
+
+    private fun extractTransferSpeed(line: String): String? {
+        return Regex("""\bat\s+(\S+/s)\s+ETA\b""", RegexOption.IGNORE_CASE)
+            .find(line)
+            ?.groupValues
+            ?.getOrNull(1)
+            ?: Regex("""\bDL:([^\s\]]+)""", RegexOption.IGNORE_CASE)
+                .find(line)
+                ?.groupValues
+                ?.getOrNull(1)
+    }
+
     companion object {
         val runningYTDLInstances: MutableList<Long> = mutableListOf()
         const val TAG = "DownloadWorker"
@@ -586,7 +685,41 @@ class DownloadWorker(
         val progress: Int,
         val output: String,
         val downloadItemID: Long,
-        val logItemID: Long?
-    )
+        val logItemID: Long?,
+        val phase: TransferPhase = TransferPhase.Preparing,
+        val etaSeconds: Long = -1L,
+        val speed: String? = null
+    ) {
+        fun displayText(): String {
+            if (phase == TransferPhase.Error) return output
+            if (phase == TransferPhase.Waiting) return output.ifBlank { phase.label }
+
+            val details = mutableListOf(phase.label)
+
+            if (progress in 0..100 && !phase.indeterminate) {
+                details.add("${progress}%")
+            }
+
+            speed?.takeIf { it.isNotBlank() }?.let(details::add)
+
+            if (etaSeconds >= 0 &&
+                phase != TransferPhase.Merging &&
+                phase != TransferPhase.PostProcessing &&
+                phase != TransferPhase.Complete
+            ) {
+                val hours = etaSeconds / 3600
+                val minutes = (etaSeconds % 3600) / 60
+                val seconds = etaSeconds % 60
+                val eta = if (hours > 0) {
+                    String.format(Locale.US, "%d:%02d:%02d", hours, minutes, seconds)
+                } else {
+                    String.format(Locale.US, "%02d:%02d", minutes, seconds)
+                }
+                details.add("ETA $eta")
+            }
+
+            return details.joinToString(" • ")
+        }
+    }
 
 }
