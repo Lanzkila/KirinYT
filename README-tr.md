@@ -12,10 +12,6 @@
 <h3 align="center">
 	KirinYT, Android 7.0 ve üzeri için yt-dlp kullanan ücretsiz ve açık kaynaklı bir video / ses indiricisidir.
 </h3>
-<h4 align="center">
-	Denis Çerri tarafından oluşturuldu
-</h4>
-
 <div align="center">
 
 [![GitHub Sürümleri](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -71,26 +67,7 @@
 - Yedekleme ve geri yükleme özellikleri
 - WorkManager ile MVVM mimarisi
 
-## 📲 Ekran görüntüleri
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 İletişim
-
 
 ## 😇 Katkıda bulunma
 
@@ -99,13 +76,11 @@ Eğer katkıda bulunmak istiyorsanız lütfen [katkıda bulunma](CONTRIBUTING.MD
 ## 📝 Weblate üzerinden çeviriye yardım edin
 </a>
 
-
 </a>
 
 ## 🔑 Paket adını kullanarak üçüncü taraf uygulamalarla bağlantı kurma
 
 Uygulamanın paket adı "com.kirinyt.app".
-
 
 ## 🤖 Intent'leri kullanarak üçüncü taraf uygulamalarla bağlantı kurun
 
@@ -137,6 +112,5 @@ GPLv3 lisansı altında lisanslanan kaynak kodu dışında, diğer tüm taraflar
 - Bu uygulamayı geliştirmeye başladığımda sahip olmak istediğim belirli tasarım öğeleri ve özellikler için [seal](https://github.com/JunkFood02/Seal)
 - yt-dlp'yi Android'e taşımak için [youtubedl-android](https://github.com/yausername/youtubedl-android)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp) ve katkıda bulunanlara bu aracı mümkün kıldıkları için teşekkür ederiz. O olmadan bu uygulama var olamazdı
-
 
 ve katkıda bulunanlar gibi diğer pek çok kişiye.
