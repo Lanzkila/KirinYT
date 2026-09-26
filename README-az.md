@@ -23,8 +23,8 @@
 [![IzzyOnDroid Anbarı](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![önizləmə buraxılışı](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![yükləyici](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![önizləmə buraxılışı](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![yükləyici](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 ![GitHub Sponsor](https://img.shields.io/github/sponsors/deniscerri?label=Sponsor&logo=GitHub)
 
 ### Yalnız yuxarıdakı keçidlər KirinYT-in yeganə etibarlı mənbələridir. Qalan hər şey mənimlə əlaqəli deyil. 
@@ -80,7 +80,7 @@ KirinYT plaginləri idarə edir, beləliklə istifadəçilər aşağıdakı komp
 - FFmpeg
 - Aria2c
 
-ytdlnis paketlərini bu depodan quraşdır [ytdlnis-packages](https://github.com/Lanzkila/KirinYT-packages/) və ya tətbiqdəki yeniləmə bölməsi vasitəsilə.
+KirinYT paketlərini bu depodan quraşdır [KirinYT-packages](https://github.com/Lanzkila/KirinYT-packages/) və ya tətbiqdəki yeniləmə bölməsi vasitəsilə.
 Ətraflı məlumat üçün deponun README faylına müraciət edin.
 
 ## 📲 Ekran görüntüləri
@@ -150,7 +150,7 @@ Siz istifadəçi toxunuşu olmadan yükləmələri həyata keçirmək üçün t�
 
 [GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
-GPLv3 lisenziyası ilə lisenziyalaşdırılan mənbə kodu istisna olmaqla, bütün digər tərəflərə "YTDLnis" adın yükləyici tətbiq kimi istifadə etmək qadağandır və eynisi onun törəmələri üçün də keçərlidir. Törəmələrə fork-lar və qeyri-rəsmi quruluşlar daxildir, lakin bunlarla məhdudlaşmır.
+GPLv3 lisenziyası ilə lisenziyalaşdırılan mənbə kodu istisna olmaqla, bütün digər tərəflərə "KirinYT" adın yükləyici tətbiq kimi istifadə etmək qadağandır və eynisi onun törəmələri üçün də keçərlidir. Törəmələrə fork-lar və qeyri-rəsmi quruluşlar daxildir, lakin bunlarla məhdudlaşmır.
 
 ## 😁 İanə Edin
 
