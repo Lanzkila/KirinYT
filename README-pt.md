@@ -1,100 +1,129 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	KirinYT
-</h1>
-
-<div align="center">
-	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	Português
-</div>
-
-<h3 align="center">
-	KirinYT é um aplicativo gratuito e de código aberto para baixar vídeos/áudios usando yt-dlp disponível para o Android 7.0 e superior.
-</h3>
-
 <div align="center">
 
-[![Github Download](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
-[![IzzyOnDroid Repo](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+
+# KirinYT
+
+**Um poderoso downloader de vídeo e áudio para Android baseado em yt-dlp.**
+
+[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 
-## 💡 Funcionalidades:
+## Sobre
 
-- Mais de <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md">1.000 sites suportados</a>
-- Baixe Playlists
-	- Edite cada item da playlist em um item de download normal.
-	- Selecione um formato comum para todos os itens e/ou selecione vários formatos de áudio caso você esteja baixando-os como um vídeo
-	- Selecione um caminho de download para todos os itens
-	- Selecione um modelo de nome de arquivo para todos os itens
-	- Atualização em lote do tipo de download para áudio/vídeo/comando personalizado em um clique
-- Enfileirar downloads e programá-los por data e hora
-	- Você também pode agendar vários itens ao mesmo tempo
-- Faça o download de vários itens ao mesmo tempo
-- Use comandos e modelos personalizados ou use o modo yt-dlp completo com um terminal integrado
-	- Você pode fazer backup e restaurar modelos para poder compartilhar com seus amigos
-- Suporte para COOKIES. Faça login com suas contas e baixe vídeos privados/indisponíveis, desbloqueie formatos premium, etc.
-- Cortar vídeos com base em registros de data e hora e capítulos de vídeo (esse recurso do yt-dlp é experimental)
-	- Você pode fazer cortes ilimitados
-- Remover patrocinadores do vídeo (SponsorBlock)
-	- Incorpore-os como capítulos em seu vídeo
-- Incorporar legendas/metadados/capítulos etc…
-- Modificar metadados como título e autor
-- Dividir o item em arquivos separados dependendo de seus capítulos
-- Selecione diferentes formatos de download
-- Use o botão de compartilhar para baixar, sem necessidade de abrir o aplicativo
-	- Você pode criar um arquivo txt e preenchê-lo com links/playlists/consultas de pesquisa separados por uma nova linha e o aplicativo irá baixar eles
-- Pesquise ou insira o link do vídeo/áudio no aplicativo
-	- Você pode empilhar pesquisas para poder processá-las ao mesmo tempo
-- Registrar downloads em caso de problemas
-- Baixar novamente downloads cancelados ou com falha
-	- Você pode usar gestos para deslizar para a esquerda para baixar novamente e para a direita para excluir
-	- Você pode clicar longamente no botão de download novamente na folha de detalhes para mostrar o cartão de download para obter mais funcionalidades
-- Modo de navegação anônima quando você não deseja salvar um histórico ou registros de download
-- Modo de download rápido
-	- O download é feito imediatamente, sem a necessidade de aguardar o processamento dos dados. Desligue o cartão inferior e ele será iniciado instantaneamente
-- Abrir/Compartilhar arquivos diretamente da notificação após a conclusão do download
-- A maioria dos recursos do yt-dlp são implementados, sugestões são bem-vindas
-- Interface "Material You"
-- Opções de temas
-- Backup e Restauração (Quase tudo pode ser copiado)
-- Arquitetura MVVM com WorkManager
+KirinYT é um downloader para Android construído em torno do **yt-dlp**, com suporte a vídeo, áudio, playlists, comandos personalizados, filas, agendamento, seleção de formatos, cookies, legendas e processamento de metadados.
 
-## 💬 Contato
+```text
+Application ID: com.kirinyt.app
+Minimum Android: Android 7.0 / API 24
+Target SDK: 36
+```
 
-## 🔑 Conecte-se com ReVanced
+O projeto mantém o caminho original das pastas do fork para facilitar a manutenção e comparação com upstream, enquanto a identidade do aplicativo usa `com.kirinyt.app`.
 
-O nome do pacote do aplicativo é "com.kirinyt.app"
+## Recursos
 
-## 📝 Ajude a traduzir no Weblate
-</a>
+- Download de vídeo e áudio de sites suportados pelo yt-dlp
+- Processamento de playlists e configuração individual de itens
+- Seleção de formatos de vídeo, áudio e comandos personalizados
+- Fila, agendamento e downloads simultâneos
+- Modos Quick Download e Incognito
+- Comandos e templates yt-dlp com terminal integrado
+- Cookies, legendas, miniaturas, capítulos e SponsorBlock
+- Corte de vídeo, edição de metadados e divisão por capítulos
+- Histórico, logs e repetição de downloads com falha
+- Backup/restauração e interface Material You
+- Integração com yt-dlp, FFmpeg, aria2c e pacotes de runtime
 
-</a>
+## Downloads
 
-## 😇 Contribuição
+As builds oficiais do KirinYT são publicadas neste repositório:
 
-Se você gostaria de contribuir. Por favor, leia a seção [Contribuição](CONTRIBUTING.MD).
+**[GitHub Releases](https://github.com/Lanzkila/KirinYT/releases)**
 
-## 📄 Licença
+```text
+KirinYT-<version>-<abi>-release.apk
+```
 
-[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
+## Compilação
 
-⚠️  Aviso <br>
+### Requisitos
 
-Exceto para o código-fonte licenciado sob a licença GPLv3, todas as outras partes estão proibidas de usar o nome ‘KirinYT’ como aplicativo de download, e o mesmo se aplica a seus derivados. Os derivados incluem, mas não estão limitados a forks e construções não oficiais.
+- JDK 17
+- Android SDK
+- Git
+- Gradle-compatible environment
 
-## 🙏 Obrigado
+```bash
+git clone https://github.com/Lanzkila/KirinYT.git
+cd KirinYT
+./gradlew assembleGithubDebug
+```
 
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) e seus colaboradores por tornarem esta ferramenta possível. Sem ele este aplicativo não existiria.
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) por disponibilizar o yt-dlp para o Android
-- [dvd](https://github.com/yausername/dvd) por mostrar como implementar o youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) por certos elementos e recursos de design que eu também queria usar neste aplicativo
-- [decipher3114](https://github.com/decipher3114) por disponibilizar o ícone do aplicativo
+Para compilar um APK release do flavor GitHub:
 
-e muitos outros estranhos do fórum da Internet.
+```bash
+./gradlew assembleGithubRelease
+```
+
+## Variantes de build
+
+| Flavor | Finalidade |
+| --- | --- |
+| `github` | Distribuição principal pelo GitHub |
+| `foss` | Build orientada a FOSS |
+| `izzy` | Build orientada a IzzyOnDroid |
+
+## Releases e automação
+
+- **KirinYT Release** — compila e publica releases estáveis
+- **KirinYT Pre-release** — compila e publica versões beta/pre-release
+- **KirinYT Telegram Release Notification** — envia notificações de release pelo Telegram
+
+## Estrutura do projeto
+
+```text
+app/src/main/java/com/deniscerri/ytdl/
+```
+
+O caminho físico das pastas é mantido do fork original, mas os arquivos fonte dentro dele usam o namespace do KirinYT.
+
+```kotlin
+package com.kirinyt.app
+```
+
+```text
+namespace:     com.kirinyt.app
+applicationId: com.kirinyt.app
+```
+
+## Componentes de runtime
+
+KirinYT usa componentes externos como yt-dlp, FFmpeg e aria2c. Alguns IDs externos permanecem porque pertencem a dependências e não à identidade do aplicativo KirinYT.
+
+## Contribuição
+
+Correções, melhorias e novos recursos específicos do KirinYT são bem-vindos. Garanta que o projeto compile e mantenha `com.kirinyt.app` como identidade do aplicativo.
+
+## Licença
+
+KirinYT é distribuído sob a **GNU GPL v3.0**. Consulte [LICENSE](LICENSE) para o texto completo.
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+---
+
+<div align="center">
+
+**KirinYT**
+
+Downloader de vídeo e áudio Android baseado em yt-dlp.
+
+</div>
