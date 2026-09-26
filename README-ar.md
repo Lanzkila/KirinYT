@@ -12,10 +12,6 @@
 <h3 align="center">
 	KirinYT هو تطبيق مجاني ومفتوح المصدر لتحميل الفيديو/الصوت باستخدام yt-dlp لأجهزة الأندرويد 7.0 وما فوق.
 </h3>
-<h4 align="center">
-	تم الإنشاء بواسطة Denis Çerri
-</h4>
-
 <div align="center">
 
 [![إصدارات GitHub](https://custom-icon-badges.herokuapp.com/badge/تحميل-أزرق?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
@@ -25,7 +21,6 @@
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
 [![إصدار تجريبي](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=إصدار%20تجريبي)](https://github.com/Lanzkila/KirinYT/releases) 
 [![عدد التحميلات](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-![راعي GitHub](https://img.shields.io/github/sponsors/deniscerri?label=راعي&logo=GitHub)
 
 ### الروابط أعلاه هي المصادر الموثوقة الوحيدة لتطبيق KirinYT. أي شيء آخر لا علاقة لي به.
 
@@ -72,30 +67,7 @@
 - ميزات النسخ الاحتياطي والاستعادة
 - بنية MVVM مع WorkManager
 
-## 📲 لقطات الشاشة
-
-<div>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-  <br/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-  <br/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-  <br/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-  <br/>
-  <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 اتصل بنا
-
 
 ## 😇 المساهمة
 
@@ -104,26 +76,11 @@
 ## 📝 ساعد في الترجمة على Weblate
 </a>
 
-
 </a>
 
 ## 🔑 الاتصال بتطبيقات الطرف الثالث باستخدام اسم الحزمة
 
 اسم حزمة التطبيق هو "com.kirinyt.app".
-
-## 🔍 التحقق من توقيع التطبيق
-
-يجب أن يحتوي التطبيق على التوقيع أدناه. يستخدم إجراء سير عمل GitHub هذا التوقيع، وتستند الإصدارات إليه لجعله بناءً قابلاً للتكرار.
-إذا كان التوقيع مختلفًا، فهذا يعني أن موزع الطرف الثالث قد قام بتعديل التطبيق. يُرجى استخدام التطبيق بالتوقيع الأصلي.
-```
-
-Signer #1 certificate DN: CN=Denis Cerri, OU=Personal, O=Personal, L=Albania, ST=Albania, C=AL
-Signer #1 certificate SHA-256 digest: 263645cb5272eb290759fe1f59149ae24df6ce171e9f6666eead981d3fc64c95
-Signer #1 certificate SHA-1 digest: 2fec9c2fcef68d29a60857e185c795fec5f56fb6
-Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
-
-```
-
 
 ## 🤖 الاتصال بتطبيقات الطرف الثالث باستخدام الـ Intents
 
@@ -147,13 +104,6 @@ Signer #1 certificate MD5 digest: 429d0c6315d2f99650f66cc44cf5a794
 [GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
 
 باستثناء كود المصدر المرخص بموجب ترخيص GPLv3، يُمنع جميع الأطراف الأخرى من استخدام اسم "KirinYT" كتطبيق تنزيل، وكذلك الأمر بالنسبة لمشتقاته. تشمل المشتقات على سبيل المثال لا الحصر الانشقاقات (forks) والنسخ غير الرسمية.
-
-## 😁 تبرع
-
-
-[<img src="https://raw.githubusercontent.com/WSTxda/WSTxda/main/images/BMC.svg"
-alt='تبرع عبر BMC'
-height="80">](https://www.buymeacoffee.com/deniscerri)
 
 ## 🙏 شكر وتقدير
 
