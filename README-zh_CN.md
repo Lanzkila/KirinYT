@@ -1,116 +1,129 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	KirinYT
-</h1>
-
-<div align="center">
-	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-	简体中文
-</div>
-
-<h3 align="center">
-	KirinYT 是一款免费且开源的视频/音频下载器，使用 yt-dlp ，支持 Android 7.0 及以上版本。
-</h3>
 <div align="center">
 
-[![GitHub Releases](https://custom-icon-badges.herokuapp.com/badge/Download-blue?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-violet?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
-[![IzzyOnDroid repository](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+
+# KirinYT
+
+**一款基于 yt-dlp 的强大 Android 视频与音频下载器。**
+
+[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![Preview release](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-
-### 只有以上链接是 KirinYT 的唯一可信来源。其他任何地方的版本都与作者无关。
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 
-## 💡 功能：
+## 关于
 
-- 从超过 <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md">1000 个网站</a> 下载音频/视频文件
-- 支持处理播放列表
-	- 可以像编辑普通下载一样单独编辑列表中的每一项
-	- 为列表中所有视频选择统一的格式，或下载为视频时选择多个音频格式
-	- 为列表中的所有项设定下载路径
-	- 为列表中的所有项选择文件名模板
-	- 支持一键批量更新所有项的下载类型（音频/视频/自定义命令）
-- 队列下载，按日期和时间计划下载
-	- 也可以同时计划多个项目
-- 同时下载多个项目
-- 使用自定义命令和模板，或在内置终端中使用 yt-dlp
-	- 可以备份和恢复模板，方便与朋友分享
-- 支持 Cookie。使用账户登录并下载私密或其他视频，解锁高级格式等
-- 基于时间戳和视频章节分割视频（实验性 yt-dlp 功能）
-	- 可以进行无限次分割
-- 从已下载项目中移除 SponsorBlock 元素
-	- 可以将其作为章节嵌入视频中
-- 嵌入字幕/元数据/章节等
-- 修改元数据，如标题和作者
-- 根据章节将项目分割成单独的文件
-- 选择不同的下载格式
-- 直接从分享菜单底部卡片操作，无需打开应用
-	- 可以创建 txt 文件，填入链接/播放列表/搜索查询（每行一个），应用会自动处理
-- 从应用中搜索或插入链接
-	- 可以堆叠搜索并同时处理
-- 记录下载日志，方便排查问题
-- 重新下载已取消或失败的下载
-	- 可以使用手势向左滑动重新下载，向右滑动删除
-	- 长按详情表中的重新下载按钮可显示下载卡片获取更多功能
-- 隐私模式：当你不想保存下载历史或日志时使用
-- 快速下载模式
-	- 立即下载，无需等待数据处理。关闭底部卡片即可立即开始
-- 直接从完成通知中打开/分享已下载的文件
-- 已实现大部分 yt-dlp 功能，欢迎提出建议
-- Material You 界面设计
-- 主题选项
-- 备份和恢复功能
-- 基于 MVVM 架构和 WorkManager
+KirinYT 是一款基于 **yt-dlp** 构建的 Android 下载器，支持视频、音频、播放列表、自定义命令、下载队列、定时任务、格式选择、Cookies、字幕以及元数据处理。
 
-## 💬 联系我们
+```text
+Application ID: com.kirinyt.app
+Minimum Android: Android 7.0 / API 24
+Target SDK: 36
+```
 
-## 😇 参与贡献
+为了便于维护 fork 并与 upstream 对比，项目保留原始源码目录路径；应用本身的包名与身份使用 `com.kirinyt.app`。
 
-如果您想参与贡献，请阅读 [贡献](CONTRIBUTING.MD) 
+## 功能
 
-## 📝 在 Weblate 上帮助翻译
-</a>
+- 从 yt-dlp 支持的网站下载视频和音频
+- 处理播放列表并单独配置每个项目
+- 选择视频、音频和自定义命令格式
+- 下载队列、定时下载和并发下载
+- Quick Download 与 Incognito 模式
+- 自定义 yt-dlp 命令、模板与内置终端
+- Cookies、字幕、缩略图、章节与 SponsorBlock 支持
+- 视频裁剪、元数据编辑和按章节拆分
+- 下载历史、日志和失败任务重试
+- 备份/恢复与 Material You 界面
+- 集成 yt-dlp、FFmpeg、aria2c 与运行时组件
 
-</a>
+## 下载
 
-## 🔑 使用包名与第三方应用连接
+KirinYT 官方构建通过本仓库发布：
 
-应用的包名是 "com.kirinyt.app"。
+**[GitHub Releases](https://github.com/Lanzkila/KirinYT/releases)**
 
-## 🤖 使用 Intent 与第三方应用连接
+```text
+KirinYT-<version>-<abi>-release.apk
+```
 
-您可以使用 Intent 推送命令到应用，无需用户交互即可运行下载。
-接受的变量：
+## 构建
 
-<b>TYPE</b> -> 可以是：audio、video、command <br/>
-<b>BACKGROUND</b> -> 可以是：true、false。如果为 true，应用将在后台运行下载，不显示下载卡片 <br/>
+### 要求
 
-### 使用 Tasker 在后台下载音频的示例
-1. 创建 Send Intent 任务
-2. Action：android.intent.action.SEND
-3. Cat：Default
-4. Mime Type：text/*
-5. Extra：android.intent.extra.TEXT:url（将 "url" 替换为要下载的视频 URL）
-6. Extra：TYPE:audio
-7. Extra：BACKGROUND:true
+- JDK 17
+- Android SDK
+- Git
+- Gradle-compatible environment
 
-## 📄 许可
+```bash
+git clone https://github.com/Lanzkila/KirinYT.git
+cd KirinYT
+./gradlew assembleGithubDebug
+```
 
-[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
+构建 GitHub flavor 的 release APK：
 
-除了在 GPLv3 许可证下的源代码外，禁止其他任何方以下载器应用的名义使用 "KirinYT"，其衍生产品也不例外。衍生产品包括但不限于 fork 版本和非官方构建。
+```bash
+./gradlew assembleGithubRelease
+```
 
-## 🙏 致谢
+## 构建变体
 
-- [decipher3114](https://github.com/decipher3114) 设计的应用图标
-- [dvd](https://github.com/yausername/dvd) 提供的 youtubedl-android 实现示例
-- [seal](https://github.com/JunkFood02/Seal) 提供的某些设计元素和功能
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) 将 yt-dlp 移植到 Android
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) 及其贡献者使得这个工具成为可能。没有它就不会有这个应用
+| Flavor | 用途 |
+| --- | --- |
+| `github` | 主要 GitHub 分发版本 |
+| `foss` | 面向 FOSS 的构建 |
+| `izzy` | 面向 IzzyOnDroid 的构建 |
 
-以及很多包括贡献者在内的其他人
+## 发布与自动化
+
+- **KirinYT Release** — 构建并发布稳定版本
+- **KirinYT Pre-release** — 构建并发布 beta / pre-release
+- **KirinYT Telegram Release Notification** — 通过 Telegram 发送发布通知
+
+## 项目结构
+
+```text
+app/src/main/java/com/deniscerri/ytdl/
+```
+
+物理目录路径保留自原始 fork，但其中的源码文件使用 KirinYT 的 package namespace。
+
+```kotlin
+package com.kirinyt.app
+```
+
+```text
+namespace:     com.kirinyt.app
+applicationId: com.kirinyt.app
+```
+
+## 运行时组件
+
+KirinYT 使用 yt-dlp、FFmpeg、aria2c 等外部运行时组件。部分外部 package ID 会保留，因为它们属于依赖项，而不是 KirinYT 应用本身的身份。
+
+## 贡献
+
+欢迎提交修复、改进以及 KirinYT 专属的新功能。请确保项目能够成功构建，并保持 `com.kirinyt.app` 作为应用身份。
+
+## 许可证
+
+KirinYT 使用 **GNU GPL v3.0** 发布。完整条款请查看 [LICENSE](LICENSE)。
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+---
+
+<div align="center">
+
+**KirinYT**
+
+基于 yt-dlp 的 Android 视频与音频下载器。
+
+</div>
