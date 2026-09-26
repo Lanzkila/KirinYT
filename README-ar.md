@@ -23,8 +23,8 @@
 [![مستودع IzzyOnDroid](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-أحمر?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![إصدار تجريبي](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=إصدار%20تجريبي)](https://github.com/Lanzkila/KirinYT/releases) 
-[![عدد التحميلات](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![إصدار تجريبي](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=إصدار%20تجريبي)](https://github.com/Lanzkila/KirinYT/releases) 
+[![عدد التحميلات](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 ![راعي GitHub](https://img.shields.io/github/sponsors/deniscerri?label=راعي&logo=GitHub)
 
 ### الروابط أعلاه هي المصادر الموثوقة الوحيدة لتطبيق KirinYT. أي شيء آخر لا علاقة لي به.
