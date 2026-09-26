@@ -1,116 +1,129 @@
-<h1 align="center">
-	<img src="fastlane/metadata/android/en-US/images/icon.png" width="25%" /> <br>
-	KirinYT
-</h1>
-
-<div align="center">
-	<a href="https://github.com/Lanzkila/KirinYT/blob/main/README.md">English</a>
-	&nbsp;&nbsp;| &nbsp;&nbsp;
-العربية
-</div>
-
-<h3 align="center">
-	KirinYT هو تطبيق مجاني ومفتوح المصدر لتحميل الفيديو/الصوت باستخدام yt-dlp لأجهزة الأندرويد 7.0 وما فوق.
-</h3>
 <div align="center">
 
-[![إصدارات GitHub](https://custom-icon-badges.herokuapp.com/badge/تحميل-أزرق?style=for-the-badge&logo=download&logoColor=white)](https://github.com/Lanzkila/KirinYT/releases/latest)
-[![F-Droid](https://custom-icon-badges.herokuapp.com/badge/FDroid-بنفسجي?style=for-the-badge&logo=download&logoColor=white)](https://f-droid.org/en/packages/com.kirinyt.app)
-[![مستودع IzzyOnDroid](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-أحمر?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+
+# KirinYT
+
+**أداة قوية لتنزيل الفيديو والصوت على Android تعتمد على yt-dlp.**
+
+[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![إصدار تجريبي](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=إصدار%20تجريبي)](https://github.com/Lanzkila/KirinYT/releases) 
-[![عدد التحميلات](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
-
-### الروابط أعلاه هي المصادر الموثوقة الوحيدة لتطبيق KirinYT. أي شيء آخر لا علاقة لي به.
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 
-## 💡 الميزات:
+## حول المشروع
 
-- تحميل ملفات الفيديو/الصوت من أكثر من <a href="https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md">1000 موقع</a>
-- معالجة قوائم التشغيل
-	- تعديل كل عنصر في قائمة التشغيل بشكل منفصل تمامًا كما في عنصر التحميل العادي
-	- اختيار صيغة مشتركة لجميع العناصر و/أو اختيار صيغ صوت متعددة في حالة تحميلها كفيديو
-	- اختيار مسار تحميل لجميع العناصر
-	- اختيار قالب اسم ملف لجميع العناصر
-	- تحديث دفعة لنوع التحميل إلى صوت/فيديو/أمر مخصص بنقرة واحدة
-- إضافة التحميلات إلى قائمة الانتظار وجدولتها حسب التاريخ والوقت
-	- يمكنك أيضًا جدولة عناصر متعددة في نفس الوقت
-- تحميل عناصر متعددة في نفس الوقت
-- استخدام أوامر وقوالب مخصصة أو استخدام yt-dlp مع المحطة الطرفية المدمجة
-	- يمكنك عمل نسخة احتياطية واستعادة القوالب لمشاركتها مع أصدقائك
-- يدعم ملفات تعريف الارتباط (cookies). سجِّل الدخول بحساباتك لتحميل مقاطع الفيديو الخاصة أو غير المتاحة، أو فتح الصيغ المتميزة، إلخ.
-- قص الفيديوهات بناءً على الطوابع الزمنية وفصول الفيديو (ميزة تجريبية من yt-dlp)
-	- يمكنك إجراء عدد غير محدود من القصاصات
-- إزالة عناصر SponsorBlock من العناصر التي تم تحميلها
-	- تضمينها كفصول في الفيديو الخاص بك
-- تضمين الترجمات/البيانات الوصفية/الفصول... إلخ
-- تعديل البيانات الوصفية مثل العنوان والمؤلف
-- تقسيم العنصر إلى ملفات منفصلة حسب فصوله
-- اختيار صيغ تحميل مختلفة
-- بطاقة سفلية مباشرة من قائمة المشاركة، لا حاجة لفتح التطبيق
-	- يمكنك إنشاء ملف txt وملؤه بالروابط/قوائم التشغيل/استعلامات البحث، كل رابط في سطر جديد، وسيقوم التطبيق بمعالجتها
-- البحث أو إدراج رابط من داخل التطبيق
-	- يمكنك تكديس عمليات البحث لمعالجتها في نفس الوقت
-- تسجيل التحميلات في حالة حدوث مشاكل
-- إعادة تحميل التحميلات الملغاة أو الفاشلة
-	- يمكنك استخدام الإيماءات (Gestures) بالسحب لليسار لإعادة التحميل ولليمين للحذف
-	- يمكنك الضغط المطول على زر إعادة التحميل في ورقة التفاصيل لعرض بطاقة التحميل لمزيد من الوظائف
-- وضع التصفح المتخفي (Incognito) عندما لا ترغب في حفظ سجل التحميل أو السجلات
-- وضع التحميل السريع
-	- قم بالتحميل فورًا دون انتظار معالجة البيانات. قم بإيقاف تشغيل البطاقة السفلية وسيبدأ التحميل فورًا
-- فتح / مشاركة الملفات التي تم تحميلها مباشرة من الإشعار النهائي
-- معظم ميزات yt-dlp تم تنفيذها، والاقتراحات مرحب بها
-- واجهة Material You
-- خيارات تخصيص المظهر
-- ميزات النسخ الاحتياطي والاستعادة
-- بنية MVVM مع WorkManager
+KirinYT هو تطبيق تنزيل لنظام Android مبني حول **yt-dlp**، ويدعم الفيديو والصوت وقوائم التشغيل والأوامر المخصصة والطوابير والجدولة واختيار الصيغ وملفات تعريف الارتباط والترجمات ومعالجة البيانات الوصفية.
 
-## 💬 اتصل بنا
+```text
+Application ID: com.kirinyt.app
+Minimum Android: Android 7.0 / API 24
+Target SDK: 36
+```
 
-## 😇 المساهمة
+يحتفظ المشروع بمسار مجلد المصدر الأصلي لتسهيل صيانة الـ fork والمقارنة مع upstream، بينما تستخدم هوية التطبيق والحزمة `com.kirinyt.app`.
 
-يرجى قراءة قسم [المساهمة](CONTRIBUTING.MD) إذا كنت ترغب في المساهمة.
+## الميزات
 
-## 📝 ساعد في الترجمة على Weblate
-</a>
+- تنزيل الفيديو والصوت من المواقع التي يدعمها yt-dlp
+- معالجة قوائم التشغيل وضبط العناصر بشكل منفصل
+- اختيار صيغ الفيديو والصوت والأوامر المخصصة
+- قائمة انتظار وجدولة وتنزيلات متزامنة
+- Quick Download ووضع Incognito
+- أوامر وقوالب yt-dlp مخصصة مع Terminal مدمج
+- دعم Cookies والترجمات والصور المصغرة والفصول وSponsorBlock
+- قص الفيديو وتعديل البيانات الوصفية وتقسيم الملفات حسب الفصول
+- السجل والسجلات وإعادة تنزيل العناصر الفاشلة
+- النسخ الاحتياطي والاستعادة وواجهة Material You
+- تكامل yt-dlp وFFmpeg وaria2c وحزم التشغيل
 
-</a>
+## التنزيلات
 
-## 🔑 الاتصال بتطبيقات الطرف الثالث باستخدام اسم الحزمة
+يتم نشر إصدارات KirinYT الرسمية من خلال هذا المستودع:
 
-اسم حزمة التطبيق هو "com.kirinyt.app".
+**[GitHub Releases](https://github.com/Lanzkila/KirinYT/releases)**
 
-## 🤖 الاتصال بتطبيقات الطرف الثالث باستخدام الـ Intents
+```text
+KirinYT-<version>-<abi>-release.apk
+```
 
-يمكنك استخدام الـ Intents لإرسال أوامر إلى التطبيق لتشغيل التحميلات دون تدخل من المستخدم.
-المتغيرات المقبولة:
+## البناء
 
-<b>TYPE</b> -> يمكن أن تكون: audio, video, command <br/>
-<b>BACKGROUND</b> -> يمكن أن تكون: true, false. إذا كانت true، لن يعرض التطبيق بطاقة التحميل مهما حدث وسيقوم بالتحميل في الخلفية <br/>
+### المتطلبات
 
-### مثال لتحميل عنصر صوتي في الخلفية باستخدام Tasker
-1. قم بإنشاء مهمة Send Intent
-2. الإجراء (Action): android.intent.action.SEND
-3. الفئة (Cat): Default
-4. نوع Mime: text/*
-5. الإضافة (Extra): android.intent.extra.TEXT:url (بدلاً من "url" اكتب رابط الفيديو الذي تريد تحميله)
-6. الإضافة (Extra): TYPE:audio
-7. الإضافة (Extra): BACKGROUND:true
+- JDK 17
+- Android SDK
+- Git
+- Gradle-compatible environment
 
-## 📄 الترخيص
+```bash
+git clone https://github.com/Lanzkila/KirinYT.git
+cd KirinYT
+./gradlew assembleGithubDebug
+```
 
-[GNU GPL v3.0](https://github.com/Lanzkila/KirinYT/blob/main/LICENSE)
+لبناء إصدار GitHub release:
 
-باستثناء كود المصدر المرخص بموجب ترخيص GPLv3، يُمنع جميع الأطراف الأخرى من استخدام اسم "KirinYT" كتطبيق تنزيل، وكذلك الأمر بالنسبة لمشتقاته. تشمل المشتقات على سبيل المثال لا الحصر الانشقاقات (forks) والنسخ غير الرسمية.
+```bash
+./gradlew assembleGithubRelease
+```
 
-## 🙏 شكر وتقدير
+## أنواع البناء
 
-- [decipher3114](https://github.com/decipher3114) لأيقونة التطبيق
-- [dvd](https://github.com/yausername/dvd) لكونه مثالاً على تنفيذ youtubedl-android
-- [seal](https://github.com/JunkFood02/Seal) لبعض عناصر التصميم والميزات التي أردت وجودها في هذا التطبيق عندما بدأت تطويره
-- [youtubedl-android](https://github.com/yausername/youtubedl-android) لنقل yt-dlp إلى الأندرويد
-- [yt-dlp](https://github.com/yt-dlp/yt-dlp) ومساهميه لجعل هذه الأداة ممكنة. بدونها لم يكن هذا التطبيق ليكون موجودًا
+| Flavor | الغرض |
+| --- | --- |
+| `github` | التوزيع الرئيسي عبر GitHub |
+| `foss` | نسخة موجهة للبرمجيات الحرة |
+| `izzy` | نسخة موجهة لـ IzzyOnDroid |
 
-وللعديد من الأشخاص الآخرين، مثل المساهمين.
+## الإصدارات والأتمتة
+
+- **KirinYT Release** — بناء ونشر الإصدار المستقر
+- **KirinYT Pre-release** — بناء ونشر الإصدارات التجريبية
+- **KirinYT Telegram Release Notification** — إشعارات الإصدار عبر Telegram
+
+## بنية المشروع
+
+```text
+app/src/main/java/com/deniscerri/ytdl/
+```
+
+مسار المجلد محفوظ من بنية الـ fork الأصلية، لكن ملفات المصدر داخله تستخدم حزمة KirinYT.
+
+```kotlin
+package com.kirinyt.app
+```
+
+```text
+namespace:     com.kirinyt.app
+applicationId: com.kirinyt.app
+```
+
+## تحديث المكونات
+
+يستخدم KirinYT مكونات تشغيل خارجية مثل yt-dlp وFFmpeg وaria2c. بعض معرفات الحزم الخارجية الأصلية تبقى كما هي لأنها تبعيات وليست هوية تطبيق KirinYT.
+
+## المساهمة
+
+الإصلاحات والتحسينات والميزات الخاصة بـ KirinYT مرحب بها. تأكد من نجاح البناء وحافظ على `com.kirinyt.app` كهوية للتطبيق.
+
+## الترخيص
+
+يتم توزيع KirinYT بموجب **GNU GPL v3.0**. راجع [LICENSE](LICENSE) للنص الكامل.
+
+- [yt-dlp](https://github.com/yt-dlp/yt-dlp)
+- [youtubedl-android](https://github.com/yausername/youtubedl-android)
+- [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+---
+
+<div align="center">
+
+**KirinYT**
+
+أداة تنزيل فيديو وصوت لنظام Android تعتمد على yt-dlp.
+
+</div>
