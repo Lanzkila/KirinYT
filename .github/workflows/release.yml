@@ -64,6 +64,7 @@ jobs:
 
           echo "$SIGNING_KEY" | base64 --decode > app/release_keystore.jks
           printf '%s\n' "$KEYSTORE_PROPERTIES" > keystore.properties
+          touch local.properties
           chmod +x gradlew
 
       - name: Force stable build
