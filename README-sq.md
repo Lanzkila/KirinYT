@@ -20,8 +20,8 @@
 [![IzzyOnDroid Anbarı](https://custom-icon-badges.herokuapp.com/badge/IzzyOnDroid%20Repo-red?style=for-the-badge&logo=download&logoColor=white)](https://apt.izzysoft.de/packages/com.kirinyt.app)
 
 ![CI](https://github.com/Lanzkila/KirinYT/actions/workflows/android.yml/badge.svg?branch=main&event=pull)
-[![önizləmə buraxılışı](https://img.shields.io/github/release/deniscerri/ytdlnis.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
-[![yükləyici](https://img.shields.io/github/downloads/deniscerri/ytdlnis/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
+[![önizləmə buraxılışı](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
+[![yükləyici](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
 
 
