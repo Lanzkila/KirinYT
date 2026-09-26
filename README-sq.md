@@ -23,10 +23,6 @@
 [![önizləmə buraxılışı](https://img.shields.io/github/release/Lanzkila/KirinYT.svg?maxAge=3600&include_prereleases&label=preview)](https://github.com/Lanzkila/KirinYT/releases) 
 [![yükləyici](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square)](https://github.com/Lanzkila/KirinYT/releases) 
 
-
-
-
-
 </div>
 
 ## 💡 Veçoritë:
@@ -70,26 +66,7 @@
 - rezervoni dhe rivendosni veçoritë e aplikacionit. (Pothuajse gjithçka mund të rezervohet dhe mund te shperndash me shoke)
 - Arkitektura MVVM me WorkManager
 
-## 📲 Fotot
-
-<div>
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/01.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/02.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/03.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/04.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/05.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/06.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/07.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/08.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/09.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/10.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/11.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/12.png" width="30%" />
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/13.png" width="90%" />
-</div>
-
 ## 💬 Kontakt
-
 
 ## 🔑 Lidhu me ReVanced
 
@@ -97,7 +74,6 @@ Emri i paketës së aplikacionit është "com.kirinyt.app"
 
 ## 📝 Ndihmo për të përkthyer në Weblate
 </a>
-
 
 </a>
 
