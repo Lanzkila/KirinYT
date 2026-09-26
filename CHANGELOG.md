@@ -1,5 +1,18 @@
 # KirinYT Changelog
 
+<!-- KIRINYT-AUTO-CHANGELOG:START -->
+<!-- KIRINYT-AUTO-CHANGELOG-LAST: 9f44ddaa623f08cf8b78f7d70021563e82f1569d -->
+> # Unreleased (2026-09)
+
+# What's Changed
+
+## Automated changes
+- Rebranded the Android application identity, APK naming, repository metadata and release setup for KirinYT.
+- Standardized `com.kirinyt.app` as the KirinYT namespace and application ID while retaining the original fork source-directory layout.
+- Rebuilt KirinYT documentation and multilingual README files.
+
+<!-- KIRINYT-AUTO-CHANGELOG:END -->
+
 > # 1.8.9.1 (2026-06)
 
 # What's Changed
