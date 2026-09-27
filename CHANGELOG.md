@@ -5,6 +5,13 @@
 
 _Generated: 27 Sep 2026 • 20:33 MYT_
 
+## 27 Sep 2026 • 20:33 MYT — `2c4d5b9`
+
+**Load settings search index only when needed**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/2c4d5b99bee42a045c83836fa9baf7c59677ff32)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/more/settings/SettingsActivity.kt`
+
 ## 27 Sep 2026 • 20:33 MYT — `b4b04aa`
 
 **Skip broken preference pages during settings search indexing**  
@@ -143,14 +150,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/build.gradle`
 
-## 27 Sep 2026 • 13:58 MYT — `ad48b9a`
-
-**Make launcher icon switching crash-safe**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/ad48b9a762a8cef75a1dd4926ba191155fc1a060)
-
-- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/ThemeUtil.kt`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
