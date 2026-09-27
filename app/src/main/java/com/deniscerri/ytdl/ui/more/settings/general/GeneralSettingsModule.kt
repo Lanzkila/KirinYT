@@ -210,7 +210,7 @@ object GeneralSettingsModule : SettingModule {
             }
             "kirinyt_icon" -> {
                 pref.apply {
-                    val currentValue = preferences.getString("kirinyt_icon", "default")
+                    val currentValue = preferences.getString("kirinyt_icon", "Default")
                     ThemeUtil.availableIcons.firstOrNull { it.activityAlias == currentValue }?.let {
                         summary = context.getString(it.nameResource)
                     }
