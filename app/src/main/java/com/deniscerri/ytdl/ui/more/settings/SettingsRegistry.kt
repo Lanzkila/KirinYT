@@ -38,8 +38,12 @@ object SettingsRegistry {
         val results = mutableListOf<SearchSettingsItem>()
 
         xmlToModule.forEach { (xmlRes, module) ->
-            val screen = manager.inflateFromResource(context, xmlRes, null)
-            results.addAll(crawl(screen, xmlRes, module, null))
+            runCatching {
+                val screen = manager.inflateFromResource(context, xmlRes, null)
+                results.addAll(crawl(screen, xmlRes, module, null))
+            }.onFailure {
+                it.printStackTrace()
+            }
         }
         return results
     }
