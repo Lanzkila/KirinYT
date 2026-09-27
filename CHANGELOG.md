@@ -273,6 +273,10 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 # 📚 Previous KirinYT Release Notes
 
+---
+
+# 📚 Previous KirinYT Release Notes
+
 > # 1.8.9.1 (2026-06)
 
 # What's Changed
