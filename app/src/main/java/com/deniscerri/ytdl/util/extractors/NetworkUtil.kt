@@ -11,7 +11,7 @@ import java.net.URL
 object NetworkUtil {
 
     fun genericRequest(url: String): JSONObject {
-        Log.e(NetworkUtil.toString(), url)
+        Log.d(NetworkUtil.toString(), redactSecrets(url))
         val reader: BufferedReader
         var line: String?
         val responseContent = StringBuilder()
@@ -41,8 +41,13 @@ object NetworkUtil {
         return json
     }
 
+    private fun redactSecrets(url: String): String {
+        return Regex("""([?&]key=)[^&]+""", RegexOption.IGNORE_CASE)
+            .replace(url) { match -> "${match.groupValues[1]}***" }
+    }
+
     fun genericArrayRequest(url: String): JSONArray {
-        Log.e(NetworkUtil.toString(), url)
+        Log.d(NetworkUtil.toString(), redactSecrets(url))
         val reader: BufferedReader
         var line: String?
         val responseContent = StringBuilder()
