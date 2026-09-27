@@ -40,27 +40,39 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - name: Configure signing
+      - name: Prepare Kirin release signing
         shell: bash
         env:
-          SIGNING_KEY: ${{ secrets.BASE_64_SIGNING_KEY }}
-          KEYSTORE_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+          KIRIN_KEYSTORE_BASE64: ${{ secrets.KIRIN_KEYSTORE_BASE64 }}
+          KIRIN_KEYSTORE_PASSWORD: ${{ secrets.KIRIN_KEYSTORE_PASSWORD }}
+          KIRIN_KEY_ALIAS: ${{ secrets.KIRIN_KEY_ALIAS }}
+          KIRIN_KEY_PASSWORD: ${{ secrets.KIRIN_KEY_PASSWORD }}
         run: |
           set -euo pipefail
 
-          if [ -z "$SIGNING_KEY" ]; then
-            echo "Missing secret: BASE_64_SIGNING_KEY"
-            exit 1
-          fi
+          for name in KIRIN_KEYSTORE_BASE64 KIRIN_KEYSTORE_PASSWORD KIRIN_KEY_ALIAS KIRIN_KEY_PASSWORD; do
+            if [ -z "${!name:-}" ]; then
+              echo "Missing secret: $name"
+              exit 1
+            fi
+          done
 
-          if [ -z "$KEYSTORE_PROPERTIES" ]; then
-            echo "Missing secret: LOCAL_PROPERTIES"
-            exit 1
-          fi
+          printf '%s' "$KIRIN_KEYSTORE_BASE64" | base64 --decode > "$GITHUB_WORKSPACE/kirin-release.jks"
+          chmod 600 "$GITHUB_WORKSPACE/kirin-release.jks"
 
-          echo "$SIGNING_KEY" | base64 --decode > app/release_keystore.jks
-          printf '%s\n' "$KEYSTORE_PROPERTIES" > keystore.properties
+          printf 'keyAlias=%s\nkeyPassword=%s\nstoreFile=../kirin-release.jks\nstorePassword=%s\n' \
+            "$KIRIN_KEY_ALIAS" "$KIRIN_KEY_PASSWORD" "$KIRIN_KEYSTORE_PASSWORD" \
+            > "$GITHUB_WORKSPACE/keystore.properties"
+
+          touch "$GITHUB_WORKSPACE/local.properties"
           chmod +x gradlew
+
+          keytool -list \
+            -keystore "$GITHUB_WORKSPACE/kirin-release.jks" \
+            -storepass "$KIRIN_KEYSTORE_PASSWORD" \
+            -alias "$KIRIN_KEY_ALIAS" >/dev/null
+
+          echo "Kirin release keystore is valid."
 
       - name: Force beta build
         shell: bash
@@ -106,6 +118,18 @@ jobs:
       - name: Build KirinYT beta APKs
         run: ./gradlew assembleGithubRelease --warning-mode all
 
+      - name: Verify Kirin APK signatures
+        shell: bash
+        run: |
+          set -euo pipefail
+          BUILD_TOOLS_VERSION="$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -n 1)"
+          APKSIGNER="$ANDROID_HOME/build-tools/$BUILD_TOOLS_VERSION/apksigner"
+
+          while IFS= read -r -d '' apk; do
+            echo "Verifying $apk"
+            "$APKSIGNER" verify --verbose --print-certs "$apk"
+          done < <(find app/build/outputs/apk/github/release -type f -name 'KirinYT-*.apk' -print0)
+
       - name: Verify APKs and create checksums
         id: assets
         shell: bash
@@ -135,3 +159,10 @@ jobs:
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*-beta-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
+
+      - name: Remove Kirin signing material
+        if: always()
+        shell: bash
+        run: |
+          rm -f "$GITHUB_WORKSPACE/kirin-release.jks"
+          rm -f "$GITHUB_WORKSPACE/keystore.properties"
