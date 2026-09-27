@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
+import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.ViewGroup
 import android.view.Window
@@ -37,6 +38,7 @@ import com.kirinyt.app.ui.more.settings.SettingHost
 import com.kirinyt.app.ui.more.settings.SettingModule
 import com.kirinyt.app.util.NavbarUtil
 import com.kirinyt.app.util.ThemeUtil
+import com.kirinyt.app.util.extractors.YoutubeApiUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
@@ -354,26 +356,30 @@ object GeneralSettingsModule : SettingModule {
             }
             "recommendations_home" -> {
                 (pref as ListPreference).apply {
-                    val s = context.getString(R.string.video_recommendations_summary)
+                    val baseSummary = context.getString(R.string.video_recommendations_summary)
                     summary = if (value.isNullOrBlank()) {
-                        s
-                    }else {
-                        "${s}\n[${entries[entryValues.indexOf(value)]}]"
+                        baseSummary
+                    } else {
+                        "${baseSummary}\n[${entries[entryValues.indexOf(value)]}]"
                     }
+
                     setOnPreferenceChangeListener { _, newValue ->
+                        val selected = newValue.toString()
                         host.hostLifecycleOwner.lifecycleScope.launch {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
                             }
-                            val s = context.getString(R.string.video_recommendations_summary)
-                            summary = if ((newValue as String).isBlank()) {
-                                s
-                            }else {
-                                "${s}\n[${entries[entryValues.indexOf(value)]}]"
-                            }
-                            host.findPref("api_key")?.isVisible = newValue == "yt_api"
-                            host.refreshUI()
                         }
+
+                        summary = if (selected.isBlank()) {
+                            baseSummary
+                        } else {
+                            "${baseSummary}\n[${entries[entryValues.indexOf(selected)]}]"
+                        }
+
+                        host.findPref("custom_home_recommendation_url")?.isVisible =
+                            selected == "custom"
+                        host.refreshUI()
                         true
                     }
                 }
@@ -383,7 +389,7 @@ object GeneralSettingsModule : SettingModule {
                     title = "[${context.getString(R.string.video_recommendations)}] ${context.getString(R.string.custom)}"
                     isVisible = preferences.getString("recommendations_home", "") == "custom"
 
-                    setOnPreferenceChangeListener { preference, newValue ->
+                    setOnPreferenceChangeListener { _, _ ->
                         host.hostLifecycleOwner.lifecycleScope.launch {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
@@ -396,26 +402,63 @@ object GeneralSettingsModule : SettingModule {
             }
             "api_key" -> {
                 (pref as EditTextPreference).apply {
-                    isVisible = preferences.getString("recommendations_home", "") == "yt_api"
-                    val s = context.getString(R.string.api_key_summary)
-                    summary = if (text.isNullOrBlank()) {
-                        s
-                    }else {
-                        "${s}\n[${text}]"
+                    summary = getApiKeySummary(context, text)
+                    setOnBindEditTextListener { editText ->
+                        editText.inputType =
+                            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        editText.setSingleLine(true)
                     }
+
                     setOnPreferenceChangeListener { _, newValue ->
+                        val key = newValue.toString().trim()
                         host.hostLifecycleOwner.lifecycleScope.launch {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
                             }
                         }
-                        val s = context.getString(R.string.api_key_summary)
-                        summary = if ((newValue as String).isBlank()) {
-                            s
-                        }else {
-                            "${s}\n[${text}]"
-                        }
+
+                        summary = getApiKeySummary(context, key)
+                        host.findPref("test_youtube_api_key")?.isEnabled = key.isNotBlank()
                         host.refreshUI()
+                        true
+                    }
+                }
+            }
+            "test_youtube_api_key" -> {
+                pref.apply {
+                    isEnabled = !preferences.getString("api_key", "").isNullOrBlank()
+                    setOnPreferenceClickListener {
+                        val key = preferences.getString("api_key", "").orEmpty().trim()
+                        if (key.isBlank()) {
+                            MaterialAlertDialogBuilder(host.getHostContext())
+                                .setTitle(R.string.test_youtube_api_key)
+                                .setMessage(R.string.youtube_api_key_missing)
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show()
+                            return@setOnPreferenceClickListener true
+                        }
+
+                        isEnabled = false
+                        summary = context.getString(R.string.youtube_api_key_testing)
+                        host.hostLifecycleOwner.lifecycleScope.launch {
+                            val valid = withContext(Dispatchers.IO) {
+                                YoutubeApiUtil(context).validateApiKey()
+                            }
+
+                            isEnabled = true
+                            summary = context.getString(R.string.test_youtube_api_key_summary)
+                            MaterialAlertDialogBuilder(host.getHostContext())
+                                .setTitle(R.string.test_youtube_api_key)
+                                .setMessage(
+                                    if (valid) {
+                                        R.string.youtube_api_key_valid
+                                    } else {
+                                        R.string.youtube_api_key_invalid
+                                    }
+                                )
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show()
+                        }
                         true
                     }
                 }
@@ -465,6 +508,15 @@ object GeneralSettingsModule : SettingModule {
                     }
                 }
             }
+        }
+    }
+
+    private fun getApiKeySummary(context: Context, key: String?): String {
+        val base = context.getString(R.string.youtube_api_key_summary)
+        return if (key.isNullOrBlank()) {
+            "${base}\n[${context.getString(R.string.youtube_api_key_not_configured)}]"
+        } else {
+            "${base}\n[${context.getString(R.string.youtube_api_key_configured)}]"
         }
     }
 }
