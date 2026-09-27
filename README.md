@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="142" alt="KirinYT Logo" />
 
 # KirinYT
 
