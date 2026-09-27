@@ -1,6 +1,10 @@
 name: KirinYT Release
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/release.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -133,29 +137,26 @@ jobs:
           make_latest: true
           generate_release_notes: false
           body: |
-            ## KirinYT 1.9.0
+            ## KirinYT 1.9.1
 
-            This release establishes KirinYT as the customized Android yt-dlp downloader build and includes the latest app, documentation, and repository improvements.
+            This patch release improves launcher icon variants and active-download progress reporting.
 
-            ### New
-            - Added phase-aware progress to active download cards.
-            - Download cards can now show stages such as **Preparing**, **Video**, **Audio**, **Fragments**, **Merging**, **Processing**, **Moving**, and **Complete**.
-            - Added readable download progress details with percentage, transfer speed, and ETA when available.
-            - Added the KirinYT Changelog Tracker, generating commit-based changelog entries with changed-file details.
+            ### App icon variants
+            - Restored distinct KirinYT launcher icon colors using the original app palette.
+            - **Auto / Light / Dark** use the red Kirin foreground.
+            - **Blue** uses the original blue foreground.
+            - **Green** uses the original green foreground.
+            - Light and dark variants keep their matching white and black backgrounds.
+            - Themed launcher resources retain the upstream blue-themed behavior.
 
-            ### KirinYT rebrand
-            - Standardized the Android namespace and application ID as `com.kirinyt.app`.
-            - Standardized KirinYT APK naming and stable/pre-release workflows.
-            - Rebuilt the main README and synchronized all translated README files.
-            - Removed old YTDLnis branding, obsolete screenshots, and outdated CI references from the documentation.
+            ### Download progress
+            - Added percentage progress for **Merging** and **Processing** when FFmpeg provides timing information.
+            - Merging and processing can now show processing speed and ETA alongside the percentage.
+            - Progress is calculated from FFmpeg duration and processed time instead of forcing these phases to 100%.
+            - Falls back to an indeterminate progress bar when a post-processing step does not expose enough timing data.
 
-            ### Repository
-            - Kept the original fork source-directory layout for easier upstream maintenance.
-            - Updated release and Telegram notification workflows for KirinYT.
-            - Added automatic changelog generation inspired by the ADL4D2 tracker format.
-
-            ### Notes
-            - External runtime package identifiers used by Python, FFmpeg, Node.js, Deno, aria2c, and related components are intentionally preserved where required by their dependencies.
+            ### Existing phase-aware progress
+            - Keeps progress tracking for **Video**, **Audio**, **Fragments**, **Moving**, and other active-download stages.
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
