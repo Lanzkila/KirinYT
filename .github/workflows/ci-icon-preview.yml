@@ -1,0 +1,35 @@
+name: KirinYT Icon Preview
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/ci-icon-preview.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m pip -q install pillow
+      - name: Emit icon previews
+        run: |
+          python3 - <<'PY'
+          from PIL import Image
+          import io, base64
+          files = {
+              "KIRIN_FOREGROUND": "app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png",
+              "PLAYSTORE": "app/src/main/ic_launcher-playstore.png",
+              "LEGACY_LAUNCHER": "app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+          }
+          for name, path in files.items():
+              im = Image.open(path).convert("RGBA")
+              im.thumbnail((160,160))
+              out = io.BytesIO()
+              im.save(out, format="PNG")
+              print(name + "_SIZE=" + str(Image.open(path).size))
+              print(name + "_B64=" + base64.b64encode(out.getvalue()).decode())
+          PY
