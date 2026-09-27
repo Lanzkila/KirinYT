@@ -10,5 +10,5 @@
         android:top="6dp"
         android:right="6dp"
         android:bottom="6dp"
-        android:drawable="@drawable/ic_launcher_kirin_foreground" />
+        android:drawable="@drawable/ic_launcher_kirin_green" />
 </layer-list>
