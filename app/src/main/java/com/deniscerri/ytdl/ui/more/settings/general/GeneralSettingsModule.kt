@@ -357,10 +357,11 @@ object GeneralSettingsModule : SettingModule {
             "recommendations_home" -> {
                 (pref as ListPreference).apply {
                     val baseSummary = context.getString(R.string.video_recommendations_summary)
-                    summary = if (value.isNullOrBlank()) {
+                    val currentIndex = entryValues.indexOf(value)
+                    summary = if (value.isNullOrBlank() || currentIndex < 0) {
                         baseSummary
                     } else {
-                        "${baseSummary}\n[${entries[entryValues.indexOf(value)]}]"
+                        "${baseSummary}\n[${entries[currentIndex]}]"
                     }
 
                     setOnPreferenceChangeListener { _, newValue ->
@@ -371,10 +372,11 @@ object GeneralSettingsModule : SettingModule {
                             }
                         }
 
-                        summary = if (selected.isBlank()) {
+                        val selectedIndex = entryValues.indexOf(selected)
+                        summary = if (selected.isBlank() || selectedIndex < 0) {
                             baseSummary
                         } else {
-                            "${baseSummary}\n[${entries[entryValues.indexOf(selected)]}]"
+                            "${baseSummary}\n[${entries[selectedIndex]}]"
                         }
 
                         host.findPref("custom_home_recommendation_url")?.isVisible =
@@ -466,16 +468,19 @@ object GeneralSettingsModule : SettingModule {
             "search_engine" -> {
                 (pref as ListPreference).apply {
                     val s = context.getString(R.string.preferred_search_engine_summary)
-                    summary = if (value.isNullOrBlank()) {
+                    val currentIndex = entryValues.indexOf(value)
+                    summary = if (value.isNullOrBlank() || currentIndex < 0) {
                         s
                     }else {
-                        "${s}\n[${entries[entryValues.indexOf(value)]}]"
+                        "${s}\n[${entries[currentIndex]}]"
                     }
                     setOnPreferenceChangeListener { _, newValue ->
-                        summary = if ((newValue as String).isBlank()) {
+                        val selected = newValue.toString()
+                        val selectedIndex = entryValues.indexOf(selected)
+                        summary = if (selected.isBlank() || selectedIndex < 0) {
                             s
                         }else {
-                            "${s}\n[${entries[entryValues.indexOf(newValue)]}]"
+                            "${s}\n[${entries[selectedIndex]}]"
                         }
                         host.refreshUI()
                         true
