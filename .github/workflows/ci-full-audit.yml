@@ -55,6 +55,14 @@ jobs:
               raise SystemExit("Kirin icon foreground has no visual detail")
           PY
 
+      - name: Verify generated icon variants
+        run: |
+          for density in mdpi hdpi xhdpi xxhdpi xxxhdpi; do
+            for variant in light dark blue green; do
+              test -s "app/src/main/res/drawable-${density}/ic_launcher_kirin_${variant}.png"
+            done
+          done
+
       - name: Build signed GitHub release
         run: ./gradlew assembleGithubRelease --warning-mode all
 
