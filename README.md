@@ -18,6 +18,11 @@
 [![yt-dlp stable](https://img.shields.io/github/v/release/yt-dlp/yt-dlp?style=flat-square&label=yt-dlp%20stable)](https://github.com/yt-dlp/yt-dlp/releases/latest)
 [![yt-dlp nightly](https://img.shields.io/github/v/release/yt-dlp/yt-dlp-nightly-builds?style=flat-square&label=yt-dlp%20nightly)](https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest)
 
+[![FFmpeg](https://img.shields.io/badge/FFmpeg-v7.0.1-007808?style=flat-square&logo=ffmpeg&logoColor=white)](https://github.com/deniscerri/ytdlnis-packages)
+[![aria2c](https://img.shields.io/badge/aria2c-v1.37.0-666666?style=flat-square)](https://github.com/deniscerri/ytdlnis-packages)
+[![Python](https://img.shields.io/badge/Python-v3.14.6-3776AB?style=flat-square&logo=python&logoColor=white)](https://github.com/deniscerri/ytdlnis-packages)
+[![QuickJS](https://img.shields.io/badge/QuickJS-2025--04--26-000000?style=flat-square)](https://bellard.org/quickjs/)
+
 </div>
 
 ## About
