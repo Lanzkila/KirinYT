@@ -5,6 +5,20 @@
 
 _Generated: 27 Sep 2026 • 08:55 MYT_
 
+## 27 Sep 2026 • 08:55 MYT — `17e0e1d`
+
+**Restore distinct KirinYT launcher icon variants**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/17e0e1d107eba936fbbad89574012c09f3332e1f)
+
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_blue.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_green.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_blue.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_green.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_themed.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_themed_dark.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_themed.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_themed_dark.xml`
+
 ## 27 Sep 2026 • 08:54 MYT — `967897a`
 
 **Add KirinYT blue and green icon foregrounds**  
@@ -156,14 +170,11 @@ By **deniscerri** • [View commit](https://github.com/Lanzkila/KirinYT/commit/4
 - ✏️ Updated: `app/build.gradle`
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/UpdateUtil.kt`
 
-## 07 Sep 2026 • 22:19 MYT — `cb057e1`
-
-**Translated using Weblate (Albanian)**  
-By **Denis Çerri** • [View commit](https://github.com/Lanzkila/KirinYT/commit/cb057e1d8081588a72bdc1711f2507d4da6cd22d)
-
-- ✏️ Updated: `app/src/main/res/values-sq-rAL/strings.xml`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
