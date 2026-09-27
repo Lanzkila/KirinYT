@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-    <background android:drawable="@drawable/ic_launcher_background_light"/>
-    <foreground android:drawable="@drawable/ic_launcher_kirin_foreground_blue_raster"/>
-    <monochrome android:drawable="@drawable/ic_launcher_kirin_foreground_blue_raster"/>
+    <background android:drawable="@drawable/ic_launcher_background_blue"/>
+    <foreground android:drawable="@drawable/ic_launcher_kirin_foreground"/>
+    <monochrome android:drawable="@drawable/ic_launcher_kirin_foreground"/>
 </adaptive-icon>
