@@ -31,3 +31,5 @@ jobs:
 
       - name: Build GitHub debug APK
         run: ./gradlew assembleGithubDebug --warning-mode all
+
+# Final verification
