@@ -131,8 +131,10 @@ object ThemeUtil {
         }
 
 
-        val iconMode = sharedPreferences.getString("kirinyt_icon", "Default")!!
-        updateAppIcon(activity,theme, iconMode)
+        val iconMode = sharedPreferences.getString("kirinyt_icon", "Default")
+            ?.takeIf { it.isNotBlank() }
+            ?: "Default"
+        updateAppIcon(activity, theme, iconMode)
     }
 
     fun getThemeColor(context: Context, colorCode: Int): Int {
@@ -154,7 +156,7 @@ object ThemeUtil {
     fun getStyledAppName(context: Context): Spanned {
         val colorPrimary = getThemeColor(context, androidx.appcompat.R.attr.colorPrimaryDark)
         val hexColor = "#%06X".format(0xFFFFFF and colorPrimary)
-        return "<span  style='color:$hexColor';>YTDL</span>nis"
+        return "<span style='color:$hexColor';>Kirin</span>YT"
             .parseAsHtml(HtmlCompat.FROM_HTML_MODE_COMPACT)
     }
 
@@ -172,8 +174,15 @@ object ThemeUtil {
             )
         }
 
-        var iconMode = appIconMode
-        if (appIconMode == "Default") {
+        var iconMode = when (appIconMode.lowercase()) {
+            "default", "auto" -> "Default"
+            "light", "lighticon" -> "LightIcon"
+            "dark", "darkicon" -> "DarkIcon"
+            "blue", "blueicon" -> "BlueIcon"
+            "green", "greenicon" -> "GreenIcon"
+            else -> "Default"
+        }
+        if (iconMode == "Default") {
             iconMode = theme
         }
 
