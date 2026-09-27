@@ -5,6 +5,20 @@
 
 _Generated: 27 Sep 2026 • 21:38 MYT_
 
+## 27 Sep 2026 • 21:38 MYT — `17fdb06`
+
+**Remove stale Shizuku hook from Settings**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/17fdb06cd5a7be867fe8ad1dadbdce1fac58193d)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/more/settings/SettingsActivity.kt`
+
+## 27 Sep 2026 • 21:38 MYT — `ce822b7`
+
+**Avoid Settings restart after app icon change**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/ce822b7b5f55a1053ef1998260b2a30428424319)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/adapter/IconsSheetAdapter.kt`
+
 ## 27 Sep 2026 • 21:38 MYT — `873daa8`
 
 **Make KirinYT launcher switching crash-safe**  
@@ -97,21 +111,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/ThemeUtil.kt`
 
-## 27 Sep 2026 • 20:38 MYT — `01ef68a`
-
-**Restore original settings indexing flow**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/01ef68a880c4e6dd51e768b972d6562a00010ded)
-
-- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/database/viewmodel/SettingsViewModel.kt`
-
-## 27 Sep 2026 • 20:38 MYT — `2bf94a4`
-
-**Restore original structure: IconsSheetAdapter.kt**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/2bf94a49f39968750d602e666cb99196f2d94eb3)
-
-- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/adapter/IconsSheetAdapter.kt`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
