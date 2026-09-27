@@ -1,0 +1,84 @@
+name: KirinYT Full Audit
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/ci-full-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: "17"
+          cache: gradle
+
+      - name: Prepare signing
+        env:
+          BASE_64_SIGNING_KEY: ${{ secrets.BASE_64_SIGNING_KEY }}
+          LOCAL_PROPERTIES: ${{ secrets.LOCAL_PROPERTIES }}
+        run: |
+          test -n "$BASE_64_SIGNING_KEY"
+          test -n "$LOCAL_PROPERTIES"
+          echo "$BASE_64_SIGNING_KEY" | base64 --decode > app/release_keystore.jks
+          printf '%s\n' "$LOCAL_PROPERTIES" > keystore.properties
+          touch local.properties
+          chmod +x gradlew
+
+      - name: Audit Kirin icon artwork
+        run: |
+          python3 -m pip -q install pillow
+          python3 - <<'PY'
+          from PIL import Image
+          p = "app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png"
+          im = Image.open(p).convert("RGBA")
+          alpha = im.getchannel("A")
+          bbox = alpha.getbbox()
+          colors = im.getcolors(maxcolors=10000000) or []
+          nonzero = sum(1 for a in alpha.getdata() if a)
+          total = im.width * im.height
+          print("ICON_SIZE", im.size)
+          print("ICON_BBOX", bbox)
+          print("ICON_UNIQUE_COLORS", len(colors))
+          print("ICON_VISIBLE_PIXELS", nonzero, "/", total)
+          if bbox is None or nonzero == 0:
+              raise SystemExit("Kirin icon foreground is empty")
+          if len(colors) < 2:
+              raise SystemExit("Kirin icon foreground has no visual detail")
+          PY
+
+      - name: Build signed GitHub release
+        run: ./gradlew assembleGithubRelease --warning-mode all
+
+      - name: Audit merged manifest
+        run: |
+          manifest="$(find app/build/intermediates/merged_manifests -path '*githubRelease*' -name AndroidManifest.xml | head -n 1)"
+          test -n "$manifest"
+          echo "MERGED_MANIFEST=$manifest"
+          if grep -q 'android.permission.REQUEST_INSTALL_PACKAGES' "$manifest"; then
+            echo "Unexpected REQUEST_INSTALL_PACKAGES in release manifest"
+            exit 1
+          fi
+          if grep -q 'rikka.shizuku.ShizukuProvider' "$manifest"; then
+            echo "Unexpected ShizukuProvider in release manifest"
+            exit 1
+          fi
+
+      - name: Verify Universal APK and signature
+        run: |
+          apk="$(find app/build/outputs/apk/github/release -name '*universal*release.apk' | head -n 1)"
+          test -n "$apk"
+          echo "UNIVERSAL_APK=$apk"
+          test -s "$apk"
+          APKSIGNER="$(find "$ANDROID_HOME/build-tools" -name apksigner -type f | sort -V | tail -n 1)"
+          test -x "$APKSIGNER"
+          "$APKSIGNER" verify --verbose "$apk"
+          ls -lh "$apk"
