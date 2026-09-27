@@ -142,6 +142,13 @@ class SettingsActivity : BaseActivity(), SettingHost {
         val searchBar = binding.searchBar
         val searchView = binding.searchView
         searchView.setupWithSearchBar(searchBar)
+        searchView.addTransitionListener { _, _, newState ->
+            if (newState == com.google.android.material.search.SearchView.TransitionState.SHOWING ||
+                newState == com.google.android.material.search.SearchView.TransitionState.SHOWN
+            ) {
+                refreshUI()
+            }
+        }
 
         searchAdapter = SettingsSearchAdapter(emptyList(), this)
         binding.searchSuggestionsRecycler.layoutManager = LinearLayoutManager(context)
@@ -189,7 +196,6 @@ class SettingsActivity : BaseActivity(), SettingHost {
     }
 
     override fun onResume() {
-        refreshUI()
         super.onResume()
     }
 
