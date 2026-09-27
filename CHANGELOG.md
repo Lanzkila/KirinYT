@@ -5,6 +5,13 @@
 
 _Generated: 27 Sep 2026 • 21:02 MYT_
 
+## 27 Sep 2026 • 21:02 MYT — `9ee0e61`
+
+**Make KirinYT updates user-controlled like KirinDL**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/9ee0e619a6b582a4256f196270515450e7e2d6b8)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/UiUtil.kt`
+
 ## 27 Sep 2026 • 21:02 MYT — `a585b21`
 
 **Use DownloadManager for runtime package APKs**  
@@ -117,21 +124,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/database/viewmodel/SettingsViewModel.kt`
 
-## 27 Sep 2026 • 15:23 MYT — `bba561b`
-
-**Keep Kirin logo visible in legacy launcher icons**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/bba561b9a220a5cf8fd721065d338585dc5abd4c)
-
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_blue.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_dark.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_green.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_light.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_blue.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_dark.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_green.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_light.xml`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
