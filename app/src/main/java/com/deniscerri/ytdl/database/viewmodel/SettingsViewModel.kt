@@ -70,8 +70,13 @@ class SettingsViewModel(private val application: Application) : AndroidViewModel
     }
 
     fun indexSearchSettings() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val indexedItems = SettingsRegistry.indexAll(App.instance)
+        viewModelScope.launch {
+            val indexedItems = runCatching {
+                SettingsRegistry.indexAll(App.instance)
+            }.getOrElse {
+                it.printStackTrace()
+                emptyList()
+            }
             _settingsFlow.emit(indexedItems)
         }
     }
