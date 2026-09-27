@@ -7,8 +7,16 @@
 **A powerful Android video and audio downloader powered by yt-dlp.**
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
-[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
+
+[![Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat-square&logo=github)](https://github.com/Lanzkila/KirinYT/stargazers)
+[![Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat-square&logo=github)](https://github.com/Lanzkila/KirinYT/forks)
+[![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square&logo=github&label=Downloads)](https://github.com/Lanzkila/KirinYT/releases)
+[![Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?style=flat-square&label=KirinYT)](https://github.com/Lanzkila/KirinYT/releases)
+[![Kirin Pre-Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&sort=date&filter=*beta*&style=flat-square&label=Kirin%20Pre-Release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT?style=flat-square)](LICENSE)
+
+[![yt-dlp stable](https://img.shields.io/github/v/release/yt-dlp/yt-dlp?style=flat-square&label=yt-dlp%20stable)](https://github.com/yt-dlp/yt-dlp/releases/latest)
+[![yt-dlp nightly](https://img.shields.io/github/v/release/yt-dlp/yt-dlp-nightly-builds?style=flat-square&label=yt-dlp%20nightly)](https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest)
 
 </div>
 
