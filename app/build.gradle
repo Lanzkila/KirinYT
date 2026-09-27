@@ -165,6 +165,67 @@ android {
 }
 
 
+// Generate real raster launcher foreground variants from the Kirin artwork.
+// This avoids launcher/OEM tint inconsistencies where every alias can appear red.
+def generatedKirinIconResDir = file("$buildDir/generated/kirin-icon-res")
+def kirinIconDensities = ["mdpi", "hdpi", "xhdpi", "xxhdpi", "xxxhdpi"]
+def kirinIconColors = [
+        red  : 0xDB2E2E,
+        blue : 0x005EB8,
+        green: 0x43BF24
+]
+
+tasks.register("generateKirinIconVariants") {
+    outputs.dir generatedKirinIconResDir
+
+    doLast {
+        kirinIconDensities.each { density ->
+            def source = file("src/main/res/drawable-${density}/ic_launcher_kirin_foreground.png")
+            if (!source.exists()) {
+                throw new GradleException("Missing Kirin launcher foreground: ${source}")
+            }
+
+            def original = javax.imageio.ImageIO.read(source)
+            if (original == null) {
+                throw new GradleException("Could not decode Kirin launcher foreground: ${source}")
+            }
+
+            kirinIconColors.each { variant, rgb ->
+                def outputDir = new File(generatedKirinIconResDir, "drawable-${density}")
+                outputDir.mkdirs()
+
+                def tinted = new java.awt.image.BufferedImage(
+                        original.width,
+                        original.height,
+                        java.awt.image.BufferedImage.TYPE_INT_ARGB
+                )
+
+                for (int y = 0; y < original.height; y++) {
+                    for (int x = 0; x < original.width; x++) {
+                        int sourceArgb = original.getRGB(x, y)
+                        int alpha = (sourceArgb >>> 24) & 0xFF
+                        int outputArgb = (alpha << 24) | (rgb as int)
+                        tinted.setRGB(x, y, outputArgb)
+                    }
+                }
+
+                def output = new File(
+                        outputDir,
+                        "ic_launcher_kirin_foreground_${variant}_raster.png"
+                )
+                javax.imageio.ImageIO.write(tinted, "png", output)
+            }
+        }
+    }
+}
+
+android.sourceSets.main.res.srcDir generatedKirinIconResDir
+
+tasks.named("preBuild").configure {
+    dependsOn tasks.named("generateKirinIconVariants")
+}
+
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs_nio:2.1.5"
