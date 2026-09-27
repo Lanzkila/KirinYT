@@ -1,8 +1,10 @@
 package com.kirinyt.app.core.packages
 
 import android.annotation.SuppressLint
+import android.app.DownloadManager
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.core.content.edit
@@ -186,6 +188,25 @@ abstract class PackageBase {
             isPackageActive || isBundleActive,
             canUninstall
         )
+    }
+
+    fun enqueueReleaseApkDownload(context: Context, release: PackageRelease): Result<Long> = runCatching {
+        val asset = release.assets.firstOrNull()
+            ?: throw IllegalStateException("No runtime APK attached to this release")
+
+        val request = DownloadManager.Request(Uri.parse(asset.browser_download_url))
+            .setTitle("${githubPackageName} ${release.version}")
+            .setDescription("Downloading KirinYT runtime package")
+            .setMimeType("application/vnd.android.package-archive")
+            .setAllowedOverRoaming(false)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            .setDestinationInExternalPublicDir(
+                Environment.DIRECTORY_DOWNLOADS,
+                "KirinYT/Packages/${asset.name}"
+            )
+
+        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        manager.enqueue(request)
     }
 
     @SuppressLint("UnspecifiedRegisterReceiverFlag", "Range")
