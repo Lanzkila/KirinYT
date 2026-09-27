@@ -29,22 +29,21 @@ android {
     namespace 'com.kirinyt.app'
     compileSdk = 36
 
-    try {
-        def propertiesFile = rootProject.file("keystore.properties")
-        if(propertiesFile.text != ""){
-            properties.load(new FileInputStream(propertiesFile))
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    if (keystorePropertiesFile.exists()) {
+        properties.load(new FileInputStream(keystorePropertiesFile))
+    }
 
-            properties.load(new FileInputStream(propertiesFile))
-            signingConfigs {
-                debug {
-                    storeFile file(properties["signingConfig.storeFile"])
-                    storePassword properties["signingConfig.storePassword"]
-                    keyAlias properties["signingConfig.keyAlias"]
-                    keyPassword properties["signingConfig.keyPassword"]
-                }
+    signingConfigs {
+        if (keystorePropertiesFile.exists()) {
+            githubPublish {
+                keyAlias properties["keyAlias"]
+                keyPassword properties["keyPassword"]
+                storeFile file(properties["storeFile"])
+                storePassword properties["storePassword"]
             }
         }
-    }catch(IOException ignored){}
+    }
     defaultConfig {
         applicationId "com.kirinyt.app"
         minSdk 24
@@ -76,7 +75,9 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable false
-            signingConfig signingConfigs.debug
+            if (signingConfigs.findByName("githubPublish") != null) {
+                signingConfig signingConfigs.githubPublish
+            }
         }
 
         debug {
