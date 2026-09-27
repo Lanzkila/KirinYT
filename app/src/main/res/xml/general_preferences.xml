@@ -22,7 +22,7 @@
             app:title="@string/Theme" />
 
         <Preference
-            android:defaultValue="default"
+            android:defaultValue="Default"
             android:icon="@drawable/ic_frame"
             android:title="@string/app_icon"
             android:summary="@string/defaultValue"
