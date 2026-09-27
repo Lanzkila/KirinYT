@@ -69,6 +69,17 @@
     <string name="link_copied_to_clipboard">Link copied to clipboard</string>
     <string name="api_key">Use API key</string>
     <string name="api_key_summary">Video recommendations from YouTube API</string>
+    <string name="youtube_api_key">YouTube Data API key</string>
+    <string name="youtube_api_key_summary">Use your own YouTube Data API v3 key for YouTube and YouTube Music home feeds</string>
+    <string name="test_youtube_api_key">Test YouTube API key</string>
+    <string name="test_youtube_api_key_summary">Verify that the saved key can access the YouTube Data API</string>
+    <string name="youtube_api_key_testing">Testing API key…</string>
+    <string name="youtube_api_key_valid">API key is valid and YouTube Data API access is working.</string>
+    <string name="youtube_api_key_invalid">API key could not access the YouTube Data API. Check the key, API restrictions, quota, and that YouTube Data API v3 is enabled.</string>
+    <string name="youtube_api_key_missing">Enter a YouTube Data API key first.</string>
+    <string name="youtube_api_request_failed">YouTube API request failed. Check the API key, quota, network connection, and API restrictions.</string>
+    <string name="youtube_api_key_configured">Configured</string>
+    <string name="youtube_api_key_not_configured">Not configured</string>
     <string name="update_app_summary">Announce new versions of the app when it is opened. The data is extracted from the official GitHub Repository</string>
     <string name="downloads">Downloads</string>
     <string name="remove_deleted">Remove deleted</string>
