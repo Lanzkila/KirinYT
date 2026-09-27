@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:src="@drawable/ic_launcher_kirin_foreground"
+    android:gravity="fill"
+    android:tint="#005EB8"
+    android:tintMode="src_in" />
