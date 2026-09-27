@@ -162,19 +162,7 @@ object ThemeUtil {
 
 
     fun updateAppIcon(activity: Activity, theme: String, appIconMode: String) {
-        //disable old icons
-        for (appIcon in availableIcons) {
-            val activityClass = "com.kirinyt.app." + appIcon.activityAlias
-
-            // remove old icons
-            activity.packageManager.setComponentEnabledSetting(
-                ComponentName(activity.packageName, activityClass),
-                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-                PackageManager.DONT_KILL_APP
-            )
-        }
-
-        var iconMode = when (appIconMode.lowercase()) {
+        val normalizedMode = when (appIconMode.lowercase()) {
             "default", "auto" -> "Default"
             "light", "lighticon" -> "LightIcon"
             "dark", "darkicon" -> "DarkIcon"
@@ -182,48 +170,43 @@ object ThemeUtil {
             "green", "greenicon" -> "GreenIcon"
             else -> "Default"
         }
-        if (iconMode == "Default") {
-            iconMode = theme
+
+        val targetAlias = when (if (normalizedMode == "Default") theme else normalizedMode) {
+            "Light", "LightIcon" -> "LightIcon"
+            "Dark", "DarkIcon" -> "DarkIcon"
+            "Blue", "BlueIcon" -> "BlueIcon"
+            "Green", "GreenIcon" -> "GreenIcon"
+            else -> "Default"
         }
 
-        when (iconMode) {
-            "LightIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.LightIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            "DarkIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.DarkIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            "BlueIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.BlueIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            "GreenIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.GreenIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            // or "System"
-            else -> {
-                //set dynamic icon
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.Default"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+        val packageManager = activity.packageManager
+        val targetComponent = ComponentName(
+            activity.packageName,
+            "com.kirinyt.app.$targetAlias"
+        )
+
+        // Enable the requested launcher entry first. This prevents a moment where
+        // every launcher alias is disabled, which can upset some OEM launchers.
+        runCatching {
+            packageManager.setComponentEnabledSetting(
+                targetComponent,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP
+            )
+        }
+
+        availableIcons.forEach { appIcon ->
+            if (appIcon.activityAlias == targetAlias) return@forEach
+
+            runCatching {
+                packageManager.setComponentEnabledSetting(
+                    ComponentName(
+                        activity.packageName,
+                        "com.kirinyt.app.${appIcon.activityAlias}"
+                    ),
+                    PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                     PackageManager.DONT_KILL_APP
                 )
             }
         }
-    }
-}
+    }}
