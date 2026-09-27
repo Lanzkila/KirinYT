@@ -123,12 +123,12 @@ class UpdateUtil(var context: Context) {
         val abi = Build.SUPPORTED_ABIS.firstOrNull().orEmpty()
         val asset = release.assets.firstOrNull {
             it.name.endsWith(".apk", true) &&
-                it.name.contains(abi, true) &&
+                it.name.contains("universal", true) &&
                 !it.name.contains("foss", true) &&
                 !it.name.contains("izzy", true)
         } ?: release.assets.firstOrNull {
             it.name.endsWith(".apk", true) &&
-                it.name.contains("universal", true) &&
+                it.name.contains(abi, true) &&
                 !it.name.contains("foss", true) &&
                 !it.name.contains("izzy", true)
         } ?: throw IllegalStateException("No compatible KirinYT APK found in this release")
@@ -203,10 +203,18 @@ class UpdateUtil(var context: Context) {
         return withContext(Dispatchers.IO) {
             try {
                 val releaseVersion = release.assets.firstOrNull {
-                    it.name.contains(Build.SUPPORTED_ABIS[0])
-                    && !it.name.contains("foss")
-                    && !it.name.contains("izzy")
-                }!!
+                    it.name.contains("universal", true) &&
+                        it.name.endsWith(".apk", true) &&
+                        !it.name.contains("foss", true) &&
+                        !it.name.contains("izzy", true)
+                } ?: release.assets.firstOrNull {
+                    it.name.contains(Build.SUPPORTED_ABIS[0], true) &&
+                        it.name.endsWith(".apk", true) &&
+                        !it.name.contains("foss", true) &&
+                        !it.name.contains("izzy", true)
+                } ?: return@withContext Result.failure(
+                    IllegalStateException("No compatible KirinYT APK found in this release")
+                )
                 File(FileUtil.getDefaultApksPath()).mkdirs()
                 val tempApk = File(FileUtil.getDefaultApksPath(), "${releaseVersion.browser_download_url.split("/").last()}")
 
