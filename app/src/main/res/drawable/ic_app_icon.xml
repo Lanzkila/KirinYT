@@ -6,5 +6,5 @@
     android:insetBottom="6dp">
     <bitmap
         android:gravity="center"
-        android:src="@drawable/ic_launcher_kirin_foreground_red" />
+        android:src="@drawable/ic_launcher_kirin_foreground" />
 </inset>

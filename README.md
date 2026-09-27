@@ -1,27 +1,14 @@
 <div align="center">
 
-<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="142" alt="KirinYT Logo" />
+<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
 
 # KirinYT
 
 **A powerful Android video and audio downloader powered by yt-dlp.**
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
-
-[![Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat-square&logo=github)](https://github.com/Lanzkila/KirinYT/stargazers)
-[![Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat-square&logo=github)](https://github.com/Lanzkila/KirinYT/forks)
-[![Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat-square&logo=github&label=Downloads)](https://github.com/Lanzkila/KirinYT/releases)
-[![Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?style=flat-square&label=KirinYT)](https://github.com/Lanzkila/KirinYT/releases)
-[![Kirin Pre-Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&sort=date&filter=*beta*&style=flat-square&label=Kirin%20Pre-Release)](https://github.com/Lanzkila/KirinYT/releases)
-[![License](https://img.shields.io/github/license/Lanzkila/KirinYT?style=flat-square)](LICENSE)
-
-[![yt-dlp stable](https://img.shields.io/github/v/release/yt-dlp/yt-dlp?style=flat-square&label=yt-dlp%20stable)](https://github.com/yt-dlp/yt-dlp/releases/latest)
-[![yt-dlp nightly](https://img.shields.io/github/v/release/yt-dlp/yt-dlp-nightly-builds?style=flat-square&label=yt-dlp%20nightly)](https://github.com/yt-dlp/yt-dlp-nightly-builds/releases/latest)
-
-[![FFmpeg](https://img.shields.io/badge/FFmpeg-v7.0.1-007808?style=flat-square&logo=ffmpeg&logoColor=white)](https://github.com/deniscerri/ytdlnis-packages)
-[![aria2c](https://img.shields.io/badge/aria2c-v1.37.0-666666?style=flat-square)](https://github.com/deniscerri/ytdlnis-packages)
-[![Python](https://img.shields.io/badge/Python-v3.14.6-3776AB?style=flat-square&logo=python&logoColor=white)](https://github.com/deniscerri/ytdlnis-packages)
-[![QuickJS](https://img.shields.io/badge/QuickJS-2025--04--26-000000?style=flat-square)](https://bellard.org/quickjs/)
+[![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 
 </div>
 

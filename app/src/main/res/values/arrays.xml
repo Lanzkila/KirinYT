@@ -1162,7 +1162,6 @@
         <item>@string/disabled</item>
         <item>NewPipe</item>
         <item>YouTube API</item>
-        <item>YouTube Music API</item>
         <item>@string/ytdlp_watch_later</item>
         <item>@string/ytdlp_recommnedations</item>
         <item>@string/ytdlp_liked</item>
@@ -1174,7 +1173,6 @@
         <item></item>
         <item>newpipe</item>
         <item>yt_api</item>
-        <item>yt_music_api</item>
         <item>yt_dlp_watch_later</item>
         <item>yt_dlp_recommendations</item>
         <item>yt_dlp_liked</item>

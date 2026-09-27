@@ -1,11 +1,8 @@
 package com.kirinyt.app.util
 
 import android.annotation.SuppressLint
-import android.app.DownloadManager
 import android.content.Context
-import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.util.Log
 import androidx.preference.PreferenceManager
 import com.kirinyt.app.BuildConfig
@@ -119,35 +116,6 @@ class UpdateUtil(var context: Context) {
         return json
     }
 
-    fun enqueueBackgroundAppUpdate(release: GithubRelease): Result<Long> = runCatching {
-        val abi = Build.SUPPORTED_ABIS.firstOrNull().orEmpty()
-        val asset = release.assets.firstOrNull {
-            it.name.endsWith(".apk", true) &&
-                it.name.contains("universal", true) &&
-                !it.name.contains("foss", true) &&
-                !it.name.contains("izzy", true)
-        } ?: release.assets.firstOrNull {
-            it.name.endsWith(".apk", true) &&
-                it.name.contains(abi, true) &&
-                !it.name.contains("foss", true) &&
-                !it.name.contains("izzy", true)
-        } ?: throw IllegalStateException("No compatible KirinYT APK found in this release")
-
-        val request = DownloadManager.Request(Uri.parse(asset.browser_download_url))
-            .setTitle("KirinYT ${release.tag_name}")
-            .setDescription("Downloading app update")
-            .setMimeType("application/vnd.android.package-archive")
-            .setAllowedOverRoaming(false)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setDestinationInExternalPublicDir(
-                Environment.DIRECTORY_DOWNLOADS,
-                "KirinYT/Updates/${asset.name}"
-            )
-
-        val manager = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        manager.enqueue(request)
-    }
-
     data class YTDLPUpdateResponse (
         val status: YTDLPUpdateStatus,
         val message: String = ""
@@ -203,18 +171,10 @@ class UpdateUtil(var context: Context) {
         return withContext(Dispatchers.IO) {
             try {
                 val releaseVersion = release.assets.firstOrNull {
-                    it.name.contains("universal", true) &&
-                        it.name.endsWith(".apk", true) &&
-                        !it.name.contains("foss", true) &&
-                        !it.name.contains("izzy", true)
-                } ?: release.assets.firstOrNull {
-                    it.name.contains(Build.SUPPORTED_ABIS[0], true) &&
-                        it.name.endsWith(".apk", true) &&
-                        !it.name.contains("foss", true) &&
-                        !it.name.contains("izzy", true)
-                } ?: return@withContext Result.failure(
-                    IllegalStateException("No compatible KirinYT APK found in this release")
-                )
+                    it.name.contains(Build.SUPPORTED_ABIS[0])
+                    && !it.name.contains("foss")
+                    && !it.name.contains("izzy")
+                }!!
                 File(FileUtil.getDefaultApksPath()).mkdirs()
                 val tempApk = File(FileUtil.getDefaultApksPath(), "${releaseVersion.browser_download_url.split("/").last()}")
 

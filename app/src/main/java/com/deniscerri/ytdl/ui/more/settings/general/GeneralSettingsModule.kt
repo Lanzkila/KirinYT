@@ -7,7 +7,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.Settings
-import android.text.InputType
 import android.util.DisplayMetrics
 import android.view.ViewGroup
 import android.view.Window
@@ -38,7 +37,6 @@ import com.kirinyt.app.ui.more.settings.SettingHost
 import com.kirinyt.app.ui.more.settings.SettingModule
 import com.kirinyt.app.util.NavbarUtil
 import com.kirinyt.app.util.ThemeUtil
-import com.kirinyt.app.util.extractors.YoutubeApiUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
@@ -210,7 +208,7 @@ object GeneralSettingsModule : SettingModule {
             }
             "kirinyt_icon" -> {
                 pref.apply {
-                    val currentValue = preferences.getString("kirinyt_icon", "Default")
+                    val currentValue = preferences.getString("kirinyt_icon", "default")
                     ThemeUtil.availableIcons.firstOrNull { it.activityAlias == currentValue }?.let {
                         summary = context.getString(it.nameResource)
                     }
@@ -328,20 +326,13 @@ object GeneralSettingsModule : SettingModule {
             }
             "hide_thumbnails" -> {
                 (pref as MultiSelectListPreference).apply {
-                    fun labelFor(value: String): CharSequence {
-                        val index = entryValues.indexOf(value)
-                        return if (index >= 0) entries[index] else value
+                    values.filter { it.isNotBlank() }.apply {
+                        summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
                     }
-
-                    summary = values
-                        .filter { it.isNotBlank() }
-                        .joinToString(", ") { labelFor(it) }
-
                     setOnPreferenceChangeListener { _, newValues ->
-                        summary = (newValues as Set<*>)
-                            .mapNotNull { it as? String }
-                            .filter { it.isNotBlank() }
-                            .joinToString(", ") { labelFor(it) }
+                        (newValues as Set<*>).map { it as String }.filter { it.isNotBlank() }.apply {
+                            summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
+                        }
                         host.refreshUI()
                         true
                     }
@@ -349,20 +340,13 @@ object GeneralSettingsModule : SettingModule {
             }
             "modify_download_card" -> {
                 (pref as MultiSelectListPreference).apply {
-                    fun labelFor(value: String): CharSequence {
-                        val index = entryValues.indexOf(value)
-                        return if (index >= 0) entries[index] else value
+                    values.filter { it.isNotBlank() }.apply {
+                        summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
                     }
-
-                    summary = values
-                        .filter { it.isNotBlank() }
-                        .joinToString(", ") { labelFor(it) }
-
                     setOnPreferenceChangeListener { _, newValues ->
-                        summary = (newValues as Set<*>)
-                            .mapNotNull { it as? String }
-                            .filter { it.isNotBlank() }
-                            .joinToString(", ") { labelFor(it) }
+                        (newValues as Set<*>).map { it as String }.filter { it.isNotBlank() }.apply {
+                            summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
+                        }
                         host.refreshUI()
                         true
                     }
@@ -370,32 +354,26 @@ object GeneralSettingsModule : SettingModule {
             }
             "recommendations_home" -> {
                 (pref as ListPreference).apply {
-                    val baseSummary = context.getString(R.string.video_recommendations_summary)
-                    val currentIndex = entryValues.indexOf(value)
-                    summary = if (value.isNullOrBlank() || currentIndex < 0) {
-                        baseSummary
-                    } else {
-                        "${baseSummary}\n[${entries[currentIndex]}]"
+                    val s = context.getString(R.string.video_recommendations_summary)
+                    summary = if (value.isNullOrBlank()) {
+                        s
+                    }else {
+                        "${s}\n[${entries[entryValues.indexOf(value)]}]"
                     }
-
                     setOnPreferenceChangeListener { _, newValue ->
-                        val selected = newValue.toString()
                         host.hostLifecycleOwner.lifecycleScope.launch {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
                             }
+                            val s = context.getString(R.string.video_recommendations_summary)
+                            summary = if ((newValue as String).isBlank()) {
+                                s
+                            }else {
+                                "${s}\n[${entries[entryValues.indexOf(value)]}]"
+                            }
+                            host.findPref("api_key")?.isVisible = newValue == "yt_api"
+                            host.refreshUI()
                         }
-
-                        val selectedIndex = entryValues.indexOf(selected)
-                        summary = if (selected.isBlank() || selectedIndex < 0) {
-                            baseSummary
-                        } else {
-                            "${baseSummary}\n[${entries[selectedIndex]}]"
-                        }
-
-                        host.findPref("custom_home_recommendation_url")?.isVisible =
-                            selected == "custom"
-                        host.refreshUI()
                         true
                     }
                 }
@@ -405,7 +383,7 @@ object GeneralSettingsModule : SettingModule {
                     title = "[${context.getString(R.string.video_recommendations)}] ${context.getString(R.string.custom)}"
                     isVisible = preferences.getString("recommendations_home", "") == "custom"
 
-                    setOnPreferenceChangeListener { _, _ ->
+                    setOnPreferenceChangeListener { preference, newValue ->
                         host.hostLifecycleOwner.lifecycleScope.launch {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
@@ -418,63 +396,26 @@ object GeneralSettingsModule : SettingModule {
             }
             "api_key" -> {
                 (pref as EditTextPreference).apply {
-                    summary = getApiKeySummary(context, text)
-                    setOnBindEditTextListener { editText ->
-                        editText.inputType =
-                            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                        editText.setSingleLine(true)
+                    isVisible = preferences.getString("recommendations_home", "") == "yt_api"
+                    val s = context.getString(R.string.api_key_summary)
+                    summary = if (text.isNullOrBlank()) {
+                        s
+                    }else {
+                        "${s}\n[${text}]"
                     }
-
                     setOnPreferenceChangeListener { _, newValue ->
-                        val key = newValue.toString().trim()
                         host.hostLifecycleOwner.lifecycleScope.launch {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
                             }
                         }
-
-                        summary = getApiKeySummary(context, key)
-                        host.findPref("test_youtube_api_key")?.isEnabled = key.isNotBlank()
+                        val s = context.getString(R.string.api_key_summary)
+                        summary = if ((newValue as String).isBlank()) {
+                            s
+                        }else {
+                            "${s}\n[${text}]"
+                        }
                         host.refreshUI()
-                        true
-                    }
-                }
-            }
-            "test_youtube_api_key" -> {
-                pref.apply {
-                    isEnabled = !preferences.getString("api_key", "").isNullOrBlank()
-                    setOnPreferenceClickListener {
-                        val key = preferences.getString("api_key", "").orEmpty().trim()
-                        if (key.isBlank()) {
-                            MaterialAlertDialogBuilder(host.getHostContext())
-                                .setTitle(R.string.test_youtube_api_key)
-                                .setMessage(R.string.youtube_api_key_missing)
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show()
-                            return@setOnPreferenceClickListener true
-                        }
-
-                        isEnabled = false
-                        summary = context.getString(R.string.youtube_api_key_testing)
-                        host.hostLifecycleOwner.lifecycleScope.launch {
-                            val valid = withContext(Dispatchers.IO) {
-                                YoutubeApiUtil(context).validateApiKey()
-                            }
-
-                            isEnabled = true
-                            summary = context.getString(R.string.test_youtube_api_key_summary)
-                            MaterialAlertDialogBuilder(host.getHostContext())
-                                .setTitle(R.string.test_youtube_api_key)
-                                .setMessage(
-                                    if (valid) {
-                                        R.string.youtube_api_key_valid
-                                    } else {
-                                        R.string.youtube_api_key_invalid
-                                    }
-                                )
-                                .setPositiveButton(android.R.string.ok, null)
-                                .show()
-                        }
                         true
                     }
                 }
@@ -482,19 +423,16 @@ object GeneralSettingsModule : SettingModule {
             "search_engine" -> {
                 (pref as ListPreference).apply {
                     val s = context.getString(R.string.preferred_search_engine_summary)
-                    val currentIndex = entryValues.indexOf(value)
-                    summary = if (value.isNullOrBlank() || currentIndex < 0) {
+                    summary = if (value.isNullOrBlank()) {
                         s
                     }else {
-                        "${s}\n[${entries[currentIndex]}]"
+                        "${s}\n[${entries[entryValues.indexOf(value)]}]"
                     }
                     setOnPreferenceChangeListener { _, newValue ->
-                        val selected = newValue.toString()
-                        val selectedIndex = entryValues.indexOf(selected)
-                        summary = if (selected.isBlank() || selectedIndex < 0) {
+                        summary = if ((newValue as String).isBlank()) {
                             s
                         }else {
-                            "${s}\n[${entries[selectedIndex]}]"
+                            "${s}\n[${entries[entryValues.indexOf(newValue)]}]"
                         }
                         host.refreshUI()
                         true
@@ -506,10 +444,8 @@ object GeneralSettingsModule : SettingModule {
                     val s = context.getString(R.string.swipe_gestures_summary)
                     if (values.size == entries.size) {
                         summary = "${s}\n[${context.getString(R.string.all)}]"
-                    }else if (values.isNotEmpty()) {
-                        val indexes = values.mapNotNull { value ->
-                            entryValues.indexOf(value).takeIf { it >= 0 }
-                        }.toSet()
+                    }else if (values.size > 0) {
+                        val indexes = entryValues.mapIndexed { index, _ -> index }
                         summary = "${s}\n[${entries.filterIndexed { index, _ -> indexes.contains(index) }.joinToString(", ")}]"
                     }else{
                         summary = s
@@ -519,9 +455,7 @@ object GeneralSettingsModule : SettingModule {
                         if (newValues.size == entries.size) {
                             summary = "${s}\n[${context.getString(R.string.all)}]"
                         }else if (newValues.isNotEmpty()) {
-                            val indexes = newValues.mapNotNull { value ->
-                                entryValues.indexOf(value).takeIf { it >= 0 }
-                            }.toSet()
+                            val indexes = List(newValues.size) { index -> index }
                             summary = "${s}\n[${entries.filterIndexed { index, _ -> indexes.contains(index) }.joinToString(", ")}]"
                         }else{
                             summary = s
@@ -531,15 +465,6 @@ object GeneralSettingsModule : SettingModule {
                     }
                 }
             }
-        }
-    }
-
-    private fun getApiKeySummary(context: Context, key: String?): String {
-        val base = context.getString(R.string.youtube_api_key_summary)
-        return if (key.isNullOrBlank()) {
-            "${base}\n[${context.getString(R.string.youtube_api_key_not_configured)}]"
-        } else {
-            "${base}\n[${context.getString(R.string.youtube_api_key_configured)}]"
         }
     }
 }

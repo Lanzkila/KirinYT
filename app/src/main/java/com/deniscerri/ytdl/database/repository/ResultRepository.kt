@@ -66,8 +66,7 @@ class ResultRepository(private val resultDao: ResultDao, commandTemplateDao: Com
         val category = sharedPreferences.getString("recommendations_home", "")
         val items = when(category) {
             "newpipe" -> newPipeUtil.getTrending()
-            "yt_api" -> youtubeApiUtil.getYoutubeTrending()
-            "yt_music_api" -> youtubeApiUtil.getYoutubeMusicTrending()
+            "yt_api" -> youtubeApiUtil.getTrending()
             "yt_dlp_watch_later" -> ytdlpUtil.getYoutubeWatchLater()
             "yt_dlp_recommendations" -> ytdlpUtil.getYoutubeRecommendations()
             "yt_dlp_liked" -> ytdlpUtil.getYoutubeLikedVideos()

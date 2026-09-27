@@ -23,7 +23,6 @@ object BackupSettingsUtil {
             prefs.remove("cache_downloads")
             prefs.remove("use_alarm_for_scheduling")
             prefs.remove("use_bgutils_potoken_generator")
-            prefs.remove("api_key")
 
             val res = prefs.map { BackupSettingsItem(
                 key = it.key,

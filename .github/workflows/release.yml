@@ -133,39 +133,29 @@ jobs:
           make_latest: true
           generate_release_notes: false
           body: |
-            ## KirinYT 1.9.2
+            ## KirinYT 1.9.0
 
-            This release consolidates the recent KirinYT fixes into one stable build.
+            This release establishes KirinYT as the customized Android yt-dlp downloader build and includes the latest app, documentation, and repository improvements.
 
-            ### Stability and Settings
-            - Hardened Settings search/indexing so one broken or stale preference cannot close the app.
-            - Removed the stale Shizuku Settings hook from the user-controlled update flow.
-            - Stale multi-select preference values are handled safely after upgrading from older builds.
-            - App icon changes no longer force-recreate the Settings activity.
+            ### New
+            - Added phase-aware progress to active download cards.
+            - Download cards can now show stages such as **Preparing**, **Video**, **Audio**, **Fragments**, **Merging**, **Processing**, **Moving**, and **Complete**.
+            - Added readable download progress details with percentage, transfer speed, and ETA when available.
+            - Added the KirinYT Changelog Tracker, generating commit-based changelog entries with changed-file details.
 
-            ### YouTube and YouTube Music API feeds
-            - Added a Settings field for your own YouTube Data API v3 key.
-            - Added an in-app API key test action.
-            - Added separate YouTube and YouTube Music home feed options.
-            - API keys are masked in Settings, excluded from backups, and redacted from network logs.
+            ### KirinYT rebrand
+            - Standardized the Android namespace and application ID as `com.kirinyt.app`.
+            - Standardized KirinYT APK naming and stable/pre-release workflows.
+            - Rebuilt the main README and synchronized all translated README files.
+            - Removed old YTDLnis branding, obsolete screenshots, and outdated CI references from the documentation.
 
-            ### Universal APK and update flow
-            - KirinYT now prefers the Universal APK first when an app update is available.
-            - App and runtime-package APK downloads use Android DownloadManager and remain user-controlled.
-            - The GitHub release build no longer declares REQUEST_INSTALL_PACKAGES or the Shizuku installer provider.
-            - Universal, ARM64, ARMv7, x86 and x86_64 APKs remain available on GitHub Releases.
+            ### Repository
+            - Kept the original fork source-directory layout for easier upstream maintenance.
+            - Updated release and Telegram notification workflows for KirinYT.
+            - Added automatic changelog generation inspired by the ADL4D2 tracker format.
 
-            ### Launcher icons
-            - Restored the full Kirin dragon artwork instead of flat tint-only launcher graphics.
-            - Added detailed Light, Dark, Blue and Green Kirin variants while preserving the dragon detail.
-            - Adaptive and legacy launcher resources now use the correct Kirin artwork variants.
-            - Launcher alias switching enables the new icon before disabling the previous one.
-
-            ### Download progress
-            - Keeps phase-aware Video, Audio and Fragment progress.
-            - Adds real Merging and Processing percentage, speed and ETA when FFmpeg timing data is available.
-            - Falls back to indeterminate progress instead of showing a fake 100%.
-
+            ### Notes
+            - External runtime package identifiers used by Python, FFmpeg, Node.js, Deno, aria2c, and related components are intentionally preserved where required by their dependencies.
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt

@@ -2788,58 +2788,92 @@ object UiUtil {
         installLauncher: ActivityResultLauncher<Intent>
     ) {
         if (context.isFinishing || context.isDestroyed) return
+        var positiveButton: Button? = null
+        var negativeButton: Button? = null
+        var neutralButton: Button? = null
+        var tmpDownloadJob: Job? = null
 
-        val skippedVersions = preferences.getString("skip_updates", "")
-            ?.split(",")
-            ?.distinct()
-            ?.toMutableList()
-            ?: mutableListOf()
+        val skippedVersions = preferences.getString("skip_updates", "")?.split(",")?.distinct()?.toMutableList() ?: mutableListOf()
 
         val updateDialog = MaterialAlertDialogBuilder(context)
             .setTitle(v.tag_name)
             .setMessage(v.body)
             .setCancelable(false)
             .setIcon(R.drawable.ic_update_app)
-            .setNeutralButton(R.string.ignore) { d: DialogInterface?, _: Int ->
+            .setNeutralButton(R.string.ignore){ d: DialogInterface?, _:Int ->
+                tmpDownloadJob?.cancel()
                 skippedVersions.add(v.tag_name)
-                preferences.edit()
-                    .putString("skip_updates", skippedVersions.joinToString(","))
-                    .apply()
+                preferences.edit().putString("skip_updates", skippedVersions.joinToString(",")).apply()
                 d?.dismiss()
             }
-            .setNegativeButton(R.string.cancel, null)
+            .setNegativeButton(R.string.cancel) { _: DialogInterface?, _: Int ->
+                tmpDownloadJob?.cancel()
+            }
             .setPositiveButton(R.string.update, null)
-
         val view = updateDialog.show()
         val textView = view.findViewById<TextView>(android.R.id.message)
-        textView?.movementMethod = LinkMovementMethod.getInstance()
+        textView!!.movementMethod = LinkMovementMethod.getInstance()
+        val mw = Markwon.builder(context).usePlugin(object: AbstractMarkwonPlugin() {
 
-        val mw = Markwon.builder(context).usePlugin(object : AbstractMarkwonPlugin() {
             override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
-                builder.linkResolver { _, link ->
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
+                builder.linkResolver { view, link ->
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                    context.startActivity(browserIntent)
                 }
             }
         }).build()
-        textView?.let { mw.setMarkdown(it, v.body) }
+        mw.setMarkdown(textView, v.body)
 
-        view.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            updateUtil.enqueueBackgroundAppUpdate(v)
-                .onSuccess {
-                    Toast.makeText(
-                        context,
-                        "KirinYT update is downloading. Open the completed download to install it.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    view.dismiss()
+        positiveButton = view.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
+        negativeButton = view.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)
+        neutralButton = view.getButton(android.app.AlertDialog.BUTTON_NEUTRAL)
+
+        positiveButton?.setOnClickListener {
+            positiveButton.isEnabled = false
+            positiveButton.text = "0%"
+
+            val lifecycleScope = lifecycleOwner.lifecycleScope
+
+            tmpDownloadJob = lifecycleScope.launch {
+                val fileResp = updateUtil.downloadReleaseApk(v) { progress ->
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            positiveButton.text = "$progress%"
+                        }
+                    }
                 }
-                .onFailure { error ->
-                    Snackbar.make(
-                        context.findViewById(R.id.frame_layout),
-                        error.message ?: context.getString(R.string.errored),
-                        Snackbar.LENGTH_LONG
-                    ).show()
+
+                fileResp.onFailure {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            view.dismiss()
+                            Snackbar.make(
+                                context.findViewById(R.id.frame_layout),
+                                it.message ?: context.getString(R.string.errored),
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
+
+                fileResp.onSuccess { file ->
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            positiveButton.text = context.getString(R.string.please_wait)
+                            negativeButton.isEnabled = false
+                            neutralButton.isEnabled = false
+
+                            ApkInstallUtil.installApk(context, file, installLauncher) { result ->
+                                result.onSuccess {
+                                }.onFailure { f ->
+                                    Snackbar.make(context.findViewById(R.id.frame_layout), f.message ?: "", Snackbar.LENGTH_LONG).show()
+                                }
+                                view.dismiss()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -2880,50 +2914,81 @@ object UiUtil {
         installLauncher: ActivityResultLauncher<Intent>,
         onResult: (result: Result<Unit>) -> Unit
     ) {
+        var tmpDownloadJob : Job? = null
+
+        var positiveButton: Button? = null
+        var negativeButton: Button? = null
+
         val updateDialog = MaterialAlertDialogBuilder(context)
             .setTitle("${item.tag_name} (${FileUtil.convertFileSize(item.downloadSize)})")
             .setMessage(item.body)
             .setIcon(R.drawable.ic_update_app)
             .setCancelable(false)
-            .setNegativeButton(context.getString(R.string.cancel), null)
+            .setNegativeButton(context.getString(R.string.cancel)) { _: DialogInterface?, _: Int ->
+                tmpDownloadJob?.cancel()
+            }
             .setPositiveButton(context.getString(R.string.download), null)
-
         val view = updateDialog.show()
         val textView = view.findViewById<TextView>(android.R.id.message)
-        textView?.movementMethod = LinkMovementMethod.getInstance()
+        textView!!.movementMethod = LinkMovementMethod.getInstance()
+        val mw = Markwon.builder(context).usePlugin(object: AbstractMarkwonPlugin() {
 
-        val mw = Markwon.builder(context).usePlugin(object : AbstractMarkwonPlugin() {
             override fun configureConfiguration(builder: MarkwonConfiguration.Builder) {
-                builder.linkResolver { _, link ->
-                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
+                builder.linkResolver { view, link ->
+                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+                    context.startActivity(browserIntent)
                 }
             }
         }).build()
-        textView?.let { mw.setMarkdown(it, item.body) }
+        mw.setMarkdown(textView, item.body)
 
-        view.getButton(android.app.AlertDialog.BUTTON_POSITIVE)?.setOnClickListener {
-            val instance = packageItem.getInstance()
-            instance.enqueueReleaseApkDownload(context, item)
-                .onSuccess {
-                    Toast.makeText(
-                        context,
-                        "Runtime APK is downloading. Open the completed download to install it.",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    view.dismiss()
+        val lifecycleScope = lifecycleOwner.lifecycleScope
+
+        positiveButton = view.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
+        negativeButton = view.getButton(android.app.AlertDialog.BUTTON_NEGATIVE)
+
+        positiveButton?.setOnClickListener {
+            positiveButton.isEnabled = false
+            positiveButton.text = "0%"
+
+            tmpDownloadJob = lifecycleScope.launch {
+                val instance = packageItem.getInstance()
+                val fileResp = instance.downloadReleaseApk(item) { progress ->
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            positiveButton.text = "$progress%"
+                        }
+                    }
                 }
-                .onFailure { error ->
-                    val snackbar = Snackbar.make(
-                        activityView,
-                        error.message ?: context.getString(R.string.errored),
-                        Snackbar.LENGTH_LONG
-                    )
-                    snackbar.anchorView = snackbarAnchorView
-                    snackbar.show()
-                    onResult(Result.failure(error))
+
+                fileResp.onFailure {
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            view.dismiss()
+                            val snackbar = Snackbar.make(activityView, it.message ?: context.getString(R.string.errored), Snackbar.LENGTH_LONG)
+                            snackbar.anchorView = snackbarAnchorView
+                            snackbar.show()
+                        }
+                    }
                 }
+
+                fileResp.onSuccess { file ->
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.Main) {
+                            positiveButton.text = context.getString(R.string.please_wait)
+                            negativeButton.isEnabled = false
+
+                            ApkInstallUtil.installApk(context, file, installLauncher) { result ->
+                                onResult(result)
+                                view.dismiss()
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+
 
     fun showObserveSourceDetailsCard(
         item: ObserveSourcesItem,

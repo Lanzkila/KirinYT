@@ -166,11 +166,7 @@ class SettingsActivity : BaseActivity(), SettingHost {
                     }
 
                     filtered.forEach { item ->
-                        runCatching {
-                            item.module?.bindLogic(item.preference, this@SettingsActivity)
-                        }.onFailure {
-                            Log.e("SettingsActivity", "Failed to bind preference ${item.preference.key}", it)
-                        }
+                        item.module?.bindLogic(item.preference, this@SettingsActivity)
                     }
 
                     searchAdapter.updateList(filtered)
@@ -184,10 +180,12 @@ class SettingsActivity : BaseActivity(), SettingHost {
             }
         }
 
+        ApkInstallUtil.registerShizukuPermissionListener()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        ApkInstallUtil.unregisterShizukuPermissionListener()
     }
 
     override fun onResume() {
