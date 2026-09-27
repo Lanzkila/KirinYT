@@ -1,6 +1,10 @@
 name: KirinYT Release
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/release.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -133,26 +137,39 @@ jobs:
           make_latest: true
           generate_release_notes: false
           body: |
-            ## KirinYT 1.9.1
+            ## KirinYT 1.9.2
 
-            This patch release improves launcher icon variants and active-download progress reporting.
+            This release consolidates the recent KirinYT fixes into one stable build.
 
-            ### App icon variants
-            - Restored distinct KirinYT launcher icon colors using the original app palette.
-            - **Auto / Light / Dark** use the red Kirin foreground.
-            - **Blue** uses the original blue foreground.
-            - **Green** uses the original green foreground.
-            - Light and dark variants keep their matching white and black backgrounds.
-            - Themed launcher resources retain the upstream blue-themed behavior.
+            ### Stability and Settings
+            - Hardened Settings search/indexing so one broken or stale preference cannot close the app.
+            - Removed the stale Shizuku Settings hook from the user-controlled update flow.
+            - Stale multi-select preference values are handled safely after upgrading from older builds.
+            - App icon changes no longer force-recreate the Settings activity.
+
+            ### YouTube and YouTube Music API feeds
+            - Added a Settings field for your own YouTube Data API v3 key.
+            - Added an in-app API key test action.
+            - Added separate YouTube and YouTube Music home feed options.
+            - API keys are masked in Settings, excluded from backups, and redacted from network logs.
+
+            ### Universal APK and update flow
+            - KirinYT now prefers the Universal APK first when an app update is available.
+            - App and runtime-package APK downloads use Android DownloadManager and remain user-controlled.
+            - The GitHub release build no longer declares REQUEST_INSTALL_PACKAGES or the Shizuku installer provider.
+            - Universal, ARM64, ARMv7, x86 and x86_64 APKs remain available on GitHub Releases.
+
+            ### Launcher icons
+            - Restored the full Kirin dragon artwork instead of flat tint-only launcher graphics.
+            - Added detailed Light, Dark, Blue and Green Kirin variants while preserving the dragon detail.
+            - Adaptive and legacy launcher resources now use the correct Kirin artwork variants.
+            - Launcher alias switching enables the new icon before disabling the previous one.
 
             ### Download progress
-            - Added percentage progress for **Merging** and **Processing** when FFmpeg provides timing information.
-            - Merging and processing can now show processing speed and ETA alongside the percentage.
-            - Progress is calculated from FFmpeg duration and processed time instead of forcing these phases to 100%.
-            - Falls back to an indeterminate progress bar when a post-processing step does not expose enough timing data.
+            - Keeps phase-aware Video, Audio and Fragment progress.
+            - Adds real Merging and Processing percentage, speed and ETA when FFmpeg timing data is available.
+            - Falls back to indeterminate progress instead of showing a fake 100%.
 
-            ### Existing phase-aware progress
-            - Keeps progress tracking for **Video**, **Audio**, **Fragments**, **Moving**, and other active-download stages.
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
