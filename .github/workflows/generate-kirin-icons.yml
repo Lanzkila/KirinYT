@@ -82,7 +82,7 @@ jobs:
         run: |
           git config user.name "Kirin-Bot"
           git config user.email "actions@users.noreply.github.com"
-          git add app/src/main/res/drawable-*/ic_launcher_kirin_*.png
+          git add -f app/src/main/res/drawable-*/ic_launcher_kirin_*.png
           if git diff --cached --quiet; then
             echo "No icon changes"
             exit 0
