@@ -1,0 +1,91 @@
+name: Generate KirinYT Icon Variants
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/generate-kirin-icons.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - run: python3 -m pip -q install pillow
+
+      - name: Generate detailed Kirin icon variants
+        run: |
+          python3 - <<'PY'
+          from PIL import Image, ImageEnhance
+          from pathlib import Path
+          import colorsys
+
+          densities = ["mdpi","hdpi","xhdpi","xxhdpi","xxxhdpi"]
+
+          def hue_variant(im, target_hue, saturation_boost=1.0):
+              src = im.convert("RGBA")
+              out = Image.new("RGBA", src.size)
+              pixels = []
+              for r,g,b,a in src.getdata():
+                  if a == 0:
+                      pixels.append((r,g,b,a))
+                      continue
+                  h,s,v = colorsys.rgb_to_hsv(r/255, g/255, b/255)
+                  # Recolor the blue/cyan artwork/background only.
+                  # White/grey dragon details and the red eye stay intact.
+                  if 0.45 <= h <= 0.75 and s > 0.12:
+                      h = target_hue
+                      s = min(1.0, s * saturation_boost)
+                      rr,gg,bb = colorsys.hsv_to_rgb(h,s,v)
+                      pixels.append((round(rr*255),round(gg*255),round(bb*255),a))
+                  else:
+                      pixels.append((r,g,b,a))
+              out.putdata(pixels)
+              return out
+
+          for density in densities:
+              folder = Path(f"app/src/main/res/drawable-{density}")
+              source = folder / "ic_launcher_kirin_foreground.png"
+              im = Image.open(source).convert("RGBA")
+
+              # Light/Dark preserve the complete dragon artwork.
+              white = Image.new("RGBA", im.size, (255,255,255,255))
+              black = Image.new("RGBA", im.size, (0,0,0,255))
+              light = Image.blend(im, white, 0.16)
+              light = ImageEnhance.Contrast(light).enhance(1.08)
+              dark = Image.blend(im, black, 0.14)
+              dark = ImageEnhance.Contrast(dark).enhance(1.08)
+
+              blue = hue_variant(im, 0.57, 1.18)
+              blue = ImageEnhance.Color(blue).enhance(1.10)
+              green = hue_variant(im, 0.34, 1.08)
+
+              variants = {
+                  "ic_launcher_kirin_light.png": light,
+                  "ic_launcher_kirin_dark.png": dark,
+                  "ic_launcher_kirin_blue.png": blue,
+                  "ic_launcher_kirin_green.png": green,
+              }
+
+              for name, image in variants.items():
+                  image.save(folder / name, optimize=True)
+                  print("generated", folder / name)
+          PY
+
+      - name: Commit generated icon variants
+        run: |
+          git config user.name "Kirin-Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add app/src/main/res/drawable-*/ic_launcher_kirin_*.png
+          if git diff --cached --quiet; then
+            echo "No icon changes"
+            exit 0
+          fi
+          git commit -m "Generate detailed KirinYT icon variants [skip ci]"
+          git push
