@@ -5,6 +5,20 @@
 
 _Generated: 27 Sep 2026 • 15:23 MYT_
 
+## 27 Sep 2026 • 15:23 MYT — `bba561b`
+
+**Keep Kirin logo visible in legacy launcher icons**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/bba561b9a220a5cf8fd721065d338585dc5abd4c)
+
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_blue.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_dark.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_green.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_light.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_blue.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_dark.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_green.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi/ic_launcher_round_light.xml`
+
 ## 27 Sep 2026 • 15:22 MYT — `156835a`
 
 **Keep Kirin logo visible in adaptive launcher icons**  
@@ -136,14 +150,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/ThemeUtil.kt`
 
-## 27 Sep 2026 • 13:13 MYT — `c7a6e34`
-
-**Exclude YouTube API key from backups**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/c7a6e34d83212a98ff62796aa47f546bfe360d2c)
-
-- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/BackupSettingsUtil.kt`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
