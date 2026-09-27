@@ -5,6 +5,27 @@
 
 _Generated: 27 Sep 2026 • 13:13 MYT_
 
+## 27 Sep 2026 • 13:13 MYT — `c7a6e34`
+
+**Exclude YouTube API key from backups**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/c7a6e34d83212a98ff62796aa47f546bfe360d2c)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/BackupSettingsUtil.kt`
+
+## 27 Sep 2026 • 13:13 MYT — `b585f10`
+
+**Redact API keys from network logs**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/b585f1072a80e4026188623aa8ce4842a14d3494)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/extractors/NetworkUtil.kt`
+
+## 27 Sep 2026 • 13:13 MYT — `2a934b7`
+
+**Add YouTube API feed setting strings**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/2a934b7d7d83e18f2434eb4e4743fee4cfb74562)
+
+- ✏️ Updated: `app/src/main/res/values/strings.xml`
+
 ## 27 Sep 2026 • 13:12 MYT — `9c320b5`
 
 **Expose YouTube API key controls in settings**  
@@ -98,69 +119,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/downloads/ActiveDownloadsFragment.kt`
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/work/DownloadWorker.kt`
 
-## 18 Sep 2026 • 17:41 MYT — `86d0f62`
-
-**Update**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/86d0f626cd67c2f371fde652c91f7d296a56cbc7)
-
-- ✏️ Updated: `app/src/main/ic_launcher-playstore.png`
-- ➕ Added: `app/src/main/res/drawable-hdpi/ic_launcher_kirin_foreground.png`
-- ➕ Added: `app/src/main/res/drawable-mdpi/ic_launcher_kirin_foreground.png`
-- ➕ Added: `app/src/main/res/drawable-xhdpi/ic_launcher_kirin_foreground.png`
-- ➕ Added: `app/src/main/res/drawable-xxhdpi/ic_launcher_kirin_foreground.png`
-- ➕ Added: `app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png`
-- ✏️ Updated: `app/src/main/res/drawable/ic_app_icon.xml`
-- ✏️ Updated: `app/src/main/res/layout/app_logo_fab.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_blue.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_dark.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_green.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_light.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_blue.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_dark.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_green.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_light.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_themed.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_themed_dark.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_themed.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_themed_dark.xml`
-- ✏️ Updated: `app/src/main/res/mipmap-hdpi/ic_launcher.png`
-- ✏️ Updated: `app/src/main/res/mipmap-hdpi/ic_launcher_round.png`
-- ✏️ Updated: `app/src/main/res/mipmap-mdpi/ic_launcher.png`
-
-## 18 Sep 2026 • 16:24 MYT — `8ac4af3`
-
-**KirinYT Rebranded**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/8ac4af325c720fad80e3cbe233801f70d06949f4)
-
-- ✏️ Updated: `app/build.gradle`
-- ✏️ Updated: `app/proguard-rules.pro`
-- ➕ Added: `app/schemas/com.kirinyt.app.data.DBManager/11.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/1.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/10.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/11.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/12.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/13.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/14.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/15.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/16.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/17.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/18.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/19.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/2.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/20.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/21.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/22.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/23.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/24.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/25.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/26.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/27.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/28.json`
-- ➕ Added: `app/schemas/com.kirinyt.app.database.DBManager/3.json`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
