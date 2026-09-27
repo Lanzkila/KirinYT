@@ -93,8 +93,14 @@
         <EditTextPreference
             android:icon="@drawable/ic_key"
             app:key="api_key"
-            android:summary="@string/api_key_summary"
-            app:title="@string/api_key" />
+            android:summary="@string/youtube_api_key_summary"
+            app:title="@string/youtube_api_key" />
+
+        <Preference
+            android:icon="@drawable/ic_key"
+            app:key="test_youtube_api_key"
+            app:summary="@string/test_youtube_api_key_summary"
+            app:title="@string/test_youtube_api_key" />
 
         <ListPreference
             android:defaultValue="YT_DLP"
