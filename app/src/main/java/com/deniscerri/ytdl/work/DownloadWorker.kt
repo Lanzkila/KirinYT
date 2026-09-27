@@ -279,6 +279,8 @@ class DownloadWorker(
 
                         var transferPhase = TransferPhase.Preparing
                         var destinationCount = 0
+                        val ffmpegProgressTracker =
+                            FfmpegProgressTracker(parseDurationSeconds(downloadItem.duration))
 
                         runCatching {
                             RuntimeManager.getInstance().destroyProcessById(downloadItem.id.toString())
@@ -288,24 +290,30 @@ class DownloadWorker(
                                 redirectErrorStream = true,
                                 usingCacheDir = true
                             ) { progress, etaSeconds, line ->
+                                val mergeMarker =
+                                    line.contains("[Merger]", ignoreCase = true) ||
+                                        line.contains("Merging formats", ignoreCase = true)
+                                val processingMarker =
+                                    line.startsWith("[ExtractAudio]", ignoreCase = true) ||
+                                        line.startsWith("[VideoConvertor]", ignoreCase = true) ||
+                                        line.startsWith("[VideoRemuxer]", ignoreCase = true) ||
+                                        line.startsWith("[Metadata]", ignoreCase = true) ||
+                                        line.startsWith("[EmbedSubtitle]", ignoreCase = true) ||
+                                        line.startsWith("[EmbedThumbnail]", ignoreCase = true) ||
+                                        line.startsWith("[ThumbnailsConvertor]", ignoreCase = true) ||
+                                        line.startsWith("[SponsorBlock]", ignoreCase = true) ||
+                                        line.startsWith("[Fixup", ignoreCase = true)
+
+                                val previousPhase = transferPhase
                                 var resetProgress = false
                                 transferPhase = when {
-                                    line.contains("[Merger]", ignoreCase = true) ||
-                                            line.contains("Merging formats", ignoreCase = true) -> TransferPhase.Merging
+                                    mergeMarker -> TransferPhase.Merging
 
-                                    line.startsWith("[ExtractAudio]", ignoreCase = true) ||
-                                            line.startsWith("[VideoConvertor]", ignoreCase = true) ||
-                                            line.startsWith("[VideoRemuxer]", ignoreCase = true) ||
-                                            line.startsWith("[Metadata]", ignoreCase = true) ||
-                                            line.startsWith("[EmbedSubtitle]", ignoreCase = true) ||
-                                            line.startsWith("[EmbedThumbnail]", ignoreCase = true) ||
-                                            line.startsWith("[ThumbnailsConvertor]", ignoreCase = true) ||
-                                            line.startsWith("[SponsorBlock]", ignoreCase = true) ||
-                                            line.startsWith("[Fixup", ignoreCase = true) -> TransferPhase.PostProcessing
+                                    processingMarker -> TransferPhase.PostProcessing
 
                                     line.startsWith("[hlsnative]", ignoreCase = true) ||
-                                            line.startsWith("[dashsegments]", ignoreCase = true) ||
-                                            line.contains("(frag ", ignoreCase = true) -> TransferPhase.Fragments
+                                        line.startsWith("[dashsegments]", ignoreCase = true) ||
+                                        line.contains("(frag ", ignoreCase = true) -> TransferPhase.Fragments
 
                                     line.contains("[download] Destination:", ignoreCase = true) -> {
                                         destinationCount += 1
@@ -334,9 +342,27 @@ class DownloadWorker(
                                     else -> transferPhase
                                 }
 
+                                if ((transferPhase == TransferPhase.Merging ||
+                                        transferPhase == TransferPhase.PostProcessing) &&
+                                    (transferPhase != previousPhase || mergeMarker || processingMarker)
+                                ) {
+                                    ffmpegProgressTracker.reset()
+                                }
+
+                                val ffmpegProgress = if (
+                                    transferPhase == TransferPhase.Merging ||
+                                    transferPhase == TransferPhase.PostProcessing
+                                ) {
+                                    ffmpegProgressTracker.consume(line)
+                                } else {
+                                    null
+                                }
+
                                 val eventProgress = when (transferPhase) {
                                     TransferPhase.Merging,
-                                    TransferPhase.PostProcessing -> 100
+                                    TransferPhase.PostProcessing ->
+                                        ffmpegProgress?.progress ?: -1
+
                                     else -> if (resetProgress) {
                                         0
                                     } else if (progress >= 0f) {
@@ -346,6 +372,19 @@ class DownloadWorker(
                                     }
                                 }
 
+                                val eventEta = when (transferPhase) {
+                                    TransferPhase.Merging,
+                                    TransferPhase.PostProcessing ->
+                                        ffmpegProgress?.etaSeconds ?: -1L
+                                    else -> etaSeconds
+                                }
+
+                                val eventSpeed = when (transferPhase) {
+                                    TransferPhase.Merging,
+                                    TransferPhase.PostProcessing -> ffmpegProgress?.speed
+                                    else -> extractTransferSpeed(line)
+                                }
+
                                 WorkerEventBus.post(
                                     WorkerProgress(
                                         eventProgress,
@@ -353,14 +392,17 @@ class DownloadWorker(
                                         downloadItem.id,
                                         downloadItem.logID,
                                         transferPhase,
-                                        etaSeconds,
-                                        extractTransferSpeed(line)
+                                        eventEta,
+                                        eventSpeed
                                     )
                                 )
                                 val title: String = downloadItem.title.ifEmpty { downloadItem.url }
                                 notificationUtil.updateDownloadNotification(
                                     downloadItem.id.toInt(),
-                                    line, progress.toInt(), 0, title,
+                                    line,
+                                    eventProgress.coerceAtLeast(0),
+                                    0,
+                                    title,
                                     NotificationUtil.Companion.DOWNLOAD_SERVICE_CHANNEL_ID
                                 )
                                 CoroutineScope(Dispatchers.IO).launch {
@@ -675,7 +717,114 @@ class DownloadWorker(
                 ?.getOrNull(1)
     }
 
+    private data class FfmpegProgress(
+        val progress: Int,
+        val etaSeconds: Long,
+        val speed: String?
+    )
+
+    private inner class FfmpegProgressTracker(
+        private val fallbackDurationSeconds: Double?
+    ) {
+        private var detectedDurationSeconds: Double? = null
+
+        fun reset() {
+            detectedDurationSeconds = null
+        }
+
+        fun consume(line: String): FfmpegProgress? {
+            ffmpegDurationRegex.findAll(line).forEach { match ->
+                parseDurationSeconds(match.groupValues[1])?.let { duration ->
+                    if (duration > 0.0) {
+                        detectedDurationSeconds = maxOf(
+                            detectedDurationSeconds ?: 0.0,
+                            duration
+                        )
+                    }
+                }
+            }
+
+            val timeMatch = ffmpegTimeRegex.find(line) ?: return null
+            val processedSeconds =
+                parseDurationSeconds(timeMatch.groupValues[1]) ?: return null
+            val totalSeconds =
+                detectedDurationSeconds?.takeIf { it > 0.0 }
+                    ?: fallbackDurationSeconds?.takeIf { it > 0.0 }
+                    ?: return null
+
+            val progress = ((processedSeconds / totalSeconds) * 100.0)
+                .toInt()
+                .coerceIn(0, 99)
+
+            val speedValue = ffmpegSpeedRegex
+                .find(line)
+                ?.groupValues
+                ?.getOrNull(1)
+                ?.toDoubleOrNull()
+                ?.takeIf { it > 0.0 }
+
+            val eta = if (speedValue != null) {
+                kotlin.math.ceil(
+                    (totalSeconds - processedSeconds)
+                        .coerceAtLeast(0.0) / speedValue
+                ).toLong()
+            } else {
+                -1L
+            }
+
+            return FfmpegProgress(
+                progress = progress,
+                etaSeconds = eta,
+                speed = speedValue?.let { "${formatProcessingSpeed(it)}x" }
+            )
+        }
+    }
+
+    private fun parseDurationSeconds(value: String): Double? {
+        val parts = value.trim().split(":")
+        return when (parts.size) {
+            3 -> {
+                val hours = parts[0].toDoubleOrNull() ?: return null
+                val minutes = parts[1].toDoubleOrNull() ?: return null
+                val seconds = parts[2].toDoubleOrNull() ?: return null
+                hours * 3600.0 + minutes * 60.0 + seconds
+            }
+
+            2 -> {
+                val minutes = parts[0].toDoubleOrNull() ?: return null
+                val seconds = parts[1].toDoubleOrNull() ?: return null
+                minutes * 60.0 + seconds
+            }
+
+            1 -> parts[0].toDoubleOrNull()
+            else -> null
+        }
+    }
+
+    private fun formatProcessingSpeed(speed: Double): String {
+        return if (speed >= 10.0) {
+            String.format(Locale.US, "%.0f", speed)
+        } else {
+            String.format(Locale.US, "%.2f", speed)
+                .trimEnd('0')
+                .trimEnd('.')
+        }
+    }
+
     companion object {
+        private val ffmpegDurationRegex = Regex(
+            """Duration:\s*(\d{1,3}:\d{2}:\d{2}(?:\.\d+)?)""",
+            RegexOption.IGNORE_CASE
+        )
+        private val ffmpegTimeRegex = Regex(
+            """(?:\btime=|\bout_time=)\s*(\d{1,3}:\d{2}:\d{2}(?:\.\d+)?)""",
+            RegexOption.IGNORE_CASE
+        )
+        private val ffmpegSpeedRegex = Regex(
+            """\bspeed=\s*([0-9]+(?:\.[0-9]+)?)x""",
+            RegexOption.IGNORE_CASE
+        )
+
         val runningYTDLInstances: MutableList<Long> = mutableListOf()
         const val TAG = "DownloadWorker"
         private val downloadLock = Mutex()
@@ -702,11 +851,7 @@ class DownloadWorker(
 
             speed?.takeIf { it.isNotBlank() }?.let(details::add)
 
-            if (etaSeconds >= 0 &&
-                phase != TransferPhase.Merging &&
-                phase != TransferPhase.PostProcessing &&
-                phase != TransferPhase.Complete
-            ) {
+            if (etaSeconds >= 0 && phase != TransferPhase.Complete) {
                 val hours = etaSeconds / 3600
                 val minutes = (etaSeconds % 3600) / 60
                 val seconds = etaSeconds % 60
