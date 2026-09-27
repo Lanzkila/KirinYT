@@ -328,13 +328,20 @@ object GeneralSettingsModule : SettingModule {
             }
             "hide_thumbnails" -> {
                 (pref as MultiSelectListPreference).apply {
-                    values.filter { it.isNotBlank() }.apply {
-                        summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
+                    fun labelFor(value: String): CharSequence {
+                        val index = entryValues.indexOf(value)
+                        return if (index >= 0) entries[index] else value
                     }
+
+                    summary = values
+                        .filter { it.isNotBlank() }
+                        .joinToString(", ") { labelFor(it) }
+
                     setOnPreferenceChangeListener { _, newValues ->
-                        (newValues as Set<*>).map { it as String }.filter { it.isNotBlank() }.apply {
-                            summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
-                        }
+                        summary = (newValues as Set<*>)
+                            .mapNotNull { it as? String }
+                            .filter { it.isNotBlank() }
+                            .joinToString(", ") { labelFor(it) }
                         host.refreshUI()
                         true
                     }
@@ -342,13 +349,20 @@ object GeneralSettingsModule : SettingModule {
             }
             "modify_download_card" -> {
                 (pref as MultiSelectListPreference).apply {
-                    values.filter { it.isNotBlank() }.apply {
-                        summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
+                    fun labelFor(value: String): CharSequence {
+                        val index = entryValues.indexOf(value)
+                        return if (index >= 0) entries[index] else value
                     }
+
+                    summary = values
+                        .filter { it.isNotBlank() }
+                        .joinToString(", ") { labelFor(it) }
+
                     setOnPreferenceChangeListener { _, newValues ->
-                        (newValues as Set<*>).map { it as String }.filter { it.isNotBlank() }.apply {
-                            summary = joinToString(", ") { entries[entryValues.indexOf(it)] }
-                        }
+                        summary = (newValues as Set<*>)
+                            .mapNotNull { it as? String }
+                            .filter { it.isNotBlank() }
+                            .joinToString(", ") { labelFor(it) }
                         host.refreshUI()
                         true
                     }
@@ -492,8 +506,10 @@ object GeneralSettingsModule : SettingModule {
                     val s = context.getString(R.string.swipe_gestures_summary)
                     if (values.size == entries.size) {
                         summary = "${s}\n[${context.getString(R.string.all)}]"
-                    }else if (values.size > 0) {
-                        val indexes = entryValues.mapIndexed { index, _ -> index }
+                    }else if (values.isNotEmpty()) {
+                        val indexes = values.mapNotNull { value ->
+                            entryValues.indexOf(value).takeIf { it >= 0 }
+                        }.toSet()
                         summary = "${s}\n[${entries.filterIndexed { index, _ -> indexes.contains(index) }.joinToString(", ")}]"
                     }else{
                         summary = s
@@ -503,7 +519,9 @@ object GeneralSettingsModule : SettingModule {
                         if (newValues.size == entries.size) {
                             summary = "${s}\n[${context.getString(R.string.all)}]"
                         }else if (newValues.isNotEmpty()) {
-                            val indexes = List(newValues.size) { index -> index }
+                            val indexes = newValues.mapNotNull { value ->
+                                entryValues.indexOf(value).takeIf { it >= 0 }
+                            }.toSet()
                             summary = "${s}\n[${entries.filterIndexed { index, _ -> indexes.contains(index) }.joinToString(", ")}]"
                         }else{
                             summary = s
