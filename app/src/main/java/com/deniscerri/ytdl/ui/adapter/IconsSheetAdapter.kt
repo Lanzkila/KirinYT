@@ -29,9 +29,8 @@ class IconsSheetAdapter(val host: SettingHost) : RecyclerView.Adapter<IconsSheet
                 val preferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(host.getHostContext())
                 preferences.edit().putString("kirinyt_icon", appIcon.activityAlias).apply()
                 val theme = preferences.getString("kirinyt_theme", "System")!!
-                ThemeUtil.updateAppIcon(host.getHostContext(), theme,appIcon.activityAlias)
+                ThemeUtil.updateAppIcon(host.getHostContext(), theme, appIcon.activityAlias)
                 host.refreshUI()
-                host.getHostContext().recreate()
             }
         }
     }
