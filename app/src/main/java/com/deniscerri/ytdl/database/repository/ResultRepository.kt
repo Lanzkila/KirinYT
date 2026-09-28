@@ -20,7 +20,6 @@ import com.kirinyt.app.util.Extensions.isYoutubeWatchVideosURL
 import com.kirinyt.app.util.Extensions.needsDataUpdating
 import com.kirinyt.app.util.FileUtil
 import com.kirinyt.app.util.extractors.GoogleApiUtil
-import com.kirinyt.app.util.extractors.YoutubeApiUtil
 import com.kirinyt.app.util.extractors.newpipe.NewPipeUtil
 import com.kirinyt.app.util.extractors.ytdlp.YTDLPUtil
 import kotlinx.coroutines.currentCoroutineContext
@@ -33,7 +32,6 @@ class ResultRepository(private val resultDao: ResultDao, commandTemplateDao: Com
     val KIRINYT_SEARCH = "KIRINYT_SEARCH"
     var itemCount = MutableStateFlow(-1)
 
-    private val youtubeApiUtil = YoutubeApiUtil(context)
     private val ytdlpUtil = YTDLPUtil(context, commandTemplateDao)
     private var newPipeUtil = NewPipeUtil(context)
     private val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
@@ -66,7 +64,6 @@ class ResultRepository(private val resultDao: ResultDao, commandTemplateDao: Com
         val category = sharedPreferences.getString("recommendations_home", "")
         val items = when(category) {
             "newpipe" -> newPipeUtil.getTrending()
-            "yt_api" -> youtubeApiUtil.getTrending()
             "yt_dlp_watch_later" -> ytdlpUtil.getYoutubeWatchLater()
             "yt_dlp_recommendations" -> ytdlpUtil.getYoutubeRecommendations()
             "yt_dlp_liked" -> ytdlpUtil.getYoutubeLikedVideos()
