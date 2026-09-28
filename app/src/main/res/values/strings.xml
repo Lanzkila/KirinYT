@@ -66,10 +66,7 @@
     <string name="history_is_empty">History is empty</string>
     <string name="you_are_going_to_delete">Deleting</string>
     <string name="url">URL</string>
-    <string name="link_copied_to_clipboard">Link copied to clipboard</string>
-    <string name="api_key">Use API key</string>
-    <string name="api_key_summary">Video recommendations from YouTube API</string>
-    <string name="update_app_summary">Announce new versions of the app when it is opened. The data is extracted from the official GitHub Repository</string>
+    <string name="link_copied_to_clipboard">Link copied to clipboard</string>    <string name="update_app_summary">Announce new versions of the app when it is opened. The data is extracted from the official GitHub Repository</string>
     <string name="downloads">Downloads</string>
     <string name="remove_deleted">Remove deleted</string>
     <string name="remove_duplicates">Remove duplicates</string>
