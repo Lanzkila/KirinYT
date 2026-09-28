@@ -61,19 +61,19 @@ object ThemeUtil {
         @DrawableRes val iconResource: Int,
         val activityAlias: String
     ) {
-        object Default : AppIcon(R.string.auto, R.mipmap.ic_launcher, "Default")
-        object Light : AppIcon(R.string.light, R.mipmap.ic_launcher_light, "LightIcon")
-        object Dark : AppIcon(R.string.dark, R.mipmap.ic_launcher_dark, "DarkIcon")
-        object Blue : AppIcon(R.string.blue, R.mipmap.ic_launcher_blue, "BlueIcon")
-        object Green : AppIcon(R.string.green, R.mipmap.ic_launcher_green, "GreenIcon")
+        object Default : AppIcon(R.string.defaultValue, R.mipmap.ic_launcher, "Default")
+        object Terminal : AppIcon(R.string.terminal, R.mipmap.ic_launcher_light, "LightIcon")
+        object Music : AppIcon(R.string.audio, R.mipmap.ic_launcher_dark, "DarkIcon")
+        object Download : AppIcon(R.string.download, R.mipmap.ic_launcher_blue, "BlueIcon")
+        object Video : AppIcon(R.string.video, R.mipmap.ic_launcher_green, "GreenIcon")
     }
 
     val availableIcons = listOf(
         AppIcon.Default,
-        AppIcon.Light,
-        AppIcon.Dark,
-        AppIcon.Blue,
-        AppIcon.Green,
+        AppIcon.Terminal,
+        AppIcon.Music,
+        AppIcon.Download,
+        AppIcon.Video,
     )
 
     fun recreateMain() {
@@ -160,61 +160,28 @@ object ThemeUtil {
 
 
     fun updateAppIcon(activity: Activity, theme: String, appIconMode: String) {
-        //disable old icons
-        for (appIcon in availableIcons) {
-            val activityClass = "com.kirinyt.app." + appIcon.activityAlias
+        val targetAlias = when (appIconMode.lowercase()) {
+            "lighticon" -> "LightIcon"
+            "darkicon" -> "DarkIcon"
+            "blueicon" -> "BlueIcon"
+            "greenicon" -> "GreenIcon"
+            else -> "Default"
+        }
 
-            // remove old icons
-            activity.packageManager.setComponentEnabledSetting(
-                ComponentName(activity.packageName, activityClass),
+        val packageManager = activity.packageManager
+
+        packageManager.setComponentEnabledSetting(
+            ComponentName(activity.packageName, "com.kirinyt.app.$targetAlias"),
+            PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+            PackageManager.DONT_KILL_APP
+        )
+
+        availableIcons.forEach { appIcon ->
+            if (appIcon.activityAlias == targetAlias) return@forEach
+            packageManager.setComponentEnabledSetting(
+                ComponentName(activity.packageName, "com.kirinyt.app.${appIcon.activityAlias}"),
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
                 PackageManager.DONT_KILL_APP
             )
         }
-
-        var iconMode = appIconMode
-        if (appIconMode == "Default") {
-            iconMode = theme
-        }
-
-        when (iconMode) {
-            "LightIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.LightIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            "DarkIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.DarkIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            "BlueIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.BlueIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            "GreenIcon" -> {
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.GreenIcon"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-            // or "System"
-            else -> {
-                //set dynamic icon
-                activity.packageManager.setComponentEnabledSetting(
-                    ComponentName(activity.packageName, "com.kirinyt.app.Default"),
-                    PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
-                    PackageManager.DONT_KILL_APP
-                )
-            }
-        }
-    }
-}
+    }}
