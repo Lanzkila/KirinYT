@@ -371,7 +371,6 @@ object GeneralSettingsModule : SettingModule {
                             }else {
                                 "${s}\n[${entries[entryValues.indexOf(value)]}]"
                             }
-                            host.findPref("api_key")?.isVisible = newValue == "yt_api"
                             host.refreshUI()
                         }
                         true
@@ -388,32 +387,6 @@ object GeneralSettingsModule : SettingModule {
                             withContext(Dispatchers.IO) {
                                 resultViewModel.deleteAll()
                             }
-                        }
-                        host.refreshUI()
-                        true
-                    }
-                }
-            }
-            "api_key" -> {
-                (pref as EditTextPreference).apply {
-                    isVisible = preferences.getString("recommendations_home", "") == "yt_api"
-                    val s = context.getString(R.string.api_key_summary)
-                    summary = if (text.isNullOrBlank()) {
-                        s
-                    }else {
-                        "${s}\n[${text}]"
-                    }
-                    setOnPreferenceChangeListener { _, newValue ->
-                        host.hostLifecycleOwner.lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                resultViewModel.deleteAll()
-                            }
-                        }
-                        val s = context.getString(R.string.api_key_summary)
-                        summary = if ((newValue as String).isBlank()) {
-                            s
-                        }else {
-                            "${s}\n[${text}]"
                         }
                         host.refreshUI()
                         true
