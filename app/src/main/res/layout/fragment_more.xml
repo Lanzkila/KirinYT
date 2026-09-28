@@ -16,13 +16,17 @@
             android:orientation="vertical"
             tools:ignore="MissingConstraints">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/app_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
                 android:layout_gravity="center"
-                android:background="@drawable/ic_app_icon"
-                android:scaleType="center" />
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/ic_launcher_kirin_foreground"
+                android:scaleType="centerCrop"
+                app:shapeAppearance="@style/CircleImageView"
+                app:strokeWidth="0dp" />
 
             <TextView
                 android:id="@+id/terminal"
