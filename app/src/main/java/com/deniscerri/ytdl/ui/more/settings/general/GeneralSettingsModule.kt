@@ -52,6 +52,9 @@ object GeneralSettingsModule : SettingModule {
     ) {
         val context = pref.context
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        if (preferences.contains("api_key")) {
+            preferences.edit().remove("api_key").apply()
+        }
         var activeDownloadCount = 0
         WorkManager.getInstance(context).getWorkInfosByTagLiveData("download").observe(host.hostLifecycleOwner){
             activeDownloadCount = 0
