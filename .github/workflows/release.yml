@@ -193,3 +193,4 @@ jobs:
         run: |
           rm -f "$GITHUB_WORKSPACE/kirin-release.jks"
           rm -f "$GITHUB_WORKSPACE/keystore.properties"
+# republish KirinYT 1.9.0 after API key cleanup
