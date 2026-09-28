@@ -90,12 +90,6 @@
             app:key="custom_home_recommendation_url"
             app:useSimpleSummaryProvider="true" />
 
-        <EditTextPreference
-            android:icon="@drawable/ic_key"
-            app:key="api_key"
-            android:summary="@string/api_key_summary"
-            app:title="@string/api_key" />
-
         <ListPreference
             android:defaultValue="YT_DLP"
             android:entries="@array/data_fetching_extractor_youtube"
