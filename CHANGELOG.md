@@ -5,6 +5,36 @@
 
 _Generated: 28 Sep 2026 • 08:21 MYT_
 
+## 28 Sep 2026 • 08:21 MYT — `3c5b9b2`
+
+**Add four distinct KirinYT launcher icons**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/3c5b9b24dfbba951d94c3c10cb6730823e62c122)
+
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_download.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_download_background.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_music.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_music_background.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_terminal.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_terminal_background.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_video.xml`
+- ➕ Added: `app/src/main/res/drawable/ic_launcher_alt_video_background.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_blue.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_dark.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_green.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_light.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_blue.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_dark.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_green.xml`
+- ✏️ Updated: `app/src/main/res/mipmap-anydpi-v26/ic_launcher_round_light.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_blue.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_dark.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_green.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_light.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_round_blue.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_round_dark.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_round_green.xml`
+- ➕ Added: `app/src/main/res/mipmap-anydpi/ic_launcher_round_light.xml`
+
 ## 28 Sep 2026 • 08:20 MYT — `5d0c407`
 
 **Use round Kirin logo in settings UI**  
@@ -165,14 +195,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/more/settings/general/GeneralSettingsModule.kt`
 
-## 27 Sep 2026 • 21:38 MYT — `17fdb06`
-
-**Remove stale Shizuku hook from Settings**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/17fdb06cd5a7be867fe8ad1dadbdce1fac58193d)
-
-- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/more/settings/SettingsActivity.kt`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
