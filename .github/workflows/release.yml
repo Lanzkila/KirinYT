@@ -1,6 +1,10 @@
 name: KirinYT Release
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/release.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -31,7 +35,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: true
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -145,6 +149,16 @@ jobs:
           (cd "$OUTPUT_DIR" && sha256sum KirinYT-*.apk > SHA256SUMS.txt)
           echo "output_dir=$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
 
+      - name: Move v1.9.0 tag to this stable build
+        if: ${{ steps.version.outputs.tag == 'v1.9.0' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "Kirin-Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git tag -f v1.9.0 "$GITHUB_SHA"
+          git push --force origin refs/tags/v1.9.0
+
       - name: Publish KirinYT stable release
         uses: softprops/action-gh-release@v2
         with:
@@ -158,27 +172,25 @@ jobs:
           body: |
             ## KirinYT 1.9.0
 
-            This release establishes KirinYT as the customized Android yt-dlp downloader build and includes the latest app, documentation, and repository improvements.
+            Stable KirinYT baseline with the requested fixes only.
 
-            ### New
-            - Added phase-aware progress to active download cards.
-            - Download cards can now show stages such as **Preparing**, **Video**, **Audio**, **Fragments**, **Merging**, **Processing**, **Moving**, and **Complete**.
-            - Added readable download progress details with percentage, transfer speed, and ETA when available.
-            - Added the KirinYT Changelog Tracker, generating commit-based changelog entries with changed-file details.
+            ### Download progress
+            - Keeps phase-aware **Video**, **Audio**, **Fragments**, **Merging**, **Processing**, **Moving**, and **Complete** states.
+            - Merging/Processing can show real FFmpeg percentage, speed, and ETA when timing data is available.
 
-            ### KirinYT rebrand
-            - Standardized the Android namespace and application ID as `com.kirinyt.app`.
-            - Standardized KirinYT APK naming and stable/pre-release workflows.
-            - Rebuilt the main README and synchronized all translated README files.
-            - Removed old YTDLnis branding, obsolete screenshots, and outdated CI references from the documentation.
+            ### App icons
+            - Default launcher icon stays as the Kirin dragon.
+            - Added four genuinely different alternatives: **Terminal**, **Audio**, **Download**, and **Video**.
+            - Fixed the in-app Kirin logo presentation so Light mode no longer shows it as a harsh square block.
 
-            ### Repository
-            - Kept the original fork source-directory layout for easier upstream maintenance.
-            - Updated release and Telegram notification workflows for KirinYT.
-            - Added automatic changelog generation inspired by the ADL4D2 tracker format.
+            ### YouTube settings
+            - Removed the YouTube Data API key setting and its recommendation source.
+            - Legacy stored API-key data is cleared and excluded from backups.
 
-            ### Notes
-            - External runtime package identifiers used by Python, FFmpeg, Node.js, Deno, aria2c, and related components are intentionally preserved where required by their dependencies.
+            ### Signing
+            - Release builds use the same four-secret Kirin signing structure as KirinDL.
+            - The workflow validates the keystore and verifies generated APK signatures before publishing.
+
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
