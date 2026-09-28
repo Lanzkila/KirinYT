@@ -23,3 +23,5 @@ jobs:
           touch local.properties
           chmod +x gradlew
       - run: ./gradlew assembleGithubDebug --warning-mode all
+
+# final-cleanup-test
