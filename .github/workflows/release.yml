@@ -1,10 +1,6 @@
 name: KirinYT Release
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - '.github/workflows/release.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -35,7 +31,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          persist-credentials: false
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -148,16 +144,6 @@ jobs:
 
           (cd "$OUTPUT_DIR" && sha256sum KirinYT-*.apk > SHA256SUMS.txt)
           echo "output_dir=$OUTPUT_DIR" >> "$GITHUB_OUTPUT"
-
-      - name: Move v1.9.0 tag to this stable build
-        if: ${{ steps.version.outputs.tag == 'v1.9.0' }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name "Kirin-Bot"
-          git config user.email "actions@users.noreply.github.com"
-          git tag -f v1.9.0 "$GITHUB_SHA"
-          git push --force origin refs/tags/v1.9.0
 
       - name: Publish KirinYT stable release
         uses: softprops/action-gh-release@v2
