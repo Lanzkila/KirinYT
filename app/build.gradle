@@ -161,7 +161,7 @@ android {
         }
     }
     lint {
-        disable 'MissingTranslation', 'RestrictedApi'
+        disable 'MissingTranslation', 'ExtraTranslation', 'RestrictedApi'
     }
 }
 
