@@ -1,6 +1,10 @@
 name: KirinYT Release
 
 on:
+  push:
+    branches: [ main ]
+    paths:
+      - '.github/workflows/release.yml'
   workflow_dispatch:
     inputs:
       tag:
@@ -156,9 +160,12 @@ jobs:
           make_latest: true
           generate_release_notes: false
           body: |
-            ## KirinYT 1.9.0
+            ## KirinYT 1.9.3
 
-            Stable KirinYT baseline with the requested fixes only.
+            Stable KirinYT build based on the clean 1.9.0 baseline, carrying only the requested fixes and progress improvements.
+
+            ### Home branding
+            - Fixed the Home toolbar title so it shows **KirinYT** instead of the old YTDLnis name.
 
             ### Download progress
             - Keeps phase-aware **Video**, **Audio**, **Fragments**, **Merging**, **Processing**, **Moving**, and **Complete** states.
