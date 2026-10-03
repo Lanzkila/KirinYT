@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="120" alt="KirinYT logo" />
+<img src="docs/assets/kirinyt-logo-rounded.png" width="142" alt="KirinYT Logo" />
 
 # KirinYT
 
