@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="120" alt="KirinYT logo" />
 
 # KirinYT
 
@@ -11,12 +11,17 @@
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
 [![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat&label=stars)](https://github.com/Lanzkila/KirinYT/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat&label=forks)](https://github.com/Lanzkila/KirinYT/network/members)
+[![Total Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat&label=downloads)](https://github.com/Lanzkila/KirinYT/releases)
 
 </div>
 
 ## 关于
 
 KirinYT 是一款基于 **yt-dlp** 构建的 Android 下载器，支持视频、音频、播放列表、自定义命令、下载队列、定时任务、格式选择、Cookies、字幕以及元数据处理。
+
+KirinYT 是 [deniscerri](https://github.com/deniscerri) 原始项目 [YTDLnis](https://github.com/deniscerri/ytdlnis) 的定制 fork，并加入了 KirinYT 自己的应用身份与修改。
 
 ```text
 Application ID: com.kirinyt.app
