@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="120" alt="KirinYT logo" />
 
 # KirinYT
 
@@ -11,12 +11,17 @@
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
 [![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat&label=stars)](https://github.com/Lanzkila/KirinYT/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat&label=forks)](https://github.com/Lanzkila/KirinYT/network/members)
+[![Total Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat&label=downloads)](https://github.com/Lanzkila/KirinYT/releases)
 
 </div>
 
 ## Sobre
 
 KirinYT é um downloader para Android construído em torno do **yt-dlp**, com suporte a vídeo, áudio, playlists, comandos personalizados, filas, agendamento, seleção de formatos, cookies, legendas e processamento de metadados.
+
+KirinYT é um fork personalizado do [YTDLnis](https://github.com/deniscerri/ytdlnis), projeto original de [deniscerri](https://github.com/deniscerri), com identidade e alterações próprias do KirinYT.
 
 ```text
 Application ID: com.kirinyt.app
