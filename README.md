@@ -17,7 +17,7 @@
 
 ## About
 
-KirinYT is an Android downloader built around **yt-dlp** with support for video, audio, playlists, custom commands, download queues, scheduling, format selection, cookies, subtitles, metadata processing and more.
+KirinYT is a customized fork of [YTDLnis](https://github.com/deniscerri/ytdlnis) by [deniscerri](https://github.com/deniscerri), built around **yt-dlp** with support for video, audio, playlists, custom commands, download queues, scheduling, format selection, cookies, subtitles, metadata processing and more.
 
 The project is maintained as a customized fork with its own Android application identity:
 
@@ -176,8 +176,9 @@ See [LICENSE](LICENSE) for the full license text.
 
 ## Related Projects
 
-KirinYT relies on open-source projects including:
+KirinYT is based on and relies on open-source projects including:
 
+- [YTDLnis](https://github.com/deniscerri/ytdlnis) — original upstream project by [deniscerri](https://github.com/deniscerri)
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [youtubedl-android](https://github.com/yausername/youtubedl-android)
 - [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
