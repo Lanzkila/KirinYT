@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="120" alt="KirinYT logo" />
 
 # KirinYT
 
@@ -11,12 +11,17 @@
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
 [![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat&label=stars)](https://github.com/Lanzkila/KirinYT/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat&label=forks)](https://github.com/Lanzkila/KirinYT/network/members)
+[![Total Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat&label=downloads)](https://github.com/Lanzkila/KirinYT/releases)
 
 </div>
 
 ## 概要
 
 KirinYT は **yt-dlp** をベースにした Android ダウンローダーです。動画・音声・プレイリスト・カスタムコマンド・キュー・スケジュール・フォーマット選択・Cookie・字幕・メタデータ処理などに対応します。
+
+KirinYT は、[deniscerri](https://github.com/deniscerri) による [YTDLnis](https://github.com/deniscerri/ytdlnis) をベースに、KirinYT 独自の変更とアプリ識別子を加えたカスタム fork です。
 
 ```text
 Application ID: com.kirinyt.app
