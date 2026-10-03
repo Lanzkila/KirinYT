@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" width="120" alt="KirinYT icon" />
+<img src="app/src/main/res/drawable-xxxhdpi/ic_launcher_kirin_foreground.png" width="120" alt="KirinYT logo" />
 
 # KirinYT
 
@@ -11,12 +11,17 @@
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
 [![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat&label=stars)](https://github.com/Lanzkila/KirinYT/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat&label=forks)](https://github.com/Lanzkila/KirinYT/network/members)
+[![Total Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat&label=downloads)](https://github.com/Lanzkila/KirinYT/releases)
 
 </div>
 
 ## Hakkında
 
 KirinYT, **yt-dlp** üzerine kurulu bir Android indiricisidir. Video, ses, oynatma listeleri, özel komutlar, kuyruklar, zamanlama, format seçimi, çerezler, altyazılar ve metadata işleme desteği sunar.
+
+KirinYT, [deniscerri](https://github.com/deniscerri) tarafından geliştirilen [YTDLnis](https://github.com/deniscerri/ytdlnis) projesinin KirinYT kimliği ve değişiklikleriyle özelleştirilmiş bir forkudur.
 
 ```text
 Application ID: com.kirinyt.app
