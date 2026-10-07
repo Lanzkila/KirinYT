@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/kirinyt-logo-rounded.webp" width="142" alt="KirinYT Logo" />
+<img src="app/src/main/res/drawable/kirinyt_readme_logo.webp" width="142" alt="KirinYT Logo">
 
 # KirinYT
 
