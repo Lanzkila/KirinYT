@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Prepare site assets
+        run: cp app/src/main/res/drawable/kirinyt_readme_logo.webp site/logo.webp
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload site
