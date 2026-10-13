@@ -280,8 +280,14 @@ class DownloadWorker(
                         }
 
                         var transferPhase = TransferPhase.Preparing
-                        var destinationCount = 0
-                        var lastDestination: String? = null
+                        var currentDestination: String? = null
+                        val destinationPhases = linkedMapOf<String, TransferPhase>()
+                        val selectedFormatIds = request.getOption("-f")
+                            .orEmpty()
+                            .split('+')
+                            .map { it.substringBefore('/').substringBefore('[').trim() }
+                            .filter { it.isNotBlank() }
+                        val audioFormatIds = selectedFormatIds.drop(1).toSet()
                         val ffmpegProgressTracker =
                             FfmpegProgressTracker(parseDurationSeconds(downloadItem.duration))
 
@@ -370,18 +376,50 @@ class DownloadWorker(
                                         val nextDestination =
                                             line.substringAfter("Destination:", "").trim()
                                         if (nextDestination.isNotEmpty() &&
-                                            nextDestination != lastDestination
+                                            nextDestination != currentDestination
                                         ) {
-                                            lastDestination = nextDestination
-                                            destinationCount += 1
+                                            currentDestination = nextDestination
                                             resetProgress = true
                                         }
+
                                         when (downloadItem.type) {
                                             DownloadType.audio -> TransferPhase.Audio
-                                            DownloadType.video -> if (destinationCount == 1) {
-                                                TransferPhase.Video
-                                            } else {
-                                                TransferPhase.Audio
+                                            DownloadType.video -> {
+                                                if (nextDestination.isBlank()) {
+                                                    TransferPhase.Video
+                                                } else {
+                                                    destinationPhases.getOrPut(nextDestination) {
+                                                        val fileName =
+                                                            nextDestination.substringAfterLast('/')
+                                                                .lowercase(Locale.ROOT)
+                                                        val formatId =
+                                                            Regex("\\.f([^.]+)\\.[^.]+$")
+                                                                .find(fileName)
+                                                                ?.groupValues
+                                                                ?.getOrNull(1)
+                                                        val audioExtension =
+                                                            fileName.substringAfterLast('.') in
+                                                                setOf(
+                                                                    "m4a",
+                                                                    "mp3",
+                                                                    "aac",
+                                                                    "opus",
+                                                                    "ogg",
+                                                                    "flac",
+                                                                    "wav"
+                                                                )
+                                                        when {
+                                                            formatId != null &&
+                                                                formatId in audioFormatIds ->
+                                                                TransferPhase.Audio
+                                                            audioExtension -> TransferPhase.Audio
+                                                            destinationPhases.values.none {
+                                                                it == TransferPhase.Video
+                                                            } -> TransferPhase.Video
+                                                            else -> TransferPhase.Audio
+                                                        }
+                                                    }
+                                                }
                                             }
                                             else -> TransferPhase.Downloading
                                         }
