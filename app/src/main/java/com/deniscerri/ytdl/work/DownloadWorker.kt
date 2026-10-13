@@ -389,7 +389,8 @@ class DownloadWorker(
 
                                     line.startsWith("[download]", ignoreCase = true) &&
                                         progress >= 0f &&
-                                        transferPhase == TransferPhase.Preparing -> {
+                                        (transferPhase == TransferPhase.Preparing ||
+                                            transferPhase == TransferPhase.Retrying) -> {
                                         when (downloadItem.type) {
                                             DownloadType.audio -> TransferPhase.Audio
                                             DownloadType.video -> TransferPhase.Video
