@@ -269,30 +269,34 @@ object RuntimeManager {
         assertInit()
         assertNoUpdate()
 
-        if (ffmpegLocation.isAvailable) {
+        if (ffmpegLocation.isAvailable && !request.hasOption("--ffmpeg-location")) {
             request.addOption("--ffmpeg-location", ffmpegLocation.executable.absolutePath)
         }
 
-        if (nodeLocation.isAvailable) {
-            request.addOption("--js-runtimes", "node:${nodeLocation.executable.absolutePath}")
+        val jsRuntimes = request.getArguments("--js-runtimes").orEmpty()
+        val nodeRuntime = "node:${nodeLocation.executable.absolutePath}"
+        if (nodeLocation.isAvailable && nodeRuntime !in jsRuntimes) {
+            request.addOption("--js-runtimes", nodeRuntime)
         }
 
-        if (denoLocation.isAvailable) {
-            request.addOption("--js-runtimes", "deno:${denoLocation.executable.absolutePath}")
+        val denoRuntime = "deno:${denoLocation.executable.absolutePath}"
+        if (denoLocation.isAvailable && denoRuntime !in request.getArguments("--js-runtimes").orEmpty()) {
+            request.addOption("--js-runtimes", denoRuntime)
         }
 
-        if (quickJsLocation.isAvailable) {
-            request.addOption("--js-runtimes", "quickjs:${quickJsLocation.executable.absolutePath}")
+        val quickJsRuntime = "quickjs:${quickJsLocation.executable.absolutePath}"
+        if (quickJsLocation.isAvailable && quickJsRuntime !in request.getArguments("--js-runtimes").orEmpty()) {
+            request.addOption("--js-runtimes", quickJsRuntime)
         }
 
         if (request.buildCommand().contains("libaria2c.so")) {
-            request.addOption(
-                "--external-downloader-args",
-                "aria2c:--ca-certificate=$ENV_SSL_CERT_FILE"
-            )
+            val ariaTls = "aria2c:--ca-certificate=$ENV_SSL_CERT_FILE"
+            if (ariaTls !in request.getArguments("--external-downloader-args").orEmpty()) {
+                request.addOption("--external-downloader-args", ariaTls)
+            }
         }
 
-        if (!usingCacheDir) {
+        if (!usingCacheDir && !request.hasOption("--no-cache-dir")) {
             request.addOption("--no-cache-dir")
         }
 
