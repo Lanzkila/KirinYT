@@ -104,10 +104,11 @@ object BilibiliRequestRecovery {
         val values = linkedMapOf<String, String>()
 
         request.getArguments("--extractor-args").orEmpty().forEach { argument ->
-            if (argument.substringBefore(':').trim().lowercase(Locale.ROOT) != extractor) {
+            val extractorArgument = argument ?: return@forEach
+            if (extractorArgument.substringBefore(':').trim().lowercase(Locale.ROOT) != extractor) {
                 return@forEach
             }
-            argument.substringAfter(':', "").split(';')
+            extractorArgument.substringAfter(':', "").split(';')
                 .filter { it.isNotBlank() }
                 .forEach {
                     val key = it.substringBefore('=').trim()
