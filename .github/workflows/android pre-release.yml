@@ -115,6 +115,9 @@ jobs:
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           echo "title=$TITLE" >> "$GITHUB_OUTPUT"
 
+      - name: Test KirinYT Bilibili recovery
+        run: ./gradlew testGithubDebugUnitTest --tests com.kirinyt.app.util.BilibiliRequestRecoveryTest --warning-mode all
+
       - name: Build KirinYT beta APKs
         run: ./gradlew assembleGithubRelease --warning-mode all
 
