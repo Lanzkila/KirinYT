@@ -5,6 +5,13 @@
 
 _Generated: 13 Oct 2026 • 22:26 MYT_
 
+## 13 Oct 2026 • 22:26 MYT — `1d70edd`
+
+**fix(bilibili): keep runtime options stable across recovery retries**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/1d70eddc88b4fc7af8270aef2554b5e463dc7406)
+
+- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/core/RuntimeManager.kt`
+
 ## 13 Oct 2026 • 22:25 MYT — `32a7a8d`
 
 **fix(bilibili): add KirinYT CDN recovery support**  
@@ -127,14 +134,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/src/main/res/layout/app_logo_fab.xml`
 
-## 28 Sep 2026 • 08:20 MYT — `863d15e`
-
-**Round Kirin logo on More screen**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/863d15e74fbd8e527cd45ba47bf975121bdd6489)
-
-- ✏️ Updated: `app/src/main/res/layout/fragment_more.xml`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
