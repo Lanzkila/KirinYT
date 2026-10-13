@@ -1,6 +1,10 @@
 name: KirinYT Pre-release
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.kirin-prerelease-trigger'
   workflow_dispatch:
     inputs:
       tag:
@@ -158,7 +162,8 @@ jobs:
           prerelease: true
           draft: false
           make_latest: false
-          generate_release_notes: true
+          body_path: release-notes/v1.9.3.11-beta.md
+          generate_release_notes: false
           files: |
             ${{ steps.assets.outputs.output_dir }}/KirinYT-*-beta-*.apk
             ${{ steps.assets.outputs.output_dir }}/SHA256SUMS.txt
