@@ -39,7 +39,7 @@ class BilibiliRequestRecoveryTest {
 
             assertEquals("100026+30280", retry.getOption("-f"))
             assertEquals("libaria2c.so", retry.getOption("--downloader"))
-            val extractorArgs = retry.getArguments("--extractor-args").orEmpty().last()
+            val extractorArgs = retry.getArguments("--extractor-args").orEmpty().lastOrNull().orEmpty()
             assertTrue(extractorArgs.contains("prefer_multi_flv=true"))
             assertTrue(extractorArgs.contains("kirin_cdn_attempt=1"))
             "complete"
