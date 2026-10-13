@@ -5,6 +5,13 @@
 
 _Generated: 13 Oct 2026 • 22:28 MYT_
 
+## 13 Oct 2026 • 22:28 MYT — `da4b0e2`
+
+**test(bilibili): cover KirinYT recovery and b23 links**  
+By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/da4b0e23273bee564372672178c677049a972af6)
+
+- ➕ Added: `app/src/test/java/com/deniscerri/ytdl/util/BilibiliRequestRecoveryTest.kt`
+
 ## 13 Oct 2026 • 22:28 MYT — `afb87b3`
 
 **fix(bilibili): restore transfer phase after retry resumes**  
@@ -104,14 +111,11 @@ By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/
 
 - ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/util/BackupSettingsUtil.kt`
 
-## 28 Sep 2026 • 08:27 MYT — `7268748`
-
-**Clear legacy YouTube API key preference**  
-By **Lanz Magick** • [View commit](https://github.com/Lanzkila/KirinYT/commit/7268748f4a09a7c75a2a488683dabc4a83a7cf21)
-
-- ✏️ Updated: `app/src/main/java/com/deniscerri/ytdl/ui/more/settings/general/GeneralSettingsModule.kt`
-
 <!-- KIRINYT-TRACKER-CHANGELOG:END -->
+
+---
+
+# 📚 Previous KirinYT Release Notes
 
 ---
 
