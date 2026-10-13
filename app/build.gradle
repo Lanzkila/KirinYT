@@ -12,9 +12,9 @@ def properties = new Properties()
 def versionMajor = 1
 def versionMinor = 9
 def versionPatch = 3
-def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+def versionBuild = 11 // Bilibili recovery beta
 //WHEN RELEASING BETA KEEP THE SAME VERSION AS LATEST STABLE, SO USERS CAN DOWNGRADE
-def isBeta = false
+def isBeta = true
 def kirinYTUpdateRepository = System.getenv("GITHUB_REPOSITORY") ?: (project.findProperty("KIRINYT_GITHUB_REPOSITORY") ?: "Lanzkila/KirinYT")
 
 def versionExt = ""
