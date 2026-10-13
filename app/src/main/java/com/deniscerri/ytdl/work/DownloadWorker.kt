@@ -30,6 +30,8 @@ import com.kirinyt.app.database.repository.DownloadRepository
 import com.kirinyt.app.database.repository.LogRepository
 import com.kirinyt.app.database.repository.ResultRepository
 import com.kirinyt.app.util.AlarmScheduler
+import com.kirinyt.app.util.BilibiliPlugin
+import com.kirinyt.app.util.BilibiliRequestRecovery
 import com.kirinyt.app.util.Extensions.getMediaDuration
 import com.kirinyt.app.util.Extensions.toStringDuration
 import com.kirinyt.app.util.FileUtil
@@ -279,17 +281,66 @@ class DownloadWorker(
 
                         var transferPhase = TransferPhase.Preparing
                         var destinationCount = 0
+                        var lastDestination: String? = null
                         val ffmpegProgressTracker =
                             FfmpegProgressTracker(parseDurationSeconds(downloadItem.duration))
 
                         runCatching {
-                            RuntimeManager.getInstance().destroyProcessById(downloadItem.id.toString())
-                            RuntimeManager.getInstance().execute(
+                            val runtimeManager = RuntimeManager.getInstance()
+                            runtimeManager.destroyProcessById(downloadItem.id.toString())
+
+                            val pluginDirectory =
+                                if (BilibiliRequestRecovery.handles(downloadItem.url)) {
+                                    BilibiliPlugin.install(context)
+                                } else {
+                                    ""
+                                }
+
+                            BilibiliRequestRecovery.execute(
+                                url = downloadItem.url,
                                 request = request,
-                                processId = downloadItem.id.toString(),
-                                redirectErrorStream = true,
-                                usingCacheDir = true
-                            ) { progress, etaSeconds, line ->
+                                pluginDirectory = pluginDirectory,
+                                cancellationCheck = {
+                                    if (this@DownloadWorker.isStopped) {
+                                        throw RuntimeManager.CanceledException()
+                                    }
+                                },
+                                onRetry = { retryLine ->
+                                    transferPhase = TransferPhase.Retrying
+                                    WorkerEventBus.post(
+                                        WorkerProgress(
+                                            -1,
+                                            retryLine,
+                                            downloadItem.id,
+                                            downloadItem.logID,
+                                            TransferPhase.Retrying
+                                        )
+                                    )
+                                    val title =
+                                        downloadItem.title.ifEmpty { downloadItem.url }
+                                    notificationUtil.updateDownloadNotification(
+                                        downloadItem.id.toInt(),
+                                        retryLine,
+                                        0,
+                                        0,
+                                        title,
+                                        NotificationUtil.Companion.DOWNLOAD_SERVICE_CHANNEL_ID
+                                    )
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        if (logDownloads) {
+                                            logRepo.update(retryLine, logItem.id)
+                                        }
+                                        logString.append("$retryLine\n")
+                                    }
+                                }
+                            ) { retryRequest, observe ->
+                                runtimeManager.execute(
+                                    request = retryRequest,
+                                    processId = downloadItem.id.toString(),
+                                    redirectErrorStream = true,
+                                    usingCacheDir = true
+                                ) { progress, etaSeconds, line ->
+                                    observe(line)
                                 val mergeMarker =
                                     line.contains("[Merger]", ignoreCase = true) ||
                                         line.contains("Merging formats", ignoreCase = true)
@@ -316,8 +367,15 @@ class DownloadWorker(
                                         line.contains("(frag ", ignoreCase = true) -> TransferPhase.Fragments
 
                                     line.contains("[download] Destination:", ignoreCase = true) -> {
-                                        destinationCount += 1
-                                        resetProgress = true
+                                        val nextDestination =
+                                            line.substringAfter("Destination:", "").trim()
+                                        if (nextDestination.isNotEmpty() &&
+                                            nextDestination != lastDestination
+                                        ) {
+                                            lastDestination = nextDestination
+                                            destinationCount += 1
+                                            resetProgress = true
+                                        }
                                         when (downloadItem.type) {
                                             DownloadType.audio -> TransferPhase.Audio
                                             DownloadType.video -> if (destinationCount == 1) {
@@ -410,6 +468,7 @@ class DownloadWorker(
                                         logRepo.update(line, logItem.id)
                                     }
                                     logString.append("$line\n")
+                                }
                                 }
                             }
                         }.onSuccess {
@@ -695,6 +754,7 @@ class DownloadWorker(
     ) {
         Waiting("Waiting", true),
         Preparing("Preparing", true),
+        Retrying("Retrying", true),
         Video("Video"),
         Audio("Audio"),
         Fragments("Fragments"),
