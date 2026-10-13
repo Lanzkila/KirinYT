@@ -24,6 +24,7 @@ import com.kirinyt.app.database.models.YoutubeGeneratePoTokenItem
 import com.kirinyt.app.database.models.YoutubePlayerClientItem
 import com.kirinyt.app.database.viewmodel.ResultViewModel
 import com.kirinyt.app.util.BgUtilsPoTokenGeneratorUtil
+import com.kirinyt.app.util.BilibiliRequestRecovery
 import com.kirinyt.app.util.Extensions.getIDFromYoutubeURL
 import com.kirinyt.app.util.Extensions.getIntByAny
 import com.kirinyt.app.util.Extensions.getStringByAny
@@ -1115,7 +1116,11 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                 !sharedPreferences.getBoolean("disable_write_info_json", false) &&
                 !request.toString().contains("--download-sections")
 
-            if (canUseWriteInfoJson && downloadItem.playlistURL.isNullOrBlank()) {
+            if (
+                canUseWriteInfoJson &&
+                downloadItem.playlistURL.isNullOrBlank() &&
+                !BilibiliRequestRecovery.handles(downloadItem.url)
+            ) {
                 val infoJsonURL = downloadItem.url
                 val infoJsonFile = getInfoJsonFile(infoJsonURL)
                 //ignore info file if its older than 5 hours. puny measure to prevent expired formats in some cases
