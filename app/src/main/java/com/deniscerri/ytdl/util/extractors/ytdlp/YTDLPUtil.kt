@@ -26,6 +26,7 @@ import com.kirinyt.app.database.viewmodel.ResultViewModel
 import com.kirinyt.app.util.BgUtilsPoTokenGeneratorUtil
 import com.kirinyt.app.util.BilibiliPlugin
 import com.kirinyt.app.util.BilibiliRequestRecovery
+import com.kirinyt.app.util.BilibiliFormatPolicy
 import com.kirinyt.app.util.Extensions.getIDFromYoutubeURL
 import com.kirinyt.app.util.Extensions.getIntByAny
 import com.kirinyt.app.util.Extensions.getStringByAny
@@ -1432,7 +1433,8 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                                 f.append("$videoF+ba/")
                             }
                         }
-                        f.append("$videoF/b")
+                        f.append("${BilibiliFormatPolicy.standaloneFallback(videoF, downloadItem.url)}/")
+                        f.append(BilibiliFormatPolicy.standaloneFallback("b", downloadItem.url))
 
 
                         if (audioF.count("+") > 0){
@@ -1502,9 +1504,9 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                             if (!f.contains("$v+ba/") && !f.contains("wa")) f.append("$v+ba/")
                             //build format with standalone video
                             if (v == "wv"){
-                                f.append("w/")
+                                f.append("${BilibiliFormatPolicy.standaloneFallback("w", downloadItem.url)}/")
                             }else{
-                                if (v != "bv") f.append("$v/")
+                                if (v != "bv") f.append("${BilibiliFormatPolicy.standaloneFallback(v, downloadItem.url)}/")
                             }
                         }
                     }
@@ -1515,7 +1517,8 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                             f.append("bv/")
                         }
 
-                        f.append("b")
+                        f.append(if (downloadItem.videoPreferences.removeAudio) "b"
+                            else BilibiliFormatPolicy.standaloneFallback("b", downloadItem.url))
                     }
 
                 }

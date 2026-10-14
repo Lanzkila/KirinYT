@@ -166,6 +166,42 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                 thread.join()
 
 
+class BilibiliSelectionTests(unittest.TestCase):
+    OLD = '100026+30280/100026+ba/100026/b'
+    FIXED = ('100026+30280/100026+ba/'
+             '100026[vcodec!=none][acodec!=none]/b[vcodec!=none][acodec!=none]')
+    VIDEO = {'format_id': '100026', 'vcodec': 'av01', 'acodec': 'none', 'ext': 'mp4',
+             'url': 'https://example.test/video'}
+    AUDIO = {'format_id': '30280', 'vcodec': 'none', 'acodec': 'mp4a.40.2', 'ext': 'm4a',
+             'url': 'https://example.test/audio'}
+
+    def select(self, formats, selector=FIXED):
+        with yt_dlp.YoutubeDL({'quiet': True, 'logger': QuietLogger()}) as ydl:
+            return list(ydl._select_formats(copy.deepcopy(formats), ydl.build_format_selector(selector)))
+
+    def test_missing_audio_no_longer_succeeds_as_a_silent_video(self):
+        self.assertEqual(self.select([self.VIDEO], self.OLD)[0]['format_id'], '100026')
+        self.assertEqual(self.select([self.VIDEO]), [])
+
+    def test_audio_only_response_is_not_accepted_as_a_video(self):
+        self.assertEqual(self.select([self.AUDIO]), [])
+
+    def test_explicit_av1_and_audio_are_preserved(self):
+        result = self.select([self.AUDIO, self.VIDEO])[0]
+        self.assertEqual(result['format_id'], '100026+30280')
+        self.assertEqual(result['vcodec'], 'av01')
+        self.assertEqual(result['acodec'], 'mp4a.40.2')
+
+    def test_missing_selected_audio_can_use_another_audio_track(self):
+        audio = dict(self.AUDIO, format_id='30232')
+        self.assertEqual(self.select([audio, self.VIDEO])[0]['format_id'], '100026+30232')
+
+    def test_muxed_fallback_and_deliberate_remove_audio_still_work(self):
+        muxed = dict(self.VIDEO, format_id='muxed', acodec='mp4a.40.2')
+        self.assertEqual(self.select([muxed])[0]['format_id'], 'muxed')
+        self.assertEqual(self.select([self.VIDEO], '100026/bv/b')[0]['format_id'], '100026')
+
+
 class PlaybackFixture:
     """Run the real extractor against page/API responses without network access."""
     URL = 'https://www.bilibili.com/video/BV16m421g7iL?p=1'

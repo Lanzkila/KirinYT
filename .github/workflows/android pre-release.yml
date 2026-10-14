@@ -134,7 +134,7 @@ jobs:
           PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests -p 'test_bilibili_recovery.py' -v
 
       - name: Test KirinYT Bilibili recovery
-        run: ./gradlew testGithubDebugUnitTest --tests com.kirinyt.app.util.BilibiliRequestRecoveryTest --warning-mode all
+        run: ./gradlew testGithubDebugUnitTest --tests 'com.kirinyt.app.util.Bilibili*' --warning-mode all
 
       - name: Build KirinYT beta APKs
         run: ./gradlew assembleGithubRelease --warning-mode all

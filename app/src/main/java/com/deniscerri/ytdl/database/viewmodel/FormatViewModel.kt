@@ -18,6 +18,7 @@ import com.kirinyt.app.ui.downloadcard.MultipleItemFormatTuple
 import com.kirinyt.app.util.Extensions.isYoutubeURL
 import com.kirinyt.app.util.FileUtil
 import com.kirinyt.app.util.FormatUtil
+import com.kirinyt.app.util.BilibiliRequestRecovery
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -130,7 +131,10 @@ class FormatViewModel(private val application: Application) : AndroidViewModel(a
                             val audioFormats = finalFormats.filter {  it.vcodec.isBlank() || it.vcodec == "none" }
                             val videoFormats = finalFormats.filter {  it.vcodec.isNotBlank() && it.vcodec != "none" }
 
-                            formatUtil.sortVideoFormats(videoFormats) + formatUtil.sortAudioFormats(audioFormats)
+                            val recommendationUrl = items.first().url.takeIf {
+                                items.all { item -> BilibiliRequestRecovery.handles(item.url) }
+                            }
+                            formatUtil.sortVideoFormats(videoFormats, recommendationUrl) + formatUtil.sortAudioFormats(audioFormats)
                         }
                     }
                     FormatCategory.SMALLEST -> {

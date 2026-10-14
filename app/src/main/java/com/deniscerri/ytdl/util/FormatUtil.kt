@@ -176,7 +176,7 @@ class FormatUtil(private var context: Context) {
     }
 
     @SuppressLint("RestrictedApi")
-    fun sortVideoFormats(formats: List<Format>): List<Format> {
+    fun sortVideoFormats(formats: List<Format>, url: String? = null): List<Format> {
         val orderPreferences = getVideoFormatImportance()
 
         val fieldSorter = object : Comparator<Format> {
@@ -255,7 +255,13 @@ class FormatUtil(private var context: Context) {
                 return 0
             }
         }
-        return formats.sortedWith(fieldSorter)
+        return BilibiliFormatPolicy.recommend(
+            formats.sortedWith(fieldSorter), url,
+            hasExplicitPreferences = videoCodecPreference.isNotBlank() ||
+                videoFormatIDPreference.isNotEmpty() ||
+                sharedPreferences.getBoolean("use_format_sorting", false) ||
+                !sharedPreferences.getString("preferred_format_size", "").isNullOrBlank()
+        )
     }
 
     fun getGenericAudioFormats(resources: Resources) : MutableList<Format>{

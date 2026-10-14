@@ -577,7 +577,7 @@ class DownloadViewModel(private val application: Application) : AndroidViewModel
                             formatUtil.getGenericVideoFormats(resources).sortedByDescending { it.filesize }
                         }
 
-                        FormatUtil(application).sortVideoFormats(theFormats).first()
+                        FormatUtil(application).sortVideoFormats(theFormats, url).first()
                     }catch (e: Exception){
                         formatUtil.getGenericVideoFormats(resources).first()
                     }
