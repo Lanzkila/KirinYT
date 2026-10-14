@@ -291,6 +291,15 @@ class BilibiliPlaybackTests(unittest.TestCase):
         self.assertEqual(result['_type'], 'multi_video')
         self.assertEqual(len(result['entries']), 2)
 
+    def test_empty_optional_legacy_quality_does_not_discard_working_format(self):
+        legacy = {'quality': 32, 'accept_quality': [32, 16], 'timelength': 1000,
+                  'durl': [{'url': 'https://video.example/part1.mp4',
+                            'length': 1000, 'size': 100}]}
+        fixed = FixedPlaybackFixture(self.ydl, legacy, self.empty)
+        result = fixed._real_extract(fixed.URL)
+        self.assertEqual([f['format_id'] for f in result['formats']], ['32'])
+        self.assertEqual(fixed.api_calls, 2)
+
 
 if __name__ == '__main__':
     unittest.main()

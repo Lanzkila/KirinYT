@@ -24,7 +24,7 @@ env:
 
 concurrency:
   group: kirinyt-prerelease
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   prerelease:

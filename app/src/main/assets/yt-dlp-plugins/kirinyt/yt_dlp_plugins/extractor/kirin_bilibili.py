@@ -86,10 +86,10 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
         if play_info and not _mirror_map(play_info):
             # Bilibili can return code=0 and metadata without any stream URLs.
             # Returning None lets upstream retain its __playinfo__ fallback.
-            message = 'Bilibili API returned no playable streams'
-            if fatal:
-                raise ExtractorError(message, expected=True)
-            self.report_warning(f'{message}; keeping webpage formats when available')
+            # Missing optional legacy qualities must not discard formats that
+            # already work. Upstream still handles actual API error codes.
+            self.report_warning(
+                'Bilibili API returned no playable streams; keeping other available formats')
             return None
         return play_info
 
