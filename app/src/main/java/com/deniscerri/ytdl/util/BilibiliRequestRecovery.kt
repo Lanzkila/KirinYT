@@ -26,6 +26,14 @@ object BilibiliRequestRecovery {
             host == "bilibili.com" || host.endsWith(".bilibili.com")
     }
 
+    /** Use the same extractor for metadata, the format picker and downloads. */
+    fun prepareExtraction(urls: List<String>, request: YTDLRequest, pluginDirectory: String) {
+        if (!urls.any(::handles) || pluginDirectory.isBlank()) return
+        if (pluginDirectory !in request.getArguments("--plugin-dirs").orEmpty()) {
+            request.addOption("--plugin-dirs", pluginDirectory)
+        }
+    }
+
     fun <T> execute(
         url: String,
         request: YTDLRequest,
@@ -36,9 +44,7 @@ object BilibiliRequestRecovery {
     ): T {
         if (!handles(url)) return runRequest(request) {}
 
-        if (pluginDirectory.isNotBlank()) {
-            request.addOption("--plugin-dirs", pluginDirectory)
-        }
+        prepareExtraction(listOf(url), request, pluginDirectory)
 
         request.addOption("--retries", "2")
         request.addOption("--fragment-retries", "2")

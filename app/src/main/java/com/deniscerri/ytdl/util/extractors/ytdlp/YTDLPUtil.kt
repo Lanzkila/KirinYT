@@ -24,6 +24,7 @@ import com.kirinyt.app.database.models.YoutubeGeneratePoTokenItem
 import com.kirinyt.app.database.models.YoutubePlayerClientItem
 import com.kirinyt.app.database.viewmodel.ResultViewModel
 import com.kirinyt.app.util.BgUtilsPoTokenGeneratorUtil
+import com.kirinyt.app.util.BilibiliPlugin
 import com.kirinyt.app.util.BilibiliRequestRecovery
 import com.kirinyt.app.util.Extensions.getIDFromYoutubeURL
 import com.kirinyt.app.util.Extensions.getIntByAny
@@ -60,6 +61,12 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
     private var sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val formatUtil = FormatUtil(context)
     private val handler = Handler(Looper.getMainLooper())
+
+    private fun YTDLRequest.useBilibiliExtractor(urls: List<String>) {
+        if (urls.any(BilibiliRequestRecovery::handles)) {
+            BilibiliRequestRecovery.prepareExtraction(urls, this, BilibiliPlugin.install(context))
+        }
+    }
 
     private fun YTDLRequest.applyDefaultOptionsForFetchingData(url: String?) {
         addOption("--skip-download")
@@ -112,6 +119,7 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
             //addCommands(extraCommands.split(" ", "\t", "\n"))
             addConfig(extraCommands.joinToString(" ") { it.content })
         }
+        useBilibiliExtractor(listOfNotNull(url))
     }
 
     private fun canApplyFlatPlaylist(url: String) : Boolean {
@@ -422,6 +430,8 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
             request.addOption("--print", "formats")
             request.addOption("-a", urlsFile.absolutePath)
             request.applyDefaultOptionsForFetchingData(urls.firstOrNull { it.isURL() })
+            // A mixed batch can start with another site and still contain Bilibili.
+            request.useBilibiliExtractor(urls)
             if (urls.all { it.isYoutubeURL() }) {
                 request.setYoutubeExtractorArgs(urls[0])
             }
@@ -503,7 +513,8 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
         if (canUseWriteInfoJson) {
             val infoJsonFile = getInfoJsonFile(url)
             //ignore info file if its older than 5 hours. puny measure to prevent expired formats in some cases
-            if (infoJsonFile != null && System.currentTimeMillis() - infoJsonFile.lastModified() <= (1000 * 60 * 60 * 5)) {
+            if (!BilibiliRequestRecovery.handles(url) && infoJsonFile != null &&
+                System.currentTimeMillis() - infoJsonFile.lastModified() <= (1000 * 60 * 60 * 5)) {
                 request.addOption("--load-info-json", infoJsonFile.absolutePath)
             }else {
                 request.addWriteInfoJson(url)

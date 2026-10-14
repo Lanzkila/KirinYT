@@ -1,6 +1,8 @@
-"""Use Bilibili's own API-provided mirrors without changing format selection.
+"""Keep usable Bilibili playback data and API-provided stream mirrors.
 
-Loaded only for KirinYT Bilibili transfers. After a transport failure the app
+Loaded for KirinYT Bilibili metadata, format selection and transfers.
+Empty API responses must not replace playable data already in the webpage.
+After a transport failure the app
 refreshes extraction and selects at most two backup positions. Format IDs,
 signed query strings, downloader choice and partial-file bookkeeping stay with
 yt-dlp.
@@ -9,6 +11,7 @@ yt-dlp.
 from urllib.parse import urlsplit
 
 from yt_dlp.extractor.bilibili import BiliBiliIE as _BiliBiliIE
+from yt_dlp.utils import ExtractorError
 
 __all__ = []
 
@@ -67,6 +70,38 @@ def _apply_mirrors(formats, mirrors, attempt):
 
 
 class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
+    def _search_json(self, start_pattern, string, name, video_id, **kwargs):
+        result = super()._search_json(start_pattern, string, name, video_id, **kwargs)
+        if start_pattern == r'window\.__playinfo__\s*=':
+            # A truthy envelope with an empty dash/durl makes upstream skip the
+            # API when logged in. It is not a usable playback response.
+            play_info = result.get('data') if isinstance(result, dict) else None
+            if not _mirror_map(play_info):
+                return None
+        return result
+
+    def _download_playinfo(self, bvid, cid, headers=None, query=None, fatal=True):
+        play_info = super()._download_playinfo(
+            bvid, cid, headers=headers, query=query, fatal=fatal)
+        if play_info and not _mirror_map(play_info):
+            # Bilibili can return code=0 and metadata without any stream URLs.
+            # Returning None lets upstream retain its __playinfo__ fallback.
+            message = 'Bilibili API returned no playable streams'
+            if fatal:
+                raise ExtractorError(message, expected=True)
+            self.report_warning(f'{message}; keeping webpage formats when available')
+            return None
+        return play_info
+
+    def _real_extract(self, url):
+        result = super()._real_extract(url)
+        if result.get('formats') == []:
+            raise ExtractorError(
+                'Bilibili returned no playable streams from the webpage or API. '
+                'Try again later. If the video requires sign-in in your browser, '
+                'enable your Bilibili cookies in KirinYT and retry.', expected=True)
+        return result
+
     def extract_formats(self, play_info):
         formats = super().extract_formats(play_info)
         try:

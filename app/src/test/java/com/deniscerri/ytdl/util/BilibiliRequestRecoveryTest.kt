@@ -18,6 +18,36 @@ class BilibiliRequestRecoveryTest {
     }
 
     @Test
+    fun mixedFormatBatchLoadsPluginOnceAndPreservesMetadataOptions() {
+        val request = YTDLRequest(emptyList())
+            .addOption("--print", "%(formats)j")
+            .addOption("--quiet")
+            .addOption("--cookies", "/my-cookies.txt")
+            .addOption("--plugin-dirs", "/user-plugins")
+        val urls = listOf("https://youtube.com/watch?v=test", "https://b23.tv/abc123")
+
+        repeat(2) { BilibiliRequestRecovery.prepareExtraction(urls, request, "/kirin-plugins") }
+
+        assertEquals(listOf("/user-plugins", "/kirin-plugins"), request.getArguments("--plugin-dirs"))
+        assertEquals("%(formats)j", request.getOption("--print"))
+        assertEquals("/my-cookies.txt", request.getOption("--cookies"))
+        assertTrue(request.hasOption("--quiet"))
+        assertFalse(request.hasOption("--downloader"))
+        assertFalse(request.hasOption("--retries"))
+    }
+
+    @Test
+    fun metadataForOtherSitesKeepsOriginalRequest() {
+        val request = YTDLRequest("https://youtube.com/watch?v=test")
+        val before = request.buildCommand()
+        BilibiliRequestRecovery.prepareExtraction(
+            listOf("https://youtube.com/watch?v=test", "https://www.bilibili.tv/en/video/1"),
+            request, "/kirin-plugins"
+        )
+        assertEquals(before, request.buildCommand())
+    }
+
+    @Test
     fun eofFromStdoutRetriesAndPreservesDownloadOptions() {
         val request = YTDLRequest(url)
             .addOption("-f", "100026+30280")
@@ -70,6 +100,7 @@ class BilibiliRequestRecoveryTest {
     fun metadataAndRateLimitErrorsDoNotRetry() {
         for (message in listOf(
             "Requested format is not available",
+            "No video formats found!",
             "HTTP Error 429",
             "Permission denied"
         )) {
