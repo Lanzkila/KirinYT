@@ -1,4 +1,4 @@
-KirinYT 1.9.5.2 beta
-14 October 2026
-Validate Bilibili device-aware format recommendations and audio-required fallbacks.
-Publish signed beta APKs with the existing playback and CDN recovery fixes.
+KirinYT 1.9.5.3 beta
+15 October 2026
+Validate aria2 HTTP status recovery, including the reported video 503 followed by completed audio.
+Publish signed beta APKs with bounded CDN failover and regression tests.

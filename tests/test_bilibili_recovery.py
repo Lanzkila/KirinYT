@@ -92,6 +92,13 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
 
     @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
     def test_interrupted_video_resumes_on_mirror_and_merges_with_completed_audio(self):
+        self.assert_transfer_recovers('eof')
+
+    @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
+    def test_http_503_video_uses_mirror_and_merges_with_completed_audio(self):
+        self.assert_transfer_recovers('http503')
+
+    def assert_transfer_recovers(self, failure):
         with tempfile.TemporaryDirectory() as directory:
             temp = pathlib.Path(directory)
             subprocess.run(['ffmpeg', '-loglevel', 'error', '-f', 'lavfi', '-i',
@@ -113,6 +120,12 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                     data = audio if path.startswith('/audio') else video
                     start = int(self.headers.get('Range', 'bytes=0-').split('=')[1].split('-')[0])
                     requests.append((path, start))
+                    if path.startswith('/primary') and failure == 'http503':
+                        self.send_response(503)
+                        self.send_header('Content-Length', '0')
+                        self.end_headers()
+                        self.close_connection = True
+                        return
                     self.send_response(206 if start else 200)
                     self.send_header('Content-Length', str(len(data) - start))
                     self.send_header('Content-Type', 'audio/mp4' if path.startswith('/audio') else 'video/mp4')
@@ -149,14 +162,17 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                         return ydl._download_retcode
 
                 self.assertNotEqual(download(0), 0)
-                self.assertTrue((temp / 'result.f100026.mp4.part').exists())
+                if failure == 'eof':
+                    self.assertTrue((temp / 'result.f100026.mp4.part').exists())
                 self.assertTrue((temp / 'result.f30280.m4a').exists())
                 self.assertFalse((temp / 'result.mp4').exists())
                 self.assertEqual(download(1), 0)
                 self.assertEqual(hashlib.sha256((temp / 'result.f100026.mp4').read_bytes()).digest(),
                                  hashlib.sha256(video).digest())
                 self.assertEqual(sum(path.startswith('/audio') for path, _ in requests), 1)
-                self.assertTrue(any(path.startswith('/backup') and start > 0 for path, start in requests))
+                self.assertTrue(any(path.startswith('/backup') for path, _ in requests))
+                if failure == 'eof':
+                    self.assertTrue(any(path.startswith('/backup') and start > 0 for path, start in requests))
                 report = json.loads(subprocess.check_output(['ffprobe', '-v', 'error', '-show_streams',
                                                              '-of', 'json', str(temp / 'result.mp4')]))
                 self.assertEqual({s['codec_type'] for s in report['streams']}, {'audio', 'video'})

@@ -119,4 +119,136 @@ class BilibiliRequestRecoveryTest {
             assertEquals(1, calls)
         }
     }
+
+    private fun ariaStatus(status: Int) =
+        "  -> [/home/builder/.termux-build/aria2/src/src/HttpSkipResponseCommand.cc:232] " +
+            "errorCode=29 The response status is not successful. status=$status"
+
+    @Test
+    fun reportedAria503FollowedBySuccessfulAudioStillUsesBackup() {
+        val selector = "30080+30280/30080+ba/30080[vcodec!=none][acodec!=none]/b[vcodec!=none][acodec!=none]"
+        val request = YTDLRequest(url).addOption("-f", selector)
+            .addOption("--downloader", "libaria2c.so")
+            .addOption("--cookies", "/cookies.txt")
+            .addOption("-P", "/cache/dl/8")
+        var calls = 0
+        val retries = mutableListOf<String>()
+        val result = BilibiliRequestRecovery.execute(
+            url, request, "/plugins", onRetry = { retries.add(it) }
+        ) { retry, observe ->
+            observe("[KirinBilibili] backups=1 attempt=$calls switched=0")
+            calls++
+            if (calls == 1) {
+                observe(ariaStatus(503))
+                observe("ERROR: aria2c exited with code 29")
+                observe("[download] 100% of 9.33MiB in 00:00:01 at 8.71MiB/s")
+                throw IllegalStateException("yt-dlp exited with code 1")
+            }
+            assertEquals(selector, retry.getOption("-f"))
+            assertEquals("libaria2c.so", retry.getOption("--downloader"))
+            assertEquals("/cookies.txt", retry.getOption("--cookies"))
+            assertEquals("/cache/dl/8", retry.getOption("-P"))
+            assertTrue(retry.getArguments("--extractor-args").orEmpty().last().orEmpty().contains("kirin_cdn_attempt=1"))
+            "merged"
+        }
+        assertEquals("merged", result)
+        assertEquals(2, calls)
+        assertEquals(1, retries.size)
+        assertTrue(retries.single().contains("backup server"))
+    }
+
+    @Test
+    fun nativeAndAriaRetryableStatusesWorkInExceptionOrOutput() {
+        for (status in listOf(403, 410, 500, 502, 503, 504)) {
+            for (message in listOf("HTTP Error $status", ariaStatus(status))) {
+                var calls = 0
+                BilibiliRequestRecovery.execute(url, YTDLRequest(url), "/plugins") { _, observe ->
+                    observe("[KirinBilibili] backups=1")
+                    calls++
+                    if (calls == 1) throw IllegalStateException(message)
+                }
+                assertEquals(message, 2, calls)
+            }
+        }
+    }
+
+    @Test
+    fun ariaRateLimitAndLegalRestrictionOverrideTransientFailures() {
+        for (status in listOf(429, 451)) {
+            var calls = 0
+            val result = runCatching {
+                BilibiliRequestRecovery.execute(url, YTDLRequest(url), "/plugins") { _, observe ->
+                    calls++
+                    observe("[KirinBilibili] backups=2")
+                    observe(ariaStatus(503))
+                    observe(ariaStatus(status))
+                    throw IllegalStateException("aria2c exited with code 29")
+                }
+            }
+            assertTrue(result.isFailure)
+            assertEquals(1, calls)
+        }
+    }
+
+    @Test
+    fun exitCode29AndUrlQueryAreNotEnoughToInferRetryableHttpStatus() {
+        for (message in listOf("ERROR: aria2c exited with code 29",
+            "Download aborted. URI=https://cdn.example/video?status=503&code=503",
+            ariaStatus(404), ariaStatus(5030))) {
+            var calls = 0
+            runCatching {
+                BilibiliRequestRecovery.execute(url, YTDLRequest(url), "/plugins") { _, observe ->
+                    calls++
+                    observe("[KirinBilibili] backups=2")
+                    observe(message)
+                    throw IllegalStateException("aria2c exited with code 29")
+                }
+            }
+            assertEquals(message, 1, calls)
+        }
+    }
+
+    @Test
+    fun api503BeforeExtractionDoesNotStartTransferRecovery() {
+        var calls = 0
+        runCatching {
+            BilibiliRequestRecovery.execute(url, YTDLRequest(url), "/plugins") { _, _ ->
+                calls++
+                throw IllegalStateException("HTTP Error 503")
+            }
+        }
+        assertEquals(1, calls)
+    }
+
+    @Test
+    fun repeatedAria503StopsAtAvailableMirrorBound() {
+        for (backups in 0..2) {
+            var calls = 0
+            val result = runCatching {
+                BilibiliRequestRecovery.execute(url, YTDLRequest(url), "/plugins") { _, observe ->
+                    calls++
+                    observe("[KirinBilibili] backups=$backups")
+                    observe(ariaStatus(503))
+                    throw IllegalStateException("aria2c exited with code 29")
+                }
+            }
+            assertTrue(result.exceptionOrNull() is BilibiliRecoveryException)
+            assertEquals(if (backups == 2) 3 else 2, calls)
+        }
+    }
+
+    @Test
+    fun cancellationAfterAria503NeverRetries() {
+        var calls = 0
+        val result = runCatching {
+            BilibiliRequestRecovery.execute(url, YTDLRequest(url), "/plugins") { _, observe ->
+                calls++
+                observe("[KirinBilibili] backups=1")
+                observe(ariaStatus(503))
+                throw java.util.concurrent.CancellationException("Stopped by user")
+            }
+        }
+        assertTrue(result.exceptionOrNull() is java.util.concurrent.CancellationException)
+        assertEquals(1, calls)
+    }
 }

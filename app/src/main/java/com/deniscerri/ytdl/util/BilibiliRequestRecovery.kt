@@ -15,6 +15,15 @@ class BilibiliRecoveryException(attempts: Int, cause: Exception) :
 
 object BilibiliRequestRecovery {
     private val mirrorMarker = Regex("\\[KirinBilibili] backups=(\\d+)")
+    // yt-dlp's native downloader and aria2 describe the same HTTP failures differently.
+    // Match the diagnostic phrase, not a bare status= value inside a signed URL.
+    private val httpStatus = Regex(
+        "(?:\\bHTTP Error\\s+|\\bThe response status is not successful\\.\\s*status\\s*=\\s*)([1-5]\\d{2})(?!\\d)",
+        RegexOption.IGNORE_CASE
+    )
+
+    private fun httpStatuses(message: String): Sequence<Int> =
+        httpStatus.findAll(message).map { it.groupValues[1].toInt() }
 
     fun handles(url: String): Boolean {
         val host = runCatching {
@@ -144,11 +153,9 @@ object BilibiliRequestRecovery {
 
     private fun isNonRetryableFailure(message: String): Boolean {
         val text = message.lowercase(Locale.ROOT)
-        return listOf(
+        return httpStatuses(message).any { it == 429 || it == 451 } || listOf(
             "no space left",
             "permission denied",
-            "http error 429",
-            "http error 451",
             "requested format is not available",
             "postprocessing:"
         ).any(text::contains)
@@ -156,7 +163,7 @@ object BilibiliRequestRecovery {
 
     private fun isTransferFailure(message: String): Boolean {
         val text = message.lowercase(Locale.ROOT)
-        return listOf(
+        return httpStatuses(message).any { it == 403 || it == 410 || it in 500..599 } || listOf(
             "got eof from the server",
             "remote end closed connection",
             "remotedisconnected",
@@ -164,10 +171,7 @@ object BilibiliRequestRecovery {
             "more expected",
             "connection reset",
             "connection aborted",
-            "timed out",
-            "http error 403",
-            "http error 410",
-            "http error 5"
+            "timed out"
         ).any(text::contains)
     }
 }
