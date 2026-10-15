@@ -15,7 +15,7 @@ from types import SimpleNamespace
 from urllib.parse import urlsplit
 
 import yt_dlp
-from yt_dlp.utils import ExtractorError
+from yt_dlp.utils import DownloadError, ExtractorError
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'app/src/main/assets/yt-dlp-plugins/kirinyt'))
@@ -98,7 +98,15 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
     def test_http_503_video_uses_mirror_and_merges_with_completed_audio(self):
         self.assert_transfer_recovers('http503')
 
-    def assert_transfer_recovers(self, failure):
+    @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
+    def test_interrupted_video_switches_mirror_before_requesting_audio(self):
+        self.assert_transfer_recovers('eof', abort_on_error=True)
+
+    @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
+    def test_http_503_video_switches_mirror_before_requesting_audio(self):
+        self.assert_transfer_recovers('http503', abort_on_error=True)
+
+    def assert_transfer_recovers(self, failure, abort_on_error=False):
         with tempfile.TemporaryDirectory() as directory:
             temp = pathlib.Path(directory)
             subprocess.run(['ffmpeg', '-loglevel', 'error', '-f', 'lavfi', '-i',
@@ -149,9 +157,12 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                 info['dash']['audio'] = [{'id': 30280, 'baseUrl': base + '/audio/30280.m4s',
                                          'mimeType': 'audio/mp4', 'codecs': 'mp4a.40.2',
                                          'bandwidth': 128000, 'size': len(audio)}]
+                error_policy = yt_dlp.parse_options([
+                    '--ignore-config', '--abort-on-error' if abort_on_error else '--no-abort-on-error',
+                ]).ydl_opts['ignoreerrors']
                 options = {'outtmpl': str(temp / 'result.%(ext)s'), 'format': '100026+30280',
                            'retries': 0, 'continuedl': True, 'keepvideo': True,
-                           'ignoreerrors': 'only_download',  # Match the app's yt-dlp CLI default.
+                           'ignoreerrors': error_policy,
                            'quiet': True, 'logger': QuietLogger(), 'noprogress': True}
 
                 def download(attempt):
@@ -161,10 +172,15 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                                                'formats': self.extract(info, attempt)})
                         return ydl._download_retcode
 
-                self.assertNotEqual(download(0), 0)
+                if abort_on_error:
+                    with self.assertRaises(DownloadError):
+                        download(0)
+                    self.assertFalse(any(path.startswith('/audio') for path, _ in requests))
+                else:
+                    self.assertNotEqual(download(0), 0)
                 if failure == 'eof':
                     self.assertTrue((temp / 'result.f100026.mp4.part').exists())
-                self.assertTrue((temp / 'result.f30280.m4a').exists())
+                self.assertEqual((temp / 'result.f30280.m4a').exists(), not abort_on_error)
                 self.assertFalse((temp / 'result.mp4').exists())
                 self.assertEqual(download(1), 0)
                 self.assertEqual(hashlib.sha256((temp / 'result.f100026.mp4').read_bytes()).digest(),

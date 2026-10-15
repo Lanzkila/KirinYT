@@ -55,6 +55,9 @@ object BilibiliRequestRecovery {
 
         prepareExtraction(listOf(url), request, pluginDirectory)
 
+        // Return control to CDN recovery when a stream exhausts its retries.
+        // yt-dlp's default otherwise downloads/retries audio after video has failed.
+        request.addOption("--abort-on-error")
         request.addOption("--retries", "2")
         request.addOption("--fragment-retries", "2")
         request.addOption("--retry-sleep", "http:exp=1:4")

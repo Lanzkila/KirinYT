@@ -1,4 +1,4 @@
-KirinYT 1.9.5.3 beta
+KirinYT 1.9.5.4 beta
 15 October 2026
-Validate aria2 HTTP status recovery, including the reported video 503 followed by completed audio.
-Publish signed beta APKs with bounded CDN failover and regression tests.
+Switch Bilibili CDN after an exhausted stream without waiting for the remaining audio transfer.
+Validate interrupted and HTTP 503 video recovery, resume integrity and merged audio/video.

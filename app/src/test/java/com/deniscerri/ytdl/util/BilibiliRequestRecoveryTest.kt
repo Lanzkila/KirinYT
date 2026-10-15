@@ -34,6 +34,7 @@ class BilibiliRequestRecoveryTest {
         assertTrue(request.hasOption("--quiet"))
         assertFalse(request.hasOption("--downloader"))
         assertFalse(request.hasOption("--retries"))
+        assertFalse(request.hasOption("--abort-on-error"))
     }
 
     @Test
@@ -45,6 +46,42 @@ class BilibiliRequestRecoveryTest {
             request, "/kirin-plugins"
         )
         assertEquals(before, request.buildCommand())
+    }
+
+    @Test
+    fun nativeDownloadAbortsFailedStreamBeforeCdnRecovery() {
+        val request = YTDLRequest(url).addOption("-f", "30077+30280")
+        var calls = 0
+        val result = BilibiliRequestRecovery.execute(url, request, "/plugins") { retry, observe ->
+            assertTrue(retry.hasOption("--abort-on-error"))
+            assertFalse(retry.hasOption("--downloader"))
+            assertFalse(retry.hasOption("--limit-rate"))
+            assertFalse(retry.hasOption("-r"))
+            assertEquals("30077+30280", retry.getOption("-f"))
+            observe("[KirinBilibili] backups=1 attempt=$calls switched=0")
+            calls++
+            if (calls == 1) {
+                observe("[download] Got error: 13186535 bytes read, 1681110938 more expected. Giving up after 2 retries")
+                throw IllegalStateException("yt-dlp exited with code 1")
+            }
+            "merged"
+        }
+        assertEquals("merged", result)
+        assertEquals(2, calls)
+    }
+
+    @Test
+    fun otherSiteDownloadKeepsItsErrorAndDownloaderOptions() {
+        val otherUrl = "https://youtube.com/watch?v=test"
+        val request = YTDLRequest(otherUrl).addOption("--no-abort-on-error")
+            .addOption("--downloader", "libaria2c.so")
+        val before = request.buildCommand()
+        var calls = 0
+        BilibiliRequestRecovery.execute(otherUrl, request, "/plugins") { actual, _ ->
+            calls++
+            assertEquals(before, actual.buildCommand())
+        }
+        assertEquals(1, calls)
     }
 
     @Test
