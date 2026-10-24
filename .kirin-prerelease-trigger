@@ -1,4 +1,4 @@
-KirinYT 1.9.5.4 beta
-15 October 2026
-Switch Bilibili CDN after an exhausted stream without waiting for the remaining audio transfer.
-Validate interrupted and HTTP 503 video recovery, resume integrity and merged audio/video.
+KirinYT 1.9.5.5 beta
+24 October 2026
+Publish signed APKs with bounded Bilibili HTTP ranges and corrected CDN backup selection.
+Verify interrupted and empty-response recovery, resume integrity and merged audio/video.
