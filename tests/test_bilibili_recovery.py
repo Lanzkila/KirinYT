@@ -2,6 +2,7 @@
 import copy
 import hashlib
 import importlib
+import io
 import json
 import pathlib
 import shutil
@@ -15,6 +16,10 @@ from types import SimpleNamespace
 from urllib.parse import urlsplit
 
 import yt_dlp
+from yt_dlp.downloader.http import HttpFD
+from yt_dlp.networking import Request
+from yt_dlp.networking.common import Response
+from yt_dlp.networking.exceptions import IncompleteRead
 from yt_dlp.utils import DownloadError, ExtractorError
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -59,6 +64,97 @@ class BilibiliMirrorTests(unittest.TestCase):
     def test_missing_mirror_never_invents_a_host(self):
         primary = 'https://main.example/42627433138-1-100026.m4s'
         self.assertEqual(self.extract(video_info(primary, []), 1)[0]['url'], primary)
+
+    def test_second_backup_keeps_last_available_mirror_for_each_stream(self):
+        info = video_info('https://video.example/42627433138-1-100026.m4s?sig=primary',
+                          ['https://video-backup.example/42627433138-1-100026.m4s?sig=backup'])
+        info['dash']['audio'] = [{
+            'id': 30280, 'baseUrl': 'https://audio.example/30280.m4s',
+            'backupUrl': ['https://audio-backup1.example/30280.m4s',
+                          'https://audio-backup2.example/30280.m4s'],
+        }]
+        formats = {f['format_id']: f for f in self.extract(info, 2)}
+        self.assertEqual(formats['100026']['url'],
+                         'https://video-backup.example/42627433138-1-100026.m4s?sig=backup')
+        self.assertEqual(formats['30280']['url'], 'https://audio-backup2.example/30280.m4s')
+
+    def test_explicit_native_chunk_size_including_zero_takes_precedence(self):
+        for chunk_size in (0, 1024 * 1024):
+            with self.subTest(chunk_size=chunk_size), yt_dlp.YoutubeDL({
+                'quiet': True, 'logger': QuietLogger(), 'http_chunk_size': chunk_size,
+            }) as ydl:
+                fmt = plugin._KirinYTBiliBiliIE(ydl).extract_formats(
+                    video_info('https://video.example/1-100026.m4s', []))[0]
+                self.assertNotIn('http_chunk_size', fmt.get('downloader_options', {}))
+
+    def test_native_ranges_resume_after_large_response_and_chunk_interruptions(self):
+        # A CDN can cut every long response short, including after a mirror switch.
+        # Exercise real HTTP Range/resume handling instead of mocking the downloader.
+        data = bytes(range(256)) * (20 * 1024 * 1024 // 256)
+        response_limit = 5 * 1024 * 1024
+        requests = []
+        interrupted_chunk = False
+
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self, *args):
+                pass
+
+            def do_GET(self):
+                nonlocal interrupted_chunk
+                byte_range = self.headers.get('Range')
+                start, end = 0, len(data) - 1
+                if byte_range:
+                    first, last = byte_range.removeprefix('bytes=').split('-')
+                    start = int(first)
+                    end = min(int(last), end) if last else end
+                requests.append((start, end))
+                self.send_response(206 if byte_range else 200)
+                self.send_header('Content-Length', str(end - start + 1))
+                if byte_range:
+                    self.send_header('Content-Range', f'bytes {start}-{end}/{len(data)}')
+                self.end_headers()
+                actual_end = min(end + 1, start + response_limit)
+                if byte_range and end - start < response_limit and not interrupted_chunk:
+                    actual_end = start + (actual_end - start) // 2
+                    interrupted_chunk = True
+                self.wfile.write(data[start:actual_end])
+                self.close_connection = True
+
+        server = ThreadingHTTPServer(('127.0.0.1', 0), Handler)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            primary = f'http://127.0.0.1:{server.server_port}/1-100026.m4s?sig=keep%2Bexact'
+            with tempfile.TemporaryDirectory() as directory, yt_dlp.YoutubeDL({
+                'quiet': True, 'logger': QuietLogger(), 'continuedl': True,
+                'retries': 2, 'noprogress': True,
+            }) as ydl:
+                fmt = plugin._KirinYTBiliBiliIE(ydl).extract_formats(video_info(primary, []))[0]
+                target = pathlib.Path(directory) / 'video.mp4'
+                # The old unbounded request exhausts its retries against this CDN.
+                old = {k: v for k, v in fmt.items() if k != 'downloader_options'}
+                with self.assertRaises(DownloadError):
+                    HttpFD(ydl, ydl.params).download(str(target), old)
+                part = target.with_suffix('.mp4.part')
+                self.assertTrue(part.is_file())
+                self.assertFalse(target.exists())
+                resume_at = part.stat().st_size
+                self.assertGreater(resume_at, 0)
+                recovery_start = len(requests)
+                self.assertTrue(HttpFD(ydl, ydl.params).download(str(target), fmt)[0])
+                recovered_requests = requests[recovery_start:]
+                self.assertEqual(recovered_requests[0][0], resume_at)
+                self.assertTrue(interrupted_chunk)
+                self.assertGreater(len(recovered_requests), 1)
+                self.assertTrue(all(end - start + 1 <= 4 * 1024 * 1024
+                                    for start, end in recovered_requests))
+                self.assertEqual(hashlib.sha256(target.read_bytes()).digest(),
+                                 hashlib.sha256(data).digest())
+                self.assertFalse(part.exists())
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join()
 
     def test_snake_case_dolby_flac_and_fragment_backups(self):
         info = {'dash': {'audio': [{'base_url': 'https://a/main', 'backup_url': ['https://a/backup']}],
@@ -106,18 +202,34 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
     def test_http_503_video_switches_mirror_before_requesting_audio(self):
         self.assert_transfer_recovers('http503', abort_on_error=True)
 
-    def assert_transfer_recovers(self, failure, abort_on_error=False):
+    @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
+    def test_empty_interrupted_ranges_exhaust_retries_and_switch_mirror_on_urllib(self):
+        self.assert_transfer_recovers('eof', abort_on_error=True, retries=2, handler='Urllib')
+
+    @unittest.skipUnless(shutil.which('ffmpeg') and shutil.which('ffprobe'), 'FFmpeg required')
+    def test_large_video_resumes_across_ranges_and_mirror_then_merges_audio(self):
+        self.assert_transfer_recovers('eof', abort_on_error=True, retries=2,
+                                     handler='Urllib', large_video=True)
+
+    def assert_transfer_recovers(self, failure, abort_on_error=False, retries=0,
+                                handler=None, large_video=False):
         with tempfile.TemporaryDirectory() as directory:
             temp = pathlib.Path(directory)
             subprocess.run(['ffmpeg', '-loglevel', 'error', '-f', 'lavfi', '-i',
-                            'color=c=blue:s=160x90:r=5', '-t', '1', '-c:v', 'libx264',
+                            'testsrc2=s=160x90:r=30', '-t', '1', '-c:v', 'libx264', '-crf', '0',
                             '-an', str(temp / 'video.mp4')], check=True)
             subprocess.run(['ffmpeg', '-loglevel', 'error', '-f', 'lavfi', '-i',
                             'sine=frequency=440:sample_rate=44100', '-t', '1', '-c:a', 'aac',
                             '-vn', str(temp / 'audio.m4a')], check=True)
             video = (temp / 'video.mp4').read_bytes()
+            if large_video:
+                # A valid MP4 free box makes the real video span multiple ranges
+                # without spending time encoding a long fixture.
+                padding = 8 * 1024 * 1024
+                video += padding.to_bytes(4, 'big') + b'free' + b'\0' * (padding - 8)
             audio = (temp / 'audio.m4a').read_bytes()
             requests = []
+            requested_ranges = []
 
             class Handler(BaseHTTPRequestHandler):
                 def log_message(self, *args):
@@ -126,23 +238,27 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                 def do_GET(self):
                     path = urlsplit(self.path).path
                     data = audio if path.startswith('/audio') else video
-                    start = int(self.headers.get('Range', 'bytes=0-').split('=')[1].split('-')[0])
+                    byte_range = self.headers.get('Range')
+                    first, last = (byte_range or 'bytes=0-').split('=')[1].split('-')
+                    start = int(first)
+                    end = min(int(last), len(data) - 1) if last else len(data) - 1
                     requests.append((path, start))
+                    requested_ranges.append((path, start, end))
                     if path.startswith('/primary') and failure == 'http503':
                         self.send_response(503)
                         self.send_header('Content-Length', '0')
                         self.end_headers()
                         self.close_connection = True
                         return
-                    self.send_response(206 if start else 200)
-                    self.send_header('Content-Length', str(len(data) - start))
+                    self.send_response(206 if byte_range else 200)
+                    self.send_header('Content-Length', str(end - start + 1))
                     self.send_header('Content-Type', 'audio/mp4' if path.startswith('/audio') else 'video/mp4')
                     self.send_header('Accept-Ranges', 'bytes')
-                    if start:
-                        self.send_header('Content-Range', f'bytes {start}-{len(data)-1}/{len(data)}')
+                    if byte_range:
+                        self.send_header('Content-Range', f'bytes {start}-{end}/{len(data)}')
                     self.end_headers()
-                    end = max(start, len(data) // 2) if path.startswith('/primary') else len(data)
-                    self.wfile.write(data[start:end])
+                    actual_end = max(start, min(end + 1, len(data) // 2)) if path.startswith('/primary') else end + 1
+                    self.wfile.write(data[start:actual_end])
                     self.wfile.flush()
                     self.close_connection = True
 
@@ -161,15 +277,20 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                     '--ignore-config', '--abort-on-error' if abort_on_error else '--no-abort-on-error',
                 ]).ydl_opts['ignoreerrors']
                 options = {'outtmpl': str(temp / 'result.%(ext)s'), 'format': '100026+30280',
-                           'retries': 0, 'continuedl': True, 'keepvideo': True,
+                           'retries': retries, 'continuedl': True, 'keepvideo': True,
                            'ignoreerrors': error_policy,
                            'quiet': True, 'logger': QuietLogger(), 'noprogress': True}
 
                 def download(attempt):
-                    with yt_dlp.YoutubeDL(options) as ydl:
+                    with yt_dlp.YoutubeDL({
+                        **options, 'extractor_args': {'bilibili': {'kirin_cdn_attempt': [str(attempt)]}},
+                    }) as ydl:
+                        if handler:
+                            ydl._request_director.preferences.add(
+                                lambda rh, req: 1000 if rh.RH_KEY == handler else 0)
                         ydl.process_ie_result({'id': 'test', 'title': 'test',
                                                'extractor': 'BiliBili', 'extractor_key': 'BiliBili',
-                                               'formats': self.extract(info, attempt)})
+                                               'formats': plugin._KirinYTBiliBiliIE(ydl).extract_formats(info)})
                         return ydl._download_retcode
 
                 if abort_on_error:
@@ -189,6 +310,10 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                 self.assertTrue(any(path.startswith('/backup') for path, _ in requests))
                 if failure == 'eof':
                     self.assertTrue(any(path.startswith('/backup') and start > 0 for path, start in requests))
+                if large_video:
+                    self.assertGreater(sum(path.startswith('/backup') for path, _ in requests), 1)
+                    self.assertTrue(all(end - start + 1 <= 4 * 1024 * 1024
+                                        for _, start, end in requested_ranges))
                 report = json.loads(subprocess.check_output(['ffprobe', '-v', 'error', '-show_streams',
                                                              '-of', 'json', str(temp / 'result.mp4')]))
                 self.assertEqual({s['codec_type'] for s in report['streams']}, {'audio', 'video'})
@@ -196,6 +321,54 @@ with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attemp
                 server.shutdown()
                 server.server_close()
                 thread.join()
+
+
+class BilibiliResponseTests(unittest.TestCase):
+    URL = 'https://video.example/42627433138-1-100026.m4s?sig=keep%2Bexact'
+
+    def test_sized_reads_and_zero_byte_reads_detect_premature_eof(self):
+        raw = Response(io.BytesIO(b'1234'), self.URL, {'Content-Length': '8'})
+        with plugin._CheckedStreamResponse(raw) as response:
+            self.assertEqual(response.read(0), b'')
+            self.assertEqual(response.read(2), b'12')
+            self.assertEqual(response.read(2), b'34')
+            with self.assertRaises(IncompleteRead) as failure:
+                response.read(2)
+            self.assertEqual((failure.exception.partial, failure.exception.expected), (4, 4))
+            self.assertTrue(raw.closed)
+
+    def test_complete_unknown_length_and_encoded_bodies_keep_normal_eof(self):
+        for headers in ({'Content-Length': '4'}, {},
+                        {'Content-Length': '8', 'Content-Encoding': 'gzip'}):
+            with self.subTest(headers=headers), plugin._CheckedStreamResponse(
+                Response(io.BytesIO(b'1234'), self.URL, headers),
+            ) as response:
+                self.assertEqual(response.read(), b'1234')
+                self.assertEqual(response.read(), b'')
+
+    def test_guard_is_installed_once_and_only_checks_extracted_stream_urls(self):
+        seen = []
+        with yt_dlp.YoutubeDL({'quiet': True, 'logger': QuietLogger()}) as ydl:
+            def urlopen(request):
+                seen.append(request)
+                return Response(io.BytesIO(b'1234'), request.url, {'Content-Length': '8'})
+
+            ydl.urlopen = urlopen
+            ie = plugin._KirinYTBiliBiliIE(ydl)
+            ie.extract_formats(video_info(self.URL, []))
+            installed = ydl.urlopen
+            ie.extract_formats(video_info(self.URL, []))
+            self.assertIs(ydl.urlopen, installed)
+            request = Request(self.URL, headers={'Referer': 'https://www.bilibili.com/'})
+            with ydl.urlopen(request) as response:
+                self.assertEqual(response.read(8), b'1234')
+                with self.assertRaises(IncompleteRead):
+                    response.read(8)
+            self.assertIs(seen[0], request)
+            with ydl.urlopen(Request('https://unrelated.example/video')) as response:
+                self.assertNotIsInstance(response, plugin._CheckedStreamResponse)
+                self.assertEqual(response.read(), b'1234')
+                self.assertEqual(response.read(), b'')
 
 
 class BilibiliSelectionTests(unittest.TestCase):

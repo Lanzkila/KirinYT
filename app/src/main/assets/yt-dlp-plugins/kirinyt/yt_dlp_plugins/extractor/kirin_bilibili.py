@@ -5,15 +5,59 @@ Empty API responses must not replace playable data already in the webpage.
 After a transport failure the app
 refreshes extraction and selects at most two backup positions. Format IDs,
 signed query strings, downloader choice and partial-file bookkeeping stay with
-yt-dlp.
+yt-dlp. Native HTTP transfers use bounded ranges so a large file does not rely
+on one uninterrupted CDN response.
 """
 
 from urllib.parse import urlsplit
 
 from yt_dlp.extractor.bilibili import BiliBiliIE as _BiliBiliIE
-from yt_dlp.utils import ExtractorError
+from yt_dlp.networking.common import Response
+from yt_dlp.networking.exceptions import IncompleteRead
+from yt_dlp.utils import ExtractorError, int_or_none
 
 __all__ = []
+
+
+class _CheckedStreamResponse(Response):
+    """Make premature EOF retryable even with urllib's sized reads."""
+
+    def __init__(self, response):
+        super().__init__(response, response.url, response.headers,
+                         response.status, response.reason, response.extensions)
+        self._received = 0
+        self._expected = int_or_none(response.headers.get('Content-Length'))
+        # A decompressed body cannot be compared with its encoded wire length.
+        if response.headers.get('Content-Encoding', 'identity').lower() != 'identity':
+            self._expected = None
+
+    def read(self, amt=None):
+        data = self.fp.read(amt)
+        self._received += len(data)
+        if not data and amt != 0 and self._expected is not None and self._received < self._expected:
+            self.close()
+            raise IncompleteRead(partial=self._received, expected=self._expected - self._received)
+        return data
+
+
+def _guard_stream_responses(downloader, formats):
+    """Validate only these extracted Bilibili stream URLs, on this downloader."""
+    urls = {fmt['url'] for fmt in formats
+            if _http_url(fmt.get('url')) and not fmt.get('fragments')}
+    if not urls or downloader is None:
+        return
+    streams = getattr(downloader, '_kirin_bilibili_streams', None)
+    if streams is None:
+        streams = downloader._kirin_bilibili_streams = set()
+        original_urlopen = downloader.urlopen
+
+        def urlopen(request):
+            response = original_urlopen(request)
+            url = request if isinstance(request, str) else getattr(request, 'url', None)
+            return _CheckedStreamResponse(response) if url in streams else response
+
+        downloader.urlopen = urlopen
+    streams.update(urls)
 
 
 def _http_url(value):
@@ -63,8 +107,10 @@ def _apply_mirrors(formats, mirrors, attempt):
         for stream in [fmt, *fmt.get('fragments', [])]:
             candidates = mirrors.get(stream.get('url'), [])
             available = max(available, len(candidates))
-            if 0 < attempt <= len(candidates):
-                stream['url'] = candidates[attempt - 1]
+            if attempt > 0 and candidates:
+                # Audio and video can have different numbers of backups. A later
+                # global attempt must not put the shorter list back on primary.
+                stream['url'] = candidates[min(attempt, len(candidates)) - 1]
                 switched += 1
     return available, switched
 
@@ -104,6 +150,16 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
 
     def extract_formats(self, play_info):
         formats = super().extract_formats(play_info)
+        if self.get_param('http_chunk_size') is None:
+            for fmt in formats:
+                if _http_url(fmt.get('url')) and not fmt.get('fragments'):
+                    # Long Bilibili responses can end early on both primary and
+                    # backup CDNs. Let HttpFD request/resume small byte ranges;
+                    # it retains size checks, retries, rate limits and .part files.
+                    # Explicit --http-chunk-size (including 0) takes precedence;
+                    # external downloaders keep their own transfer handling.
+                    fmt.setdefault('downloader_options', {}).setdefault(
+                        'http_chunk_size', 4 * 1024 * 1024)
         try:
             attempt = int(self._configuration_arg(
                 'kirin_cdn_attempt', ['0'], ie_key='BiliBili')[0])
@@ -111,6 +167,9 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
             attempt = 0
         attempt = min(max(attempt, 0), 2)
         available, switched = _apply_mirrors(formats, _mirror_map(play_info), attempt)
+        # HttpFD otherwise treats an empty, truncated range as the next chunk
+        # without spending a retry, which can loop forever on urllib transports.
+        _guard_stream_responses(self._downloader, formats)
         self.to_screen(
             f'[KirinBilibili] backups={min(available, 2)} attempt={attempt} switched={switched}')
         return formats
