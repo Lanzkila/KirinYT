@@ -180,6 +180,7 @@ load_all_plugins()
 from yt_dlp.extractor import get_info_extractor
 with YoutubeDL({'quiet': True, 'extractor_args': {'bilibili': {'kirin_cdn_attempt': ['1']}}}) as ydl:
     ie = get_info_extractor('BiliBili')(ydl)
+    assert ie.suitable('https://www.bilibili.com/en/video/BV1kGpv6hEDv?p=2')
     formats = ie.extract_formats({'dash': {'video': [{'id': 80, 'baseUrl': 'https://a.test/1-100026.m4s', 'backupUrl': ['https://b.test/1-100026.m4s']}]}})
     assert formats[0]['url'].startswith('https://b.test/'), formats
 """
@@ -455,6 +456,186 @@ class StockPlaybackFixture(PlaybackFixture, plugin._BiliBiliIE):
 
 class FixedPlaybackFixture(PlaybackFixture, plugin._KirinYTBiliBiliIE):
     pass
+
+
+class MissingStateFixture(PlaybackFixture):
+    URL = 'https://www.bilibili.com/video/BV1kGpv6hEDv?p=1'
+
+    def __init__(self, downloader, detail=None, state=None, risk=None, code=0):
+        super().__init__(downloader, {}, video_info(
+            'https://video.example/42627433138-1-30077.m4s?sig=video',
+            ['https://backup.example/video.m4s?sig=backup']))
+        self.api_info['dash']['audio'] = [{
+            'id': 30280, 'baseUrl': 'https://audio.example/audio.m4s?sig=audio',
+            'mimeType': 'audio/mp4', 'codecs': 'mp4a.40.2',
+        }]
+        self.api_info['timelength'] = 120000
+        self.detail = detail if detail is not None else {'View': {
+            'bvid': 'BV1kGpv6hEDv', 'aid': 12345678, 'cid': 901,
+            'title': 'Missing state regression', 'desc': 'API description',
+            'owner': {'name': 'Fixture uploader', 'mid': 42},
+            'stat': {'like': 10, 'view': 20, 'reply': 3},
+            'pages': [{'page': 1, 'cid': 901, 'part': 'First'},
+                      {'page': 2, 'cid': 902, 'part': 'Second'}],
+        }, 'Tags': [{'tag_name': 'Fixture tag'}]}
+        self.state, self.risk, self.code = state, risk, code
+        self.detail_requests, self.playback_cids, self.webpage_requests = [], [], []
+
+    def _download_webpage_handle(self, url, *args, **kwargs):
+        self.webpage_requests.append(url)
+        page = '<html><body>Video shell</body>'
+        for name, value in (('__INITIAL_STATE__', self.state), ('_riskdata_', self.risk)):
+            if value is not None:
+                page += f'<script>window.{name}={json.dumps(value)};</script>'
+        return page + '</html>', SimpleNamespace(url=url)
+
+    def _download_json(self, url, *args, **kwargs):
+        if url.endswith('/view/detail'):
+            self.detail_requests.append(kwargs)
+            return {'code': self.code, 'message': 'Fixture API response', 'data': self.detail}
+        if url.endswith('/pagelist'):
+            return {'data': self.detail.get('View', {}).get('pages', [])}
+        if url.endswith('/playurl'):
+            self.playback_cids.append(kwargs['query']['cid'])
+            return {'code': 0, 'data': self.api_info}
+        return super()._download_json(url, *args, **kwargs)
+
+
+class StockMissingStateFixture(MissingStateFixture, plugin._BiliBiliIE):
+    pass
+
+
+class FixedMissingStateFixture(MissingStateFixture, plugin._KirinYTBiliBiliIE):
+    pass
+
+
+class BilibiliInitialStateTests(unittest.TestCase):
+    def setUp(self):
+        self.ydl = yt_dlp.YoutubeDL({'quiet': True, 'logger': QuietLogger()})
+        self.addCleanup(self.ydl.close)
+
+    def test_missing_page_state_uses_existing_api_video_details(self):
+        stock = StockMissingStateFixture(self.ydl)
+        with self.assertRaisesRegex(ExtractorError, 'Unable to extract initial state'):
+            stock._real_extract(stock.URL)
+        fixed = FixedMissingStateFixture(self.ydl)
+        result = fixed._real_extract(fixed.URL)
+        self.assertEqual(result['id'], 'BV1kGpv6hEDv_p1')
+        self.assertEqual(result['title'], 'Missing state regression p01 First')
+        self.assertEqual(result['uploader'], 'Fixture uploader')
+        self.assertEqual(result['uploader_id'], '42')
+        self.assertEqual(result['tags'], ['Fixture tag'])
+        self.assertEqual(result['description'], 'API description')
+        self.assertEqual(result['like_count'], 10)
+        self.assertEqual({f['format_id'] for f in result['formats']}, {'30077', '30280'})
+        self.assertEqual(fixed.playback_cids, [901])
+        self.assertEqual(len(fixed.webpage_requests), 1)
+        self.assertEqual(len(fixed.detail_requests), 1)
+        self.assertEqual(fixed.detail_requests[0]['query']['bvid'], 'BV1kGpv6hEDv')
+        self.assertEqual(fixed.detail_requests[0]['headers']['Referer'], 'https://www.bilibili.com/')
+        self.assertTrue(all(f.get('downloader_options', {}).get('http_chunk_size') == 4 * 1024 * 1024
+                            for f in result['formats']))
+
+    def test_localized_page_keeps_selected_second_part_and_metadata(self):
+        fixed = FixedMissingStateFixture(self.ydl)
+        url = 'https://www.bilibili.com/en/video/BV1kGpv6hEDv?p=2'
+        result = fixed._real_extract(url)
+        self.assertEqual(result['id'], 'BV1kGpv6hEDv_p2')
+        self.assertEqual(result['title'], 'Missing state regression p02 Second')
+        self.assertEqual(fixed.playback_cids, [902])
+        self.assertEqual(result['http_headers']['Referer'], url)
+
+    def test_legacy_av_link_uses_aid_then_preserves_canonical_bvid(self):
+        fixed = FixedMissingStateFixture(self.ydl)
+        result = fixed._real_extract('https://www.bilibili.com/video/av12345678?p=2')
+        self.assertEqual(result['id'], 'BV1kGpv6hEDv_p2')
+        self.assertEqual(fixed.detail_requests[0]['query']['aid'], '12345678')
+        self.assertNotIn('bvid', fixed.detail_requests[0]['query'])
+        self.assertEqual(fixed.playback_cids, [902])
+
+    def test_missing_state_without_part_keeps_playlist_behavior(self):
+        fixed = FixedMissingStateFixture(self.ydl)
+        result = fixed._real_extract(fixed.URL.split('?')[0])
+        self.assertEqual(result['_type'], 'playlist')
+        self.assertEqual([entry['url'] for entry in result['entries']], [
+            'https://www.bilibili.com/video/BV1kGpv6hEDv?p=1',
+            'https://www.bilibili.com/video/BV1kGpv6hEDv?p=2',
+        ])
+        self.assertEqual(fixed.playback_cids, [])
+
+    def test_risk_voucher_stops_without_requesting_details(self):
+        fixed = FixedMissingStateFixture(self.ydl, risk={'v_voucher': 'fixture'})
+        with self.assertRaises(ExtractorError) as failure:
+            fixed._real_extract(fixed.URL)
+        self.assertTrue(failure.exception.expected)
+        self.assertIn('rate limit', str(failure.exception))
+        self.assertEqual(fixed.detail_requests, [])
+
+    def test_explicit_page_access_errors_keep_original_handling(self):
+        for code in (-403, -404):
+            with self.subTest(code=code):
+                fixed = FixedMissingStateFixture(self.ydl, state={'error': {'trueCode': code}})
+                with self.assertRaises(ExtractorError) as failure:
+                    fixed._real_extract(fixed.URL)
+                self.assertTrue(failure.exception.expected)
+                self.assertEqual(fixed.detail_requests, [])
+
+    def test_metadata_api_rejections_stop_after_one_request(self):
+        for code in (-101, -352, -404):
+            with self.subTest(code=code):
+                fixed = FixedMissingStateFixture(self.ydl, code=code, detail={})
+                with self.assertRaises(ExtractorError) as failure:
+                    fixed._real_extract(fixed.URL)
+                self.assertTrue(failure.exception.expected)
+                self.assertEqual(len(fixed.detail_requests), 1)
+                self.assertEqual(fixed.playback_cids, [])
+
+    def test_incomplete_or_wrong_video_details_do_not_start_playback(self):
+        for view in ({}, {'bvid': 'BV1kGpv6hEDv'},
+                     {'bvid': 'BV1wrongVideo', 'cid': 901, 'title': 'Wrong video'}):
+            with self.subTest(view=view):
+                fixed = FixedMissingStateFixture(self.ydl, detail={'View': view})
+                with self.assertRaises(ExtractorError) as failure:
+                    fixed._real_extract(fixed.URL)
+                self.assertTrue(failure.exception.expected)
+                self.assertEqual(len(fixed.detail_requests), 1)
+                self.assertEqual(fixed.playback_cids, [])
+
+    def test_missing_state_preserves_bangumi_redirects(self):
+        redirect = 'https://www.bilibili.com/bangumi/play/ep12345'
+        fixed = FixedMissingStateFixture(self.ydl, detail={'View': {'redirect_url': redirect}})
+        result = fixed._real_extract(fixed.URL)
+        self.assertEqual(result['_type'], 'url')
+        self.assertEqual(result['url'], redirect)
+        self.assertEqual(result['ie_key'], 'BiliBiliBangumi')
+        self.assertEqual(len(fixed.detail_requests), 1)
+        self.assertEqual(fixed.playback_cids, [])
+
+    def test_plugin_matches_localized_routes_and_existing_festival_routes(self):
+        for path in ('video/BV1kGpv6hEDv', 'en/video/BV1kGpv6hEDv',
+                     'zh-Hans/video/BV1kGpv6hEDv', 'zh-Hant/video/BV1kGpv6hEDv',
+                     'festival/event?bvid=BV1kGpv6hEDv'):
+            self.assertTrue(plugin._KirinYTBiliBiliIE.suitable('https://www.bilibili.com/' + path), path)
+        self.assertFalse(plugin._KirinYTBiliBiliIE.suitable('https://www.bilibili.tv/en/video/123'))
+
+    def test_usable_page_does_not_add_metadata_api_request(self):
+        fixed = FixedMissingStateFixture(self.ydl)
+        fixed.state = {'videoData': fixed.detail['View']}
+        result = fixed._real_extract(fixed.URL)
+        self.assertEqual(result['id'], 'BV1kGpv6hEDv_p1')
+        self.assertEqual(fixed.detail_requests, [])
+        self.assertIsNone(fixed._kirin_video_url)
+
+    def test_extractor_can_be_reused_after_failed_metadata_request(self):
+        fixed = FixedMissingStateFixture(self.ydl, code=-404)
+        with self.assertRaises(ExtractorError):
+            fixed._real_extract(fixed.URL)
+        self.assertIsNone(fixed._kirin_video_url)
+        fixed.code = 0
+        result = fixed._real_extract(fixed.URL.replace('p=1', 'p=2'))
+        self.assertEqual(result['id'], 'BV1kGpv6hEDv_p2')
+        self.assertEqual(fixed.playback_cids, [902])
+        self.assertIsNone(fixed._kirin_video_url)
 
 
 class BilibiliPlaybackTests(unittest.TestCase):

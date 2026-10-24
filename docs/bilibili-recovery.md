@@ -30,3 +30,18 @@ The live Bilibili page returned HTTP 412 in this environment, so the reported
 public transfer has not been verified on the user's network. These regressions
 do not establish the CDN's underlying policy or guarantee download speed.
 An APK was not built; the local Gradle distribution download was unavailable.
+
+## Missing page state (1.9.5.6 beta)
+
+When `window.__INITIAL_STATE__` is absent, use the existing signed video-details
+API to recover `View` metadata and pass it into upstream's normal extraction
+logic. Validate the requested identity, title and CID before proceeding. Keep
+explicit page errors and risk vouchers, reject API failures, and route Bangumi
+redirects through its existing extractor. Localized video paths are recognized.
+
+The suite now has 42 passing Python regressions on both pinned engine versions,
+including selected-part preservation and rejected/incomplete API responses.
+Live metadata extraction then succeeded for `BV1kGpv6hEDv?p=1`, returning the
+video title and 15 audio/video formats. The full concert transfer was not
+attempted. The probe used this environment's system certificate store; it did
+not disable certificate verification or change the app's TLS settings.

@@ -11,12 +11,17 @@ on one uninterrupted CDN response.
 
 from urllib.parse import urlsplit
 
+from yt_dlp.extractor.bilibili import BiliBiliBangumiIE
 from yt_dlp.extractor.bilibili import BiliBiliIE as _BiliBiliIE
 from yt_dlp.networking.common import Response
 from yt_dlp.networking.exceptions import IncompleteRead
-from yt_dlp.utils import ExtractorError, int_or_none
+from yt_dlp.utils import ExtractorError, int_or_none, traverse_obj, url_or_none
 
 __all__ = []
+
+
+class _BilibiliRedirect(Exception):
+    """Return an API-provided Bangumi redirect to the normal extractor router."""
 
 
 class _CheckedStreamResponse(Response):
@@ -116,8 +121,15 @@ def _apply_mirrors(formats, mirrors, attempt):
 
 
 class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
+    _VALID_URL = (
+        r'https?://(?:www\.)?bilibili\.com/(?:[a-z]{2}(?:-[A-Za-z]{2,4})?/)?'
+        r'(?:video/|festival/[^/?#]+\?(?:[^#]*&)?bvid=)'
+        r'(?P<prefix>[aAbB][vV])(?P<id>[^/?#&]+)')
+
     def _search_json(self, start_pattern, string, name, video_id, **kwargs):
         result = super()._search_json(start_pattern, string, name, video_id, **kwargs)
+        if start_pattern == r'window\.__INITIAL_STATE__\s*=' and not result:
+            return self._initial_state_from_api(string, video_id)
         if start_pattern == r'window\.__playinfo__\s*=':
             # A truthy envelope with an empty dash/durl makes upstream skip the
             # API when logged in. It is not a usable playback response.
@@ -125,6 +137,50 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
             if not _mirror_map(play_info):
                 return None
         return result
+
+    def _initial_state_from_api(self, webpage, video_id):
+        url = getattr(self, '_kirin_video_url', None)
+        if not url:
+            return None
+        # Preserve upstream's explicit risk challenge instead of retrying around it.
+        risk = super()._search_json(
+            r'\bwindow\._riskdata_\s*=', webpage, 'risk', video_id, default={})
+        if isinstance(risk, dict) and risk.get('v_voucher'):
+            return None
+        match = self._match_valid_url(url)
+        prefix, identifier = match.group('prefix', 'id')
+        prefix = prefix.upper()
+        query = {'platform': 'web'}
+        query['bvid' if prefix == 'BV' else 'aid'] = 'BV' + identifier if prefix == 'BV' else identifier
+        headers = {**self.geo_verification_headers(),
+                   'Referer': 'https://www.bilibili.com/', 'Origin': 'https://www.bilibili.com'}
+        response = self._download_json(
+            'https://api.bilibili.com/x/web-interface/wbi/view/detail', video_id,
+            note='Recovering missing Bilibili page data from API',
+            query=self._sign_wbi(query, video_id), headers=headers)
+        if not isinstance(response, dict) or response.get('code') != 0:
+            code = response.get('code') if isinstance(response, dict) else None
+            message = response.get('message', '') if isinstance(response, dict) else ''
+            raise ExtractorError(
+                f'Bilibili metadata request was rejected (code {code}): {message}', expected=True)
+        view = traverse_obj(response, ('data', 'View', {dict})) or {}
+        redirect = url_or_none(view.get('redirect_url'))
+        if redirect and BiliBiliBangumiIE.suitable(redirect):
+            raise _BilibiliRedirect(redirect)
+        cid = int_or_none(view.get('cid'))
+        title = view.get('title')
+        bvid = view.get('bvid')
+        if (not isinstance(bvid, str) or not bvid.startswith('BV')
+                or not isinstance(title, str) or not title.strip() or cid is None or cid <= 0):
+            raise ExtractorError('Bilibili metadata API returned no usable video details', expected=True)
+        if (prefix == 'BV' and bvid != 'BV' + identifier) or (
+                prefix == 'AV' and int_or_none(view.get('aid')) != int_or_none(identifier)):
+            raise ExtractorError('Bilibili metadata API returned a different video', expected=True)
+        # Feed verified API metadata into upstream's existing part, format,
+        # subtitle and interactive-video handling. Do not duplicate that logic.
+        self.to_screen('[KirinBilibili] recovered missing page data from API')
+        return {'videoData': view, 'upData': view.get('owner') or {},
+                'tags': traverse_obj(response, ('data', 'Tags', {list})) or []}
 
     def _download_playinfo(self, bvid, cid, headers=None, query=None, fatal=True):
         play_info = super()._download_playinfo(
@@ -140,7 +196,14 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
         return play_info
 
     def _real_extract(self, url):
-        result = super()._real_extract(url)
+        previous_url = getattr(self, '_kirin_video_url', None)
+        self._kirin_video_url = url
+        try:
+            result = super()._real_extract(url)
+        except _BilibiliRedirect as redirect:
+            return self.url_result(str(redirect), BiliBiliBangumiIE)
+        finally:
+            self._kirin_video_url = previous_url
         if result.get('formats') == []:
             raise ExtractorError(
                 'Bilibili returned no playable streams from the webpage or API. '

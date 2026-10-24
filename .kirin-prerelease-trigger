@@ -1,4 +1,4 @@
-KirinYT 1.9.5.5 beta
+KirinYT 1.9.5.6 beta
 24 October 2026
-Publish signed APKs with bounded Bilibili HTTP ranges and corrected CDN backup selection.
-Verify interrupted and empty-response recovery, resume integrity and merged audio/video.
+Publish signed APKs with Bilibili metadata API fallback when page initial state is missing.
+Verify localized video URLs, selected parts, API rejection handling and existing transfer recovery.
