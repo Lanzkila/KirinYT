@@ -17,7 +17,8 @@
 
 </div>
 
-## About
+<details>
+<summary><strong>✦ About</strong></summary>
 
 KirinYT is a customized fork of [YTDLnis](https://github.com/deniscerri/ytdlnis) by [deniscerri](https://github.com/deniscerri), built around **yt-dlp** with support for video, audio, playlists, custom commands, download queues, scheduling, format selection, cookies, subtitles, metadata processing and more.
 
@@ -31,7 +32,10 @@ Target SDK: 36
 
 The source tree keeps the original fork directory layout for easier maintenance and upstream comparison, while the Android package and application identity use `com.kirinyt.app`.
 
-## Features
+</details>
+
+<details>
+<summary><strong>✦ Features</strong></summary>
 
 - Download video and audio from websites supported by yt-dlp
 - Process playlists and configure individual playlist items
@@ -59,7 +63,10 @@ The source tree keeps the original fork directory layout for easier maintenance 
 - Material You interface and theme options
 - yt-dlp, FFmpeg, aria2c and runtime package integration
 
-## Downloads
+</details>
+
+<details>
+<summary><strong>✦ Downloads</strong></summary>
 
 Official KirinYT builds are published through this repository:
 
@@ -73,7 +80,10 @@ KirinYT-<version>-<abi>-release.apk
 
 Available builds may include architecture-specific APKs and a universal APK.
 
-## Build
+</details>
+
+<details>
+<summary><strong>✦ Build</strong></summary>
 
 ### Requirements
 
@@ -103,7 +113,10 @@ Build a GitHub-flavor release APK:
 
 Release builds use the signing configuration defined by the project. A valid signing setup is required when producing signed release APKs.
 
-## Build Variants
+</details>
+
+<details>
+<summary><strong>✦ Build Variants</strong></summary>
 
 KirinYT currently contains these Android product flavors:
 
@@ -115,7 +128,10 @@ KirinYT currently contains these Android product flavors:
 
 The default flavor is `github`.
 
-## Releases
+</details>
+
+<details>
+<summary><strong>✦ Releases</strong></summary>
 
 The repository contains separate GitHub Actions workflows for:
 
@@ -125,7 +141,10 @@ The repository contains separate GitHub Actions workflows for:
 
 Stable and beta release workflows build KirinYT APKs and can publish them to GitHub Releases.
 
-## Project Structure
+</details>
+
+<details>
+<summary><strong>✦ Project Structure</strong></summary>
 
 The Android app module is located at:
 
@@ -152,13 +171,19 @@ namespace:     com.kirinyt.app
 applicationId: com.kirinyt.app
 ```
 
-## Updating Components
+</details>
+
+<details>
+<summary><strong>✦ Updating Components</strong></summary>
 
 KirinYT uses yt-dlp and additional runtime components for downloading and media processing. Some runtime packages retain their original external package identifiers because they are dependencies rather than the KirinYT application package.
 
 Do not rename external runtime package identifiers unless the corresponding dependency is also replaced.
 
-## Contributing
+</details>
+
+<details>
+<summary><strong>✦ Contributing</strong></summary>
 
 Bug fixes, improvements and new KirinYT-specific features are welcome.
 
@@ -170,13 +195,19 @@ Before submitting changes:
 4. Test downloader-related changes with multiple supported sites.
 5. Keep new features compatible with the existing download queue and worker architecture.
 
-## License
+</details>
+
+<details>
+<summary><strong>✦ License</strong></summary>
 
 KirinYT is distributed under the **GNU General Public License v3.0**.
 
 See [LICENSE](LICENSE) for the full license text.
 
-## Related Projects
+</details>
+
+<details>
+<summary><strong>✦ Related Projects</strong></summary>
 
 KirinYT is based on and relies on open-source projects including:
 
@@ -184,6 +215,8 @@ KirinYT is based on and relies on open-source projects including:
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [youtubedl-android](https://github.com/yausername/youtubedl-android)
 - [NewPipe Extractor](https://github.com/TeamNewPipe/NewPipeExtractor)
+
+</details>
 
 ---
 
