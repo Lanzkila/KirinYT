@@ -1,8 +1,8 @@
-# KirinYT README Translations
+# README Translations
 
-This folder contains translated versions of the [main README](../README.md).
+This folder contains the translated versions of the KirinYT README.
 
-## Available languages
+## Available Languages
 
 - [Arabic](README-ar.md)
 - [Azerbaijani](README-az.md)
@@ -15,4 +15,4 @@ This folder contains translated versions of the [main README](../README.md).
 - [Turkish](README-tr.md)
 - [Simplified Chinese](README-zh_CN.md)
 
-Each link opens the README translated into that language.
+The original English README is available at the [repository root](../README.md).
