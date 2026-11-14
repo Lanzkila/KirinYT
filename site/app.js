@@ -16,4 +16,6 @@ async function load(){
    document.getElementById('downloadBtn').href=latest.html_url;
   }
  }catch(e){}
-}load();
+}
+document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+load();
