@@ -62,11 +62,4 @@ class BilibiliFormatPolicyTest {
         assertNull(BilibiliFormatPolicy.frameRate("30/0"))
         assertNull(BilibiliFormatPolicy.frameRate("unknown"))
     }
-
-    @Test fun audioFallbackRequiresAudioWithoutReplacingManualVideoId() {
-        assertEquals("100026[vcodec!=none][acodec!=none]", BilibiliFormatPolicy.standaloneFallback("100026", url))
-        assertEquals("30080[vcodec!=none][acodec!=none]", BilibiliFormatPolicy.standaloneFallback("30080", url))
-        assertEquals("b[vcodec!=none][acodec!=none]", BilibiliFormatPolicy.standaloneFallback("b", url))
-        assertEquals("137", BilibiliFormatPolicy.standaloneFallback("137", "https://youtube.com/watch?v=x"))
-    }
 }

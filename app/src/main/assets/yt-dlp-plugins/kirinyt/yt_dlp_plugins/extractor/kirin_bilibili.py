@@ -126,15 +126,21 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
         r'(?:video/|festival/[^/?#]+\?(?:[^#]*&)?bvid=)'
         r'(?P<prefix>[aAbB][vV])(?P<id>[^/?#&]+)')
 
+    def _has_playable_streams(self, play_info):
+        """Let yt-dlp decide whether a response contains usable Bilibili formats."""
+        if not isinstance(play_info, dict):
+            return False
+        return any(_http_url(fmt.get('url')) for fmt in super().extract_formats(play_info))
+
     def _search_json(self, start_pattern, string, name, video_id, **kwargs):
         result = super()._search_json(start_pattern, string, name, video_id, **kwargs)
         if start_pattern == r'window\.__INITIAL_STATE__\s*=' and not result:
             return self._initial_state_from_api(string, video_id)
         if start_pattern == r'window\.__playinfo__\s*=':
-            # A truthy envelope with an empty dash/durl makes upstream skip the
-            # API when logged in. It is not a usable playback response.
+            # Preserve any format yt-dlp can extract. Mirror metadata is only
+            # needed for retries; its absence must not discard a working stream.
             play_info = result.get('data') if isinstance(result, dict) else None
-            if not _mirror_map(play_info):
+            if not self._has_playable_streams(play_info):
                 return None
         return result
 
@@ -185,11 +191,9 @@ class _KirinYTBiliBiliIE(_BiliBiliIE, plugin_name='kirinyt-cdn'):
     def _download_playinfo(self, bvid, cid, headers=None, query=None, fatal=True):
         play_info = super()._download_playinfo(
             bvid, cid, headers=headers, query=query, fatal=fatal)
-        if play_info and not _mirror_map(play_info):
-            # Bilibili can return code=0 and metadata without any stream URLs.
-            # Returning None lets upstream retain its __playinfo__ fallback.
-            # Missing optional legacy qualities must not discard formats that
-            # already work. Upstream still handles actual API error codes.
+        if play_info and not self._has_playable_streams(play_info):
+            # A successful response may still contain no extractable streams.
+            # Only that case should yield to the usable page playback data.
             self.report_warning(
                 'Bilibili API returned no playable streams; keeping other available formats')
             return None

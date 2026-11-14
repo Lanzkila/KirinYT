@@ -11,6 +11,7 @@ import sys
 import tempfile
 import threading
 import unittest
+from unittest.mock import patch
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from types import SimpleNamespace
 from urllib.parse import urlsplit
@@ -374,8 +375,7 @@ class BilibiliResponseTests(unittest.TestCase):
 
 class BilibiliSelectionTests(unittest.TestCase):
     OLD = '100026+30280/100026+ba/100026/b'
-    FIXED = ('100026+30280/100026+ba/'
-             '100026[vcodec!=none][acodec!=none]/b[vcodec!=none][acodec!=none]')
+    FIXED = OLD
     VIDEO = {'format_id': '100026', 'vcodec': 'av01', 'acodec': 'none', 'ext': 'mp4',
              'url': 'https://example.test/video'}
     AUDIO = {'format_id': '30280', 'vcodec': 'none', 'acodec': 'mp4a.40.2', 'ext': 'm4a',
@@ -385,9 +385,9 @@ class BilibiliSelectionTests(unittest.TestCase):
         with yt_dlp.YoutubeDL({'quiet': True, 'logger': QuietLogger()}) as ydl:
             return list(ydl._select_formats(copy.deepcopy(formats), ydl.build_format_selector(selector)))
 
-    def test_missing_audio_no_longer_succeeds_as_a_silent_video(self):
+    def test_missing_audio_keeps_kirindl_compatible_video_fallback(self):
         self.assertEqual(self.select([self.VIDEO], self.OLD)[0]['format_id'], '100026')
-        self.assertEqual(self.select([self.VIDEO]), [])
+        self.assertEqual(self.select([self.VIDEO])[0]['format_id'], '100026')
 
     def test_audio_only_response_is_not_accepted_as_a_video(self):
         self.assertEqual(self.select([self.AUDIO]), [])
@@ -691,6 +691,18 @@ class BilibiliPlaybackTests(unittest.TestCase):
         self.assertTrue(error.exception.expected)
         self.assertIn('webpage or API', str(error.exception))
         self.assertEqual(fixed.api_calls, 1)
+
+    def test_valid_streams_survive_without_mirror_mapping(self):
+        cases = (
+            (self.playable, self.empty, False),
+            (self.empty, self.playable, True),
+        )
+        for page_info, api_info, logged_in in cases:
+            with self.subTest(logged_in=logged_in), patch.object(plugin, '_mirror_map', return_value={}):
+                fixed = FixedPlaybackFixture(
+                    self.ydl, page_info, api_info, logged_in=logged_in)
+                result = fixed._real_extract(fixed.URL)
+            self.assertEqual({fmt['format_id'] for fmt in result['formats']}, {'100026', '30280'})
 
     def test_invalid_stream_urls_cannot_replace_usable_page(self):
         invalid = {'dash': {'video': [{'baseUrl': 'file:///invalid'}],

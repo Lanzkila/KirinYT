@@ -45,3 +45,15 @@ Live metadata extraction then succeeded for `BV1kGpv6hEDv?p=1`, returning the
 video title and 15 audio/video formats. The full concert transfer was not
 attempted. The probe used this environment's system certificate store; it did
 not disable certificate verification or change the app's TLS settings.
+
+
+## Format fallback compatibility (1.9.5.7 beta)
+
+KirinYT now keeps the normal yt-dlp fallback order for Bilibili format selection.
+It no longer adds an extra `acodec!=none` filter to standalone fallback aliases.
+This matches KirinDL's behavior when a separate audio track is unavailable while
+leaving explicit format IDs and the hardware-aware AV1 recommendation intact.
+
+The extractor also asks yt-dlp whether the page/API payload contains usable
+formats. CDN mirror mapping is used only to select backup URLs; missing mirror
+metadata alone cannot discard a valid stream.

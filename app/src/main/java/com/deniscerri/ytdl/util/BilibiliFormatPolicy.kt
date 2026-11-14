@@ -40,8 +40,4 @@ object BilibiliFormatPolicy {
         }
         return rate?.takeIf { it.isFinite() && it > 0 }
     }
-
-    /** A missing audio stream must not silently turn a normal download into a muted video. */
-    fun standaloneFallback(videoFormat: String, url: String): String =
-        if (BilibiliRequestRecovery.handles(url)) "$videoFormat[vcodec!=none][acodec!=none]" else videoFormat
 }
