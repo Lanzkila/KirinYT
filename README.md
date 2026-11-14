@@ -6,7 +6,7 @@
 
 **A powerful Android video and audio downloader powered by yt-dlp.**
 
-[English](README.md) · [العربية](README-ar.md) · [Azərbaycanca](README-az.md) · [Español](README-es.md) · [Indonesia](README-id.md) · [日本語](README-ja.md) · [Português](README-pt.md) · [Română](README-ro.md) · [Shqip](README-sq.md) · [Türkçe](README-tr.md) · [简体中文](README-zh_CN.md)
+[English](README.md) · [العربية](translation/README-ar.md) · [Azərbaycanca](translation/README-az.md) · [Español](translation/README-es.md) · [Indonesia](translation/README-id.md) · [日本語](translation/README-ja.md) · [Português](translation/README-pt.md) · [Română](translation/README-ro.md) · [Shqip](translation/README-sq.md) · [Türkçe](translation/README-tr.md) · [简体中文](translation/README-zh_CN.md)
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
