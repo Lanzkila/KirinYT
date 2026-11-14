@@ -9,10 +9,16 @@ object BilibiliPlugin {
     private const val ASSET =
         "yt-dlp-plugins/kirinyt/yt_dlp_plugins/extractor/kirin_bilibili.py"
 
+    /** The plugin loader expects this directory to contain the yt_dlp_plugins namespace. */
+    internal fun pluginDirectory(root: File): File = File(root, "kirinyt")
+
+    internal fun pluginFile(root: File): File =
+        File(pluginDirectory(root), "yt_dlp_plugins/extractor/kirin_bilibili.py")
+
     @Synchronized
     fun install(context: Context): String {
         val root = File(context.filesDir, "kirinyt-bilibili-recovery-v2")
-        val target = File(root, "kirinyt/yt_dlp_plugins/extractor/kirin_bilibili.py")
+        val target = pluginFile(root)
         val source = context.assets.open(ASSET).use { it.readBytes() }
 
         if (!target.isFile || !target.readBytes().contentEquals(source)) {
@@ -27,6 +33,6 @@ object BilibiliPlugin {
                 throw error
             }
         }
-        return root.absolutePath
+        return pluginDirectory(root).absolutePath
     }
 }
