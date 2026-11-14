@@ -30,8 +30,6 @@ import com.kirinyt.app.database.repository.DownloadRepository
 import com.kirinyt.app.database.repository.LogRepository
 import com.kirinyt.app.database.repository.ResultRepository
 import com.kirinyt.app.util.AlarmScheduler
-import com.kirinyt.app.util.BilibiliPlugin
-import com.kirinyt.app.util.BilibiliRequestRecovery
 import com.kirinyt.app.util.Extensions.getMediaDuration
 import com.kirinyt.app.util.Extensions.toStringDuration
 import com.kirinyt.app.util.FileUtil
@@ -280,73 +278,18 @@ class DownloadWorker(
                         }
 
                         var transferPhase = TransferPhase.Preparing
-                        var currentDestination: String? = null
-                        val destinationPhases = linkedMapOf<String, TransferPhase>()
-                        val selectedFormatIds = request.getOption("-f")
-                            .orEmpty()
-                            .split('+')
-                            .map { it.substringBefore('/').substringBefore('[').trim() }
-                            .filter { it.isNotBlank() }
-                        val audioFormatIds = selectedFormatIds.drop(1).toSet()
+                        var destinationCount = 0
                         val ffmpegProgressTracker =
                             FfmpegProgressTracker(parseDurationSeconds(downloadItem.duration))
 
                         runCatching {
-                            val runtimeManager = RuntimeManager.getInstance()
-                            runtimeManager.destroyProcessById(downloadItem.id.toString())
-
-                            val pluginDirectory =
-                                if (BilibiliRequestRecovery.handles(downloadItem.url)) {
-                                    BilibiliPlugin.install(context)
-                                } else {
-                                    ""
-                                }
-
-                            BilibiliRequestRecovery.execute(
-                                url = downloadItem.url,
+                            RuntimeManager.getInstance().destroyProcessById(downloadItem.id.toString())
+                            RuntimeManager.getInstance().execute(
                                 request = request,
-                                pluginDirectory = pluginDirectory,
-                                cancellationCheck = {
-                                    if (this@DownloadWorker.isStopped) {
-                                        throw RuntimeManager.CanceledException()
-                                    }
-                                },
-                                onRetry = { retryLine ->
-                                    transferPhase = TransferPhase.Retrying
-                                    WorkerEventBus.post(
-                                        WorkerProgress(
-                                            -1,
-                                            retryLine,
-                                            downloadItem.id,
-                                            downloadItem.logID,
-                                            TransferPhase.Retrying
-                                        )
-                                    )
-                                    val title =
-                                        downloadItem.title.ifEmpty { downloadItem.url }
-                                    notificationUtil.updateDownloadNotification(
-                                        downloadItem.id.toInt(),
-                                        retryLine,
-                                        0,
-                                        0,
-                                        title,
-                                        NotificationUtil.Companion.DOWNLOAD_SERVICE_CHANNEL_ID
-                                    )
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        if (logDownloads) {
-                                            logRepo.update(retryLine, logItem.id)
-                                        }
-                                        logString.append("$retryLine\n")
-                                    }
-                                }
-                            ) { retryRequest, observe ->
-                                runtimeManager.execute(
-                                    request = retryRequest,
-                                    processId = downloadItem.id.toString(),
-                                    redirectErrorStream = true,
-                                    usingCacheDir = true
-                                ) { progress, etaSeconds, line ->
-                                    observe(line)
+                                processId = downloadItem.id.toString(),
+                                redirectErrorStream = true,
+                                usingCacheDir = true
+                            ) { progress, etaSeconds, line ->
                                 val mergeMarker =
                                     line.contains("[Merger]", ignoreCase = true) ||
                                         line.contains("Merging formats", ignoreCase = true)
@@ -373,53 +316,14 @@ class DownloadWorker(
                                         line.contains("(frag ", ignoreCase = true) -> TransferPhase.Fragments
 
                                     line.contains("[download] Destination:", ignoreCase = true) -> {
-                                        val nextDestination =
-                                            line.substringAfter("Destination:", "").trim()
-                                        if (nextDestination.isNotEmpty() &&
-                                            nextDestination != currentDestination
-                                        ) {
-                                            currentDestination = nextDestination
-                                            resetProgress = true
-                                        }
-
+                                        destinationCount += 1
+                                        resetProgress = true
                                         when (downloadItem.type) {
                                             DownloadType.audio -> TransferPhase.Audio
-                                            DownloadType.video -> {
-                                                if (nextDestination.isBlank()) {
-                                                    TransferPhase.Video
-                                                } else {
-                                                    destinationPhases.getOrPut(nextDestination) {
-                                                        val fileName =
-                                                            nextDestination.substringAfterLast('/')
-                                                                .lowercase(Locale.ROOT)
-                                                        val formatId =
-                                                            Regex("\\.f([^.]+)\\.[^.]+$")
-                                                                .find(fileName)
-                                                                ?.groupValues
-                                                                ?.getOrNull(1)
-                                                        val audioExtension =
-                                                            fileName.substringAfterLast('.') in
-                                                                setOf(
-                                                                    "m4a",
-                                                                    "mp3",
-                                                                    "aac",
-                                                                    "opus",
-                                                                    "ogg",
-                                                                    "flac",
-                                                                    "wav"
-                                                                )
-                                                        when {
-                                                            formatId != null &&
-                                                                formatId in audioFormatIds ->
-                                                                TransferPhase.Audio
-                                                            audioExtension -> TransferPhase.Audio
-                                                            destinationPhases.values.none {
-                                                                it == TransferPhase.Video
-                                                            } -> TransferPhase.Video
-                                                            else -> TransferPhase.Audio
-                                                        }
-                                                    }
-                                                }
+                                            DownloadType.video -> if (destinationCount == 1) {
+                                                TransferPhase.Video
+                                            } else {
+                                                TransferPhase.Audio
                                             }
                                             else -> TransferPhase.Downloading
                                         }
@@ -427,8 +331,7 @@ class DownloadWorker(
 
                                     line.startsWith("[download]", ignoreCase = true) &&
                                         progress >= 0f &&
-                                        (transferPhase == TransferPhase.Preparing ||
-                                            transferPhase == TransferPhase.Retrying) -> {
+                                        transferPhase == TransferPhase.Preparing -> {
                                         when (downloadItem.type) {
                                             DownloadType.audio -> TransferPhase.Audio
                                             DownloadType.video -> TransferPhase.Video
@@ -507,7 +410,6 @@ class DownloadWorker(
                                         logRepo.update(line, logItem.id)
                                     }
                                     logString.append("$line\n")
-                                }
                                 }
                             }
                         }.onSuccess {
@@ -793,7 +695,6 @@ class DownloadWorker(
     ) {
         Waiting("Waiting", true),
         Preparing("Preparing", true),
-        Retrying("Retrying", true),
         Video("Video"),
         Audio("Audio"),
         Fragments("Fragments"),

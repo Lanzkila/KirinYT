@@ -24,9 +24,6 @@ import com.kirinyt.app.database.models.YoutubeGeneratePoTokenItem
 import com.kirinyt.app.database.models.YoutubePlayerClientItem
 import com.kirinyt.app.database.viewmodel.ResultViewModel
 import com.kirinyt.app.util.BgUtilsPoTokenGeneratorUtil
-import com.kirinyt.app.util.BilibiliPlugin
-import com.kirinyt.app.util.BilibiliRequestRecovery
-import com.kirinyt.app.util.BilibiliFormatPolicy
 import com.kirinyt.app.util.Extensions.getIDFromYoutubeURL
 import com.kirinyt.app.util.Extensions.getIntByAny
 import com.kirinyt.app.util.Extensions.getStringByAny
@@ -62,12 +59,6 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
     private var sharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val formatUtil = FormatUtil(context)
     private val handler = Handler(Looper.getMainLooper())
-
-    private fun YTDLRequest.useBilibiliExtractor(urls: List<String>) {
-        if (urls.any(BilibiliRequestRecovery::handles)) {
-            BilibiliRequestRecovery.prepareExtraction(urls, this, BilibiliPlugin.install(context))
-        }
-    }
 
     private fun YTDLRequest.applyDefaultOptionsForFetchingData(url: String?) {
         addOption("--skip-download")
@@ -120,7 +111,6 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
             //addCommands(extraCommands.split(" ", "\t", "\n"))
             addConfig(extraCommands.joinToString(" ") { it.content })
         }
-        useBilibiliExtractor(listOfNotNull(url))
     }
 
     private fun canApplyFlatPlaylist(url: String) : Boolean {
@@ -431,8 +421,6 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
             request.addOption("--print", "formats")
             request.addOption("-a", urlsFile.absolutePath)
             request.applyDefaultOptionsForFetchingData(urls.firstOrNull { it.isURL() })
-            // A mixed batch can start with another site and still contain Bilibili.
-            request.useBilibiliExtractor(urls)
             if (urls.all { it.isYoutubeURL() }) {
                 request.setYoutubeExtractorArgs(urls[0])
             }
@@ -514,8 +502,7 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
         if (canUseWriteInfoJson) {
             val infoJsonFile = getInfoJsonFile(url)
             //ignore info file if its older than 5 hours. puny measure to prevent expired formats in some cases
-            if (!BilibiliRequestRecovery.handles(url) && infoJsonFile != null &&
-                System.currentTimeMillis() - infoJsonFile.lastModified() <= (1000 * 60 * 60 * 5)) {
+            if (infoJsonFile != null && System.currentTimeMillis() - infoJsonFile.lastModified() <= (1000 * 60 * 60 * 5)) {
                 request.addOption("--load-info-json", infoJsonFile.absolutePath)
             }else {
                 request.addWriteInfoJson(url)
@@ -1128,11 +1115,7 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                 !sharedPreferences.getBoolean("disable_write_info_json", false) &&
                 !request.toString().contains("--download-sections")
 
-            if (
-                canUseWriteInfoJson &&
-                downloadItem.playlistURL.isNullOrBlank() &&
-                !BilibiliRequestRecovery.handles(downloadItem.url)
-            ) {
+            if (canUseWriteInfoJson && downloadItem.playlistURL.isNullOrBlank()) {
                 val infoJsonURL = downloadItem.url
                 val infoJsonFile = getInfoJsonFile(infoJsonURL)
                 //ignore info file if its older than 5 hours. puny measure to prevent expired formats in some cases
@@ -1433,8 +1416,7 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                                 f.append("$videoF+ba/")
                             }
                         }
-                        f.append("${BilibiliFormatPolicy.standaloneFallback(videoF, downloadItem.url)}/")
-                        f.append(BilibiliFormatPolicy.standaloneFallback("b", downloadItem.url))
+                        f.append("$videoF/b")
 
 
                         if (audioF.count("+") > 0){
@@ -1504,9 +1486,9 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                             if (!f.contains("$v+ba/") && !f.contains("wa")) f.append("$v+ba/")
                             //build format with standalone video
                             if (v == "wv"){
-                                f.append("${BilibiliFormatPolicy.standaloneFallback("w", downloadItem.url)}/")
+                                f.append("w/")
                             }else{
-                                if (v != "bv") f.append("${BilibiliFormatPolicy.standaloneFallback(v, downloadItem.url)}/")
+                                if (v != "bv") f.append("$v/")
                             }
                         }
                     }
@@ -1517,7 +1499,7 @@ class YTDLPUtil(private val context: Context, private val commandTemplateDao: Co
                             f.append("bv/")
                         }
 
-                        f.append(BilibiliFormatPolicy.standaloneFallback("b", downloadItem.url))
+                        f.append("b")
                     }
 
                 }

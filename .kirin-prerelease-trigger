@@ -1,6 +1,6 @@
-KirinYT 1.9.5.8 beta
+KirinYT 1.9.5.9 beta
 15 November 2026
-Fix the Bilibili plugin installation path so yt-dlp loads the bundled KirinYT extractor.
-Pass the plugin package directory containing yt_dlp_plugins to metadata, format discovery and download requests.
-Add a Kotlin regression for the plugin namespace directory layout.
-Run Bilibili engine regressions, Kotlin tests, signed beta APK build and APK signature verification.
+Restore the download and extraction pipeline to the verified KirinYT 1.9.3 source baseline.
+Remove the custom Bilibili extractor, format policy and CDN retry layer added after 1.9.3.
+Return Bilibili links to the original yt-dlp extraction and download flow.
+Run the regular KirinYT unit-test suite, then build and verify signed beta APKs.
