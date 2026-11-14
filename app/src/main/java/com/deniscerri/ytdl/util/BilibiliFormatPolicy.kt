@@ -40,4 +40,8 @@ object BilibiliFormatPolicy {
         }
         return rate?.takeIf { it.isFinite() && it > 0 }
     }
+
+    /** Prevent an audio-only stream from being selected as a video fallback. */
+    fun standaloneFallback(videoFormat: String, url: String): String =
+        if (BilibiliRequestRecovery.handles(url)) "$videoFormat[vcodec!=none]" else videoFormat
 }

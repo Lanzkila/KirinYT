@@ -62,4 +62,10 @@ class BilibiliFormatPolicyTest {
         assertNull(BilibiliFormatPolicy.frameRate("30/0"))
         assertNull(BilibiliFormatPolicy.frameRate("unknown"))
     }
+
+    @Test fun standaloneFallbackAllowsVideoOnlyButRejectsAudioOnly() {
+        assertEquals("100026[vcodec!=none]", BilibiliFormatPolicy.standaloneFallback("100026", url))
+        assertEquals("b[vcodec!=none]", BilibiliFormatPolicy.standaloneFallback("b", url))
+        assertEquals("137", BilibiliFormatPolicy.standaloneFallback("137", "https://youtube.com/watch?v=x"))
+    }
 }

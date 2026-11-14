@@ -1,5 +1,6 @@
 KirinYT 1.9.5.7 beta
 15 November 2026
-Restore KirinDL-compatible Bilibili format fallback behavior.
-Keep valid yt-dlp playback streams even when optional CDN mirror metadata is unavailable.
+Restore KirinDL-compatible Bilibili video fallback without requiring a separate audio codec.
+Keep the video-codec guard so audio-only streams cannot be selected as video.
+Retain valid playback streams when optional CDN mirror metadata is unavailable.
 Run Bilibili engine regressions, Kotlin tests and signed beta APK verification.

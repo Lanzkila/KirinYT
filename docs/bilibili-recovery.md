@@ -50,9 +50,11 @@ not disable certificate verification or change the app's TLS settings.
 ## Format fallback compatibility (1.9.5.7 beta)
 
 KirinYT now keeps the normal yt-dlp fallback order for Bilibili format selection.
-It no longer adds an extra `acodec!=none` filter to standalone fallback aliases.
-This matches KirinDL's behavior when a separate audio track is unavailable while
-leaving explicit format IDs and the hardware-aware AV1 recommendation intact.
+It no longer requires a separate audio codec on standalone fallback aliases.
+A small `vcodec!=none` guard remains so an audio-only stream is never mistaken
+for a video. This matches KirinDL's ability to use a video-only fallback when
+separate audio is unavailable, while retaining explicit format IDs and the
+hardware-aware AV1 recommendation.
 
 The extractor also asks yt-dlp whether the page/API payload contains usable
 formats. CDN mirror mapping is used only to select backup URLs; missing mirror

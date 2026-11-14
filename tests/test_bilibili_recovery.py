@@ -375,7 +375,7 @@ class BilibiliResponseTests(unittest.TestCase):
 
 class BilibiliSelectionTests(unittest.TestCase):
     OLD = '100026+30280/100026+ba/100026/b'
-    FIXED = OLD
+    FIXED = '100026+30280/100026+ba/100026[vcodec!=none]/b[vcodec!=none]'
     VIDEO = {'format_id': '100026', 'vcodec': 'av01', 'acodec': 'none', 'ext': 'mp4',
              'url': 'https://example.test/video'}
     AUDIO = {'format_id': '30280', 'vcodec': 'none', 'acodec': 'mp4a.40.2', 'ext': 'm4a',
