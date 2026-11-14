@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="../app/src/main/res/drawable/kirinyt_readme_logo.webp" width="142" alt="KirinYT Logo">
+<img src="app/src/main/res/drawable/kirinyt_readme_logo.webp" width="142" alt="KirinYT Logo">
 
 # KirinYT
 
@@ -10,7 +10,7 @@
 
 [![KirinYT Release](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/Lanzkila/KirinYT/actions/workflows/release.yml)
 [![Latest Release](https://img.shields.io/github/v/release/Lanzkila/KirinYT?include_prereleases&label=release)](https://github.com/Lanzkila/KirinYT/releases)
-[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](../LICENSE)
+[![License](https://img.shields.io/github/license/Lanzkila/KirinYT)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/Lanzkila/KirinYT?style=flat&label=stars)](https://github.com/Lanzkila/KirinYT/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/Lanzkila/KirinYT?style=flat&label=forks)](https://github.com/Lanzkila/KirinYT/network/members)
 [![Total Downloads](https://img.shields.io/github/downloads/Lanzkila/KirinYT/total?style=flat&label=downloads)](https://github.com/Lanzkila/KirinYT/releases)
@@ -117,7 +117,7 @@ KirinYT は yt-dlp、FFmpeg、aria2c などの外部ランタイムを利用し�
 
 ## ライセンス
 
-KirinYT は **GNU GPL v3.0** の下で配布されています。全文は [LICENSE](../LICENSE) を参照してください。
+KirinYT は **GNU GPL v3.0** の下で配布されています。全文は [LICENSE](LICENSE) を参照してください。
 
 - [yt-dlp](https://github.com/yt-dlp/yt-dlp)
 - [youtubedl-android](https://github.com/yausername/youtubedl-android)
